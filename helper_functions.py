@@ -11,6 +11,6 @@ def get_username():
             for name in names_list:
                 usernames_file.write(f'{name}\n')
             usernames_file.truncate()
-            return name_picked, True  # add soem true/false logic here to check if name was actually returned
+            return name_picked, True
         else:
             return 'Give us a minute, no usernames available for now.', False

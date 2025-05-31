@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sayIt</title>
+
+</head>
+<body>
+{% if not username %}
+<form action="{{url_for('assign_username')}}">
+    <input type="submit" value="Get a Username">
+</form>
+
+{% else %}
+<p>Welcome to sayIt {{ username }}</p>
+<a href="{{url_for('show_discussions_page')}}">GoTo Discussions</a>
+{% endif %}
+</body>
+</html>

@@ -1,6 +1,6 @@
 import os
 from datetime import timedelta
-from flask import Flask, render_template, make_response, url_for, session, redirect
+from flask import Flask, render_template, url_for, session, redirect
 from flask_session import Session
 from dotenv import load_dotenv
 from helper_functions import get_username
@@ -15,6 +15,7 @@ app.config['SESSION_PERMANENT'] = True
 app.permanent_session_lifetime = timedelta(days=366)
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
+
 
 # with app.app_context():
 #     db.create_all()
@@ -35,7 +36,7 @@ def assign_username():
 
 @app.context_processor
 def inject_globals():
-    return dict(assign_username=assign_username)
+    return dict(assign_username=assign_username, categories=['music', 'politics', 'sports', 'arts'])
 
 
 @app.route('/')
@@ -43,7 +44,17 @@ def home():
     username = session.get('username', None)
     # user = db.session.query(User).filter_by(username=username).first()
     # print(user)
-    return render_template('index.html', username=username)
+    return render_template('index_with_jinja.html', username=username)
+
+
+@app.route('/discussions')
+def show_discussions_page():
+    return render_template('discussions_with_jinja.html')
+
+
+@app.route('/<category>')
+def goto_category(category):
+    return redirect(url_for('home'))  # TODO: add real logic here, maybe call an api that return stuff about each category
 
 
 if __name__ == "__main__":
