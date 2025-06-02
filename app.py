@@ -36,7 +36,8 @@ def assign_username():
 
 @app.context_processor
 def inject_globals():
-    return dict(assign_username=assign_username, categories=['music', 'politics', 'sports', 'arts'])
+    return dict(assign_username=assign_username, categories=['music', 'politics', 'sports', 'arts', 'entertainment',
+                                                             'general', 'business', 'health', 'technology',])
 
 
 @app.route('/')
@@ -52,9 +53,20 @@ def show_discussions_page():
     return render_template('discussions_with_jinja.html')
 
 
+@app.route('/chatroom')
+def goto_chatroom():
+    return render_template('chatroom_with_jinja.html')
+
+
+@app.route('/playground')
+def goto_playground():
+    return render_template('playground_with_jinja.html')  # TODO: create an api that returns trivia, would you rathers and stuff
+
+
 @app.route('/<category>')
 def goto_category(category):
-    return redirect(url_for('home'))  # TODO: add real logic here, maybe call an api that return stuff about each category
+    return redirect(
+        url_for('home'))  # TODO: use match statements to check for categories
 
 
 if __name__ == "__main__":
