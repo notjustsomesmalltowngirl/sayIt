@@ -1,7 +1,53 @@
-*,
-*::after,
-*::before {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@use "vars";
+@use "fonts";
+@use "reset";
+@use "media";
+@use "placeholders";
+
+//  design a 404 page
+
+body {
+  background-image: linear-gradient(
+      to right,
+      rgba(15, 15, 15, 0.95),
+      rgba(26, 13, 46, 0.9)
+    ),
+    url(../static/sayIt-logos/ruliff-andrean-k77tvh02gGo-unsplash.jpg);
+  background-size: cover;
+}
+
+.sayit {
+  max-width: 700px;
+  margin: 0 auto;
+  color: vars.$white;
+  min-height: 80vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding-inline: 2rem;
+  &__title {
+    text-align: left;
+  }
+  &__title--highlight {
+    color: vars.$primary-accent-1;
+  }
+  &__subtitle,
+  &__description {
+    color: vars.$gray-40;
+  }
+  &__subtitle {
+    margin-block: 2rem;
+  }
+  &__nickname-btn {
+    @extend %btn-base;
+    @extend %btn-vibrant-night;
+    align-self: flex-start;
+    margin-block-start: 2.3rem;
+  }
+}
+.highlight-word {
+  color: vars.$primary-accent-2;
+  font-weight: 600;
 }

@@ -1,0 +1,27 @@
+@use "vars";
+
+%btn-base {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0.8rem 1.1rem;
+  border: none;
+  font-family: inherit;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+%btn-vibrant-night {
+  background-color: vars.$primary-accent-2;
+}
+
+@mixin btn-hover-effect {
+  background-color: vars.$primary-accent-2;
+  color: vars.$secondary-accent;
+  box-shadow: 0 0 15px rgba(vars.$primary-accent-2, 0.8),
+    0 0 25px rgba(vars.$primary-accent-2, 0.5);
+  transform: translateY(-2px);
+}

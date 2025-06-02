@@ -1,0 +1,31 @@
+@use "vars";
+@use "placeholders";
+
+@media (min-width: vars.$breakpoint-md) {
+  .highlight-word {
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    cursor: pointer;
+    &:hover {
+      color: vars.$secondary-accent;
+      text-shadow: 0 0 8px rgba(236, 72, 153, 0.8);
+    }
+  }
+  .sayit {
+    &__title {
+      font-size: 2.8rem;
+    }
+    &__subtitle,
+    &__description {
+      font-size: 1.1rem;
+    }
+    &__nickname-btn {
+      &:active,
+      &:hover {
+        background-color: darken(vars.$primary-accent-2, 10%);
+        box-shadow: 0 0 5px rgba(vars.$primary-accent-2, 0.8);
+        transform: translateY(0);
+        color: #004;
+      }
+    }
+  }
+}
