@@ -2,3 +2,9 @@ __pycache__/
 *.pyc
 .env
 .DS_Store
+flask_session/
+sayIt_usernames.txt
+instance/
+*.db
+*.sqlite3
+do_stuff.py
