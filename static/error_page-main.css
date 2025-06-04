@@ -1,0 +1,116 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Space Grotesk", sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #eaeaea;
+}
+
+.error-page--btn {
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.8rem 1.1rem;
+  border: none;
+  font-family: inherit;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+@keyframes fallDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  60% {
+    transform: translateY(10px);
+  }
+  80% {
+    transform: translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+body {
+  font-family: "Inter", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: linear-gradient(45deg, rgba(15, 15, 15, 0.95), rgba(26, 13, 46, 0.9));
+  min-height: 100vh;
+  min-width: 100%;
+}
+
+.error-page {
+  text-align: center;
+  padding-inline: 2rem;
+}
+.error-page__title {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradientTextShift 10s ease infinite alternate;
+  font-size: 13rem;
+  line-height: 1;
+}
+.error-page__subtitle {
+  color: #d1d5db;
+  margin-block: 2rem;
+  font-size: 2.7rem;
+}
+.error-page__description {
+  font-size: 1.5rem;
+  max-width: 60ch;
+}
+.error-page--btn {
+  color: #f0f0f0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 1rem 2.7rem;
+  margin-block-start: 2.4rem;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+}
+.error-page--btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
+}
+
+@keyframes gradientTextShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+.falling-text {
+  opacity: 0;
+  transform: translateY(-100px);
+  animation: fallDown 0.8s ease-out forwards;
+}
+.falling-text.delay-1 {
+  animation-delay: 0.2s;
+}
+.falling-text.delay-2 {
+  animation-delay: 0.4s;
+}
+.falling-text.delay-3 {
+  animation-delay: 0.6s;
+}/*# sourceMappingURL=error_page-main.css.map */

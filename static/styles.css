@@ -1,10 +1,3 @@
-body {
-  font-family: "Space Grotesk", sans-serif;
-  line-height: 1.6;
-  font-weight: 400;
-  color: #eaeaea;
-}
-
 *,
 *::after,
 *::before {
@@ -13,8 +6,16 @@ body {
   box-sizing: border-box;
 }
 
+body {
+  font-family: "Space Grotesk", sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #eaeaea;
+}
+
 .sayit__nickname-btn {
   cursor: pointer;
+  text-decoration: none;
   display: inline-block;
   padding: 0.8rem 1.1rem;
   border: none;
@@ -32,6 +33,22 @@ body {
   background-color: #00ced1;
 }
 
+@keyframes fallDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  60% {
+    transform: translateY(10px);
+  }
+  80% {
+    transform: translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 @media (min-width: 768px) {
   .highlight-word {
     transition: color 0.3s ease, text-shadow 0.3s ease;
@@ -55,7 +72,7 @@ body {
   }
 }
 body {
-  background-image: linear-gradient(to right, rgba(15, 15, 15, 0.95), rgba(26, 13, 46, 0.9)), url(../static/sayIt-logos/ruliff-andrean-k77tvh02gGo-unsplash.jpg);
+  background-image: linear-gradient(to right, rgba(15, 15, 15, 0.95), rgba(26, 13, 46, 0.9)), url(../static/sayIt-logos/bg-0.jpg);
   background-size: cover;
 }
 
@@ -91,4 +108,19 @@ body {
 .highlight-word {
   color: #00ced1;
   font-weight: 600;
+}
+
+.falling-text {
+  opacity: 0;
+  transform: translateY(-100px);
+  animation: fallDown 0.8s ease-out forwards;
+}
+.falling-text.delay-1 {
+  animation-delay: 0.2s;
+}
+.falling-text.delay-2 {
+  animation-delay: 0.4s;
+}
+.falling-text.delay-3 {
+  animation-delay: 0.6s;
 }/*# sourceMappingURL=styles.css.map */
