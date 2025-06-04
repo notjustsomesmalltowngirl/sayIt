@@ -8,3 +8,4 @@ instance/
 *.db
 *.sqlite3
 do_stuff.py
+.vscode/
