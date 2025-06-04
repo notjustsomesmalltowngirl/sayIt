@@ -31,7 +31,7 @@ def assign_username():
         db.session.commit()
         return redirect(url_for('home'))
     else:
-        return username  # TODO: add a page for error handling that would be displayed to user in absence of usernames
+        return render_template('error_page.html', username=username)
 
 
 @app.context_processor
@@ -45,7 +45,7 @@ def home():
     username = session.get('username', None)
     # user = db.session.query(User).filter_by(username=username).first()
     # print(user)
-    return render_template('index_with_jinja.html', username=username)
+    return render_template('index.html', username=username)
 
 
 @app.route('/discussions')
@@ -60,7 +60,7 @@ def goto_chatroom():
 
 @app.route('/playground')
 def goto_playground():
-    return render_template('playground_with_jinja.html')  # TODO: create an api that returns trivia, would you rathers and stuff
+    return render_template('playground_with_jinja.html')  # TODO: write an api that returns trivia, would you rathers and stuff
 
 
 @app.route('/<category>')

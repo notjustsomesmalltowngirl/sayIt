@@ -18,6 +18,7 @@
   </head>
   <body>
     <main class="sayit">
+      {% if not username %}
       <h1 class="sayit__title falling-text">
         SayIt — Speak Confidently, Stay
         <span class="sayit__title--highlight">Anonymous</span>
@@ -37,9 +38,18 @@
         flourishes when identities fade. Just click,
         <span class="highlight-word">chat</span>, and be yourself.
       </p>
-      <button class="sayit__nickname-btn falling-text delay-3">
+
+      <form action="{{url_for('assign_username')}}">
+      <button class="sayit__nickname-btn falling-text delay-3" type="submit">
         Get My Nickname
       </button>
+        </form>
+      {% else %}
+<h1 class="sayit__title falling-text"> Welcome to sayIt  <span class="sayit__title--highlight">{{ username }}</span></h1>
+<a href="{{url_for('show_discussions_page')}}" class="sayit__nickname-btn falling-text delay-3">Discussions</a>
+<a href="{{url_for('goto_playground')}}" class="sayit__nickname-btn falling-text delay-3">Playground</a>
+<a href="{{url_for('goto_chatroom')}}" class="sayit__nickname-btn falling-text delay-3">Chatroom</a>
+{% endif %}
     </main>
   </body>
 </html>
