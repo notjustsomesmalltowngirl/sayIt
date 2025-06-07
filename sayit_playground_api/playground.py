@@ -1,7 +1,8 @@
 import os
 from flask import Flask, render_template
 from dotenv import load_dotenv
-from models import db
+from models import (db, Playground, DidYouKnow, HotTakes, WouldYouRather, NeverHaveIEver, Riddle, StoryBuilder,
+                    TwoTruthsAndALie, Hypotheticals)
 
 app = Flask(__name__)
 
