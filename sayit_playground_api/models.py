@@ -5,6 +5,21 @@ from sqlalchemy import Integer, String
 db = SQLAlchemy()
 
 
+class MasterClass(db.Model):
+    __abstract__ = True
+    id = mapped_column(Integer, primary_key=True)
+
+    def to_dict(self):
+        return {
+            column.name: getattr(self, column.name)
+            for column in self.__table__.columns
+            if column.name != 'playground_id'
+        }
+
+    def __repr__(self):
+        return f'<{self.__class__.__name__} {self.id}>'
+
+
 class Playground(db.Model):
     __tablename__ = 'playground'
     id = mapped_column(Integer, primary_key=True)
@@ -20,61 +35,40 @@ class Playground(db.Model):
 
     def __repr__(self):
         return f'<{self.__class__.__name__} {self.type}>'
-    # def to_dict(self):
-    #     return {column.name: getattr(self, column.name) for column in self.__table__.columns}
 
 
-class WouldYouRather(db.Model):
+class WouldYouRather(MasterClass):
     __tablename__ = 'would_you_rather'
-    id = mapped_column(Integer, primary_key=True)
     category = mapped_column(String, nullable=False)
     scenario = mapped_column(String, nullable=False, unique=True)
     playground_id = mapped_column(Integer, db.ForeignKey('playground.id'))
 
-    def __repr__(self):
-        return f'<{self.__class__.__name__} {self.id}>'
 
-
-class NeverHaveIEver(db.Model):
+class NeverHaveIEver(MasterClass):
     __tablename__ = 'never_have_i_ever'
-    id = mapped_column(Integer, primary_key=True)
     category = mapped_column(String, nullable=False)
     question = mapped_column(String, nullable=False, unique=True)
     playground_id = mapped_column(Integer, db.ForeignKey('playground.id'))
 
-    def __repr__(self):
-        return f'<{self.__class__.__name__} {self.id}>'
 
-class Riddle(db.Model):
+class Riddle(MasterClass):
     __tablename__ = 'riddle'
-    id = mapped_column(Integer, primary_key=True)
     category = mapped_column(String, nullable=False)
     question = mapped_column(String, nullable=False, unique=True)
     answer = mapped_column(String, nullable=False)
     playground_id = mapped_column(Integer, db.ForeignKey('playground.id'))
 
-    def __repr__(self):
-        return f'<{self.__class__.__name__} {self.id}>'
-class StoryBuilder(db.Model):
+
+class StoryBuilder(MasterClass):
     __tablename__ = 'story_builder'
-    id = mapped_column(Integer, primary_key=True)
     category = mapped_column(String, nullable=False)
     starter = mapped_column(String, nullable=False, unique=True)
     difficulty = mapped_column(String, nullable=False, default='easy')
     playground_id = mapped_column(Integer, db.ForeignKey('playground.id'))
 
-    def __repr__(self):
-        return f'<{self.__class__.__name__} {self.id}>'
 
-# class Statement:  # model for each two truths and a lie statement
-#     def __init__(self, statement: str, is_true: bool):
-#         self.statement = statement
-#         self.is_true = is_true
-
-
-class TwoTruthsAndALie(db.Model):
+class TwoTruthsAndALie(MasterClass):
     __tablename__ = 'two_truths_and_a_lie'
-    id = mapped_column(Integer, primary_key=True)
     category = mapped_column(String, nullable=False)
     true_statement_1 = mapped_column(String, nullable=False, unique=True)
     true_statement_2 = mapped_column(String, nullable=False, unique=True)
@@ -84,38 +78,24 @@ class TwoTruthsAndALie(db.Model):
     __table_args__ = (
         db.UniqueConstraint('true_statement_1', 'true_statement_2', 'false_statement', name='unique_statements_combo'),
     )
-    def __repr__(self):
-        return f'<{self.__class__.__name__} {self.id}>'
 
 
-class Hypotheticals(db.Model):
+class Hypotheticals(MasterClass):
     __tablename__ = 'hypotheticals'
-    id = mapped_column(Integer, primary_key=True)
     category = mapped_column(String, nullable=False)
-    scenario = mapped_column(String, nullable=False , unique=True)
+    scenario = mapped_column(String, nullable=False, unique=True)
     playground_id = mapped_column(Integer, db.ForeignKey('playground.id'))
 
-    def __repr__(self):
-        return f'<{self.__class__.__name__} {self.id}>'
 
-
-class HotTakes(db.Model):
+class HotTakes(MasterClass):
     __tablename__ = 'hot_takes'
-    id = mapped_column(Integer, primary_key=True)
     category = mapped_column(String, nullable=False)
     opinion = mapped_column(String, nullable=False, unique=True)
     playground_id = mapped_column(Integer, db.ForeignKey('playground.id'))
 
-    def __repr__(self):
-        return f'<{self.__class__.__name__} {self.id}>'
 
-
-class DidYouKnow(db.Model):
+class DidYouKnow(MasterClass):
     __tablename__ = 'did_you_know'
-    id = mapped_column(Integer, primary_key=True)
     category = mapped_column(String, nullable=False)
     fact = mapped_column(String, nullable=False, unique=True)
     playground_id = mapped_column(Integer, db.ForeignKey('playground.id'))
-
-    def __repr__(self):
-        return f'<{self.__class__.__name__} {self.id}>'
