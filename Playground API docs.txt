@@ -1,0 +1,4 @@
+Playground API docs
+
+GET request from http://127.0.0.1:5000/api/v1/all_game_types
+request to get all the games available in Playground(changes from time to time so make sure to check before querying for specific games)
