@@ -43,11 +43,10 @@
         <div class="particle"></div>
         <div class="particle"></div>
       </div>
-{% if not username %}
-      <main class="main">
+
+      <main class="main visually-hidden">
         <section class="main__anonymous-section">
           <!-- <div class="main__img">🎭</div> -->
-
           <h1 class="main__title title">
             sayIt - Chat
             <span class="highlight highlight-title">Anonymously</span>, Connect
@@ -60,7 +59,7 @@
           </p>
 
           <p class="main__description">
-            sayIt pairs you with a
+            SayIt pairs you with a
             <span class="highlight-word">unique nickname</span> and connects you
             to a vibrant community of anonymous voices. No profiles, no history,
             no judgment—just real conversations where your
@@ -69,7 +68,7 @@
             chat is a fresh start.
           </p>
 
-          <a href="{{url_for('assign_username')}}" class="cta-button btn"> Get My Nickname </a>
+          <a href="#" class="cta-button btn"> Get My Nickname </a>
         </section>
         <section class="features">
           <article class="feature">
@@ -112,14 +111,14 @@
       </main>
 
       <!-- Logged in state (hidden by default) -->
-{% else %}
-      <div class="page-container">
+
+      <div class="page-container ">
         <section class="welcome-section">
           <div class="hero-image">👋</div>
 
           <h1 class="welcome-section__title title">
             Welcome,
-            <span class="highlight highlight-username">{{ username }}</span>
+            <span class="highlight highlight-username">MysticRaven47</span>
           </h1>
 
           <p class="welcome-section__subtitle subtitle">
@@ -127,13 +126,12 @@
           </p>
 
           <nav class="nav-buttons">
-            <a href="{{url_for('goto_discussions')}}" class="nav-button btn">💭 Join Discussions</a>
-            <a href="{{url_for('goto_playground')}}" class="nav-button btn">🎮 Creative Playground</a>
-            <a href="{{url_for('goto_chatroom')}}" class="nav-button btn">🌍 Live Chatroom</a>
+            <a href="#" class="nav-button btn">💭 Join Discussions</a>
+            <a href="#" class="nav-button btn">🎮 Creative Playground</a>
+            <a href="#" class="nav-button btn">🌍 Live Chatroom</a>
           </nav>
         </section>
       </div>
     </div>
-  {% endif %}
   </body>
 </html>
