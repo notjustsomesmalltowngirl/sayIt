@@ -10,8 +10,8 @@ from sqlalchemy.exc import IntegrityError
 load_dotenv()
 app = Flask(__name__)
 # app.secret_key = os.getenv('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
-db.init_app(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
+# db.init_app(app)
 app.config['SESSION_PERMANENT'] = True
 app.permanent_session_lifetime = timedelta(days=366)
 app.config['SESSION_TYPE'] = 'filesystem'
