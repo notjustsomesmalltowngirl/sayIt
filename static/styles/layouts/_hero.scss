@@ -1,0 +1,98 @@
+@use "../base/animations";
+@use "../abstracts/mixins";
+
+.main {
+  position: relative;
+  z-index: 10;
+  max-width: 1200px;
+  margin-inline: auto;
+  background: var(--glass-ultra-light);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-radius: var(--radius-3xl);
+  padding: var(--space-2xl);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px var(--shadow-dark),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  animation: slideUp 1s ease-in-out;
+
+  @include mixins.mobile {
+    padding: var(--space-lg);
+  }
+
+  &__anonymous-section {
+    text-align: center;
+    margin-block-end: var(--space-3xl);
+    padding-block-end: var(--space-2xl);
+    border-block-end: 1px solid var(--glass-border);
+    @include mixins.mobile {
+      margin-block-end: var(--space-2xl);
+      padding-block-end: var(--space-lg);
+    }
+  }
+  &__img {
+    margin-block-end: var(--space-lg);
+    font-size: 3rem;
+    animation: bounce 2s infinite ease-in-out alternate;
+  }
+  &__title {
+    font-size: 3rem;
+    color: var(--text-white);
+    font-weight: 800;
+    line-height: 1.6;
+    color: var(--text-white);
+    margin-block-end: var(--space-lg);
+
+    @include mixins.tablet {
+      font-size: 2.4rem;
+    }
+
+    @include mixins.mobile {
+      font-size: 2rem;
+    }
+  }
+  &__subtitle {
+    color: var(--medium-gray);
+    line-height: 1.6;
+    font-size: 1.2rem;
+    margin-block-end: var(--space-lg);
+    @include mixins.tablet {
+      font-size: 1.1rem;
+    }
+    @include mixins.mobile {
+      font-size: 1rem;
+    }
+  }
+  &__description {
+    font-size: 1.1rem;
+    color: var(--darker-gray);
+    margin-block-end: var(--space-lg);
+    max-width: 700px;
+    margin-inline: auto;
+    line-height: 1.7;
+
+    @include mixins.tablet {
+      font-size: 1rem;
+    }
+    @include mixins.mobile {
+      font-size: 0.9rem;
+    }
+  }
+}
+.highlight-title {
+  background: linear-gradient(135deg, var(--main-gold), var(--main-purple));
+}
+.highlight-word {
+  background: linear-gradient(
+    90deg,
+    var(--off-white) 0%,
+    var(--main-gold) 50%,
+    var(--main-purple) 100%
+  );
+  background-size: 100% 3px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  padding-block-end: 3px;
+  color: var(--light-gray);
+  font-weight: 600;
+}

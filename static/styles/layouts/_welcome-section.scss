@@ -1,0 +1,89 @@
+@use "../abstracts/mixins";
+.welcome-section {
+  // margin-inline: auto;
+  background: var(--glass-medium);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-2xl);
+  width: 100%;
+  box-shadow: 0 8px 32px var(--shadow-dark) inset 0 1px 0
+    rgba(225, 225, 225, 0.1);
+  max-width: 600px;
+  text-align: center;
+  animation: slideUp 0.8s ease-out;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: var(--glass-border-hover);
+    box-shadow: 0 32px 64px var(--shadow-purple),
+      inset 0 1px 0 rgba(225, 225, 225, 0.2);
+  }
+  @include mixins.tablet {
+    padding: var(--space-xl);
+  }
+  &__title {
+    font-size: 2.5rem;
+    margin-block-end: var(--space-md);
+    color: var(--text-white);
+    font-weight: 700;
+    text-shadow: 0 5px 10px var(--shadow-dark);
+
+    animation: fadeInText 1s ease-out 0.3s both;
+
+    @include mixins.mobile {
+      font-size: 1.9rem;
+      margin-block-end: 0.7rem;
+    }
+  }
+  &__subtitle {
+    color: var(--medium-gray);
+    line-height: 1.6;
+    font-size: 1.2rem;
+    margin-block-end: var(--space-lg);
+    animation: fadeInText 1s ease-out 0.5s both;
+
+    @include mixins.mobile {
+      font-size: 0.9rem;
+    }
+  }
+}
+.page-container {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  // margin-inline: auto;
+  @include mixins.tablet {
+    padding: var(--space-sm);
+  }
+  @include mixins.mobile {
+    padding: var(--space-xs);
+  }
+}
+.hero-image {
+  font-size: 4rem;
+  margin-block-end: 1.5rem;
+  filter: drop-shadow(0 0 20px var(--main-gold));
+  animation: wave 2s ease-in-out infinite;
+  @include mixins.tablet {
+    font-size: 3rem;
+  }
+}
+.highlight-username {
+  background: linear-gradient(135deg, var(--main-gold), var(--dark-gold));
+  font-weight: 800;
+  position: relative;
+  animation: glow 3s ease-in-out infinite alternate;
+}
+.nav-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: center;
+}
