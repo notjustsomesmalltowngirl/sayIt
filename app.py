@@ -10,8 +10,8 @@ from sqlalchemy.exc import IntegrityError
 load_dotenv()
 app = Flask(__name__)
 # app.secret_key = os.getenv('SECRET_KEY')
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
-# db.init_app(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
+db.init_app(app)
 app.config['SESSION_PERMANENT'] = True
 app.permanent_session_lifetime = timedelta(days=366)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -37,9 +37,9 @@ def assign_username():
                 with open('error_log.txt', 'a') as f:
                     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     print(f"[{timestamp}] Failed to create user '{username}'", file=f)
-        return render_template('error_page.html')
+        return render_template('404.html')
     else:
-        return render_template('error_page.html', username=username)
+        return render_template('404.html', username=username)
 
 
 @app.context_processor
@@ -57,7 +57,7 @@ def home():
 
 
 @app.route('/discussions')
-def show_discussions_page():
+def goto_discussions():
     return render_template('discussions_with_jinja.html')
 
 
