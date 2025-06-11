@@ -26,17 +26,17 @@ class Playground(db.Model):
     __tablename__ = 'playground'
     id = mapped_column(Integer, primary_key=True)
     type = mapped_column(String, nullable=False, unique=True)
-    did_you_knows = db.relationship('DidYouKnow', backref='playground', lazy=True)
-    hypotheticals = db.relationship('Hypotheticals', backref='playground', lazy=True)
-    hot_takes = db.relationship('HotTakes', backref='playground', lazy=True)
-    never_have_i_evers = db.relationship('NeverHaveIEver', backref='playground', lazy=True)
-    would_you_rather_questions = db.relationship('WouldYouRather', backref='playground', lazy=True)
-    story_builders = db.relationship('StoryBuilder', backref='playground', lazy=True)
-    riddles = db.relationship('Riddle', backref='playground', lazy=True)
-    two_truths_and_a_lie = db.relationship('TwoTruthsAndALie', backref='playground', lazy=True)
+    did_you_knows = db.relationship('DidYouKnow', backref='playground', lazy='dynamic')
+    hypotheticals = db.relationship('Hypotheticals', backref='playground', lazy='dynamic')
+    hot_takes = db.relationship('HotTakes', backref='playground', lazy='dynamic')
+    never_have_i_evers = db.relationship('NeverHaveIEver', backref='playground', lazy='dynamic')
+    would_you_rather_questions = db.relationship('WouldYouRather', backref='playground', lazy='dynamic')
+    story_builders = db.relationship('StoryBuilder', backref='playground', lazy='dynamic')
+    riddles = db.relationship('Riddle', backref='playground', lazy='dynamic')
+    two_truths_and_a_lie = db.relationship('TwoTruthsAndALie', backref='playground', lazy='dynamic')
 
     def __repr__(self):
-        return f'<{self.__class__.__name__} {self.type}>'
+        return f'<{self.__class__.__name__} id={self.id}, type={self.type}>'
 
 
 class DidYouKnow(MasterClass):
