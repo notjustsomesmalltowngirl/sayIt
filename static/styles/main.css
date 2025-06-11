@@ -249,7 +249,12 @@ select {
 }
 @media (max-width: 480px) {
   .main {
-    padding: var(--space-lg);
+    padding: var(--space-sm);
+    background: none;
+    box-shadow: none;
+    border: none;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
   }
 }
 .main__anonymous-section {
@@ -284,7 +289,8 @@ select {
 }
 @media (max-width: 480px) {
   .main__title {
-    font-size: 2rem;
+    font-size: 1.7rem;
+    line-height: 1.2;
   }
 }
 .main__subtitle {
@@ -487,12 +493,12 @@ select {
   }
 }
 .error-page__subtitle {
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   line-height: 1.2;
 }
-@media (max-width: 480px) {
+@media (max-width: 780px) {
   .error-page__subtitle {
-    font-size: 1rem !important;
+    font-size: 1.3rem !important;
   }
 }
 .error-page__description {
