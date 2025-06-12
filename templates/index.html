@@ -6,7 +6,7 @@
     <link
       rel="icon"
       type="image/png"
-      href="../static/sayIt-logos/logo-trasparent-mono.png"
+      href="../static/sayIt-logos/logo-mono.png"
     />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
@@ -113,7 +113,7 @@
       </main>
 
       <!-- Logged in state (hidden by default) -->
-
+{% else %}
       <div class="page-container">
         <section class="welcome-section">
           <div class="hero-image">👋</div>
@@ -124,8 +124,7 @@
           </h1>
 
           <p class="welcome-section__subtitle subtitle">
-            Your anonymous identity is ready. Where would you like to explore?
-          </p>
+Ready to say it your way?          </p>
 
           <nav class="nav-buttons">
             <a href="{{url_for('goto_discussions')}}" class="nav-button btn"

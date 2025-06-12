@@ -1,4 +1,3 @@
-from flask import jsonify
 from sqlalchemy.sql import func
 
 

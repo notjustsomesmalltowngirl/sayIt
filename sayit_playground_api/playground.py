@@ -1,5 +1,4 @@
 import os
-import random
 from flask import Flask, render_template, jsonify, request
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
 from dotenv import load_dotenv
@@ -66,34 +65,42 @@ def get_by_type():
     game = Playground.query.filter_by(type=game_type.lower()).scalar()
     match game_type.lower():
         case 'did you know':
-            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), DidYouKnow, category=category,
-                                    limit=limit)
+            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), DidYouKnow,
+                                                   category=category,
+                                                   limit=limit)
             return jsonify(result), status_code
         case 'hypotheticals':
-            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), Hypotheticals, category=category,
-                                    limit=limit)
+            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), Hypotheticals,
+                                                   category=category,
+                                                   limit=limit)
             return jsonify(result), status_code
         case 'hot takes':
-            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), HotTakes, category=category, limit=limit)
+            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), HotTakes,
+                                                   category=category, limit=limit)
             return jsonify(result), status_code
         case 'never have i ever':
-            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), NeverHaveIEver, category=category,
-                                    limit=limit)
+            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), NeverHaveIEver,
+                                                   category=category,
+                                                   limit=limit)
             return jsonify(result), status_code
         case 'would you rather':
-            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), WouldYouRather, category=category,
-                                    limit=limit)
+            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), WouldYouRather,
+                                                   category=category,
+                                                   limit=limit)
             return jsonify(result), status_code
         case 'story builder':
-            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), StoryBuilder, category=category,
-                                    limit=limit)
+            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), StoryBuilder,
+                                                   category=category,
+                                                   limit=limit)
             return jsonify(result), status_code
         case 'riddles':
-            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), Riddle, category=category, limit=limit)
+            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), Riddle, category=category,
+                                                   limit=limit)
             return jsonify(result), status_code
         case 'two truths and a lie':
-            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), TwoTruthsAndALie, category=category,
-                                    limit=limit)
+            result, status_code = get_game_by_type(game, get_game_to_type_mapping(game_type), TwoTruthsAndALie,
+                                                   category=category,
+                                                   limit=limit)
             return jsonify(result), status_code
         # default's been handled
 
