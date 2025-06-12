@@ -116,17 +116,23 @@ def get_by_type():
 
 @app.route('/api/v1/add', methods=['GET', 'POST'])
 def suggest_new_game():
-    ...
+    if request.method == 'POST':
+        ...
+    return render_template('pending_suggestions.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    ...
+    if request.method == 'POST':
+        ...
+    return render_template('register.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    ...
+    if request.method == 'POST':
+        ...
+    return render_template('login.html')
 
 
 @app.route('/logout', methods=['GET', 'POST'])
