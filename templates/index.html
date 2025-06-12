@@ -113,7 +113,7 @@
       </main>
 
       <!-- Logged in state (hidden by default) -->
-{% else %}
+      {% else %}
       <div class="page-container">
         <section class="welcome-section">
           <div class="hero-image">👋</div>
@@ -124,7 +124,8 @@
           </h1>
 
           <p class="welcome-section__subtitle subtitle">
-Ready to say it your way?          </p>
+            Ready to say it your way?
+          </p>
 
           <nav class="nav-buttons">
             <a href="{{url_for('goto_discussions')}}" class="nav-button btn"
