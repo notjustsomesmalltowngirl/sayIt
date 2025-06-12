@@ -2,8 +2,9 @@ import os
 from flask import Flask, render_template, jsonify, request
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
 from dotenv import load_dotenv
-from models import (db, Playground, DidYouKnow, Hypotheticals, HotTakes, NeverHaveIEver, WouldYouRather,
-                    StoryBuilder, Riddle, TwoTruthsAndALie)
+from models import db, Playground, DidYouKnow, Hypotheticals, HotTakes, NeverHaveIEver
+from models import WouldYouRather, StoryBuilder, Riddle, TwoTruthsAndALie
+from models import User, PendingSuggestions
 from sqlalchemy.sql.expression import func
 from utils.helpers import get_game_by_type, return_error_for_wrong_params, get_game_to_type_mapping
 
@@ -12,6 +13,14 @@ app = Flask(__name__)
 load_dotenv()
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 db.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.get(User, user_id)
 
 
 # with app.app_context():
@@ -103,6 +112,27 @@ def get_by_type():
                                                    limit=limit)
             return jsonify(result), status_code
         # default's been handled
+
+
+@app.route('/api/v1/add', methods=['GET', 'POST'])
+def suggest_game():
+    ...
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    ...
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    ...
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    ...
 
 
 if __name__ == "__main__":
