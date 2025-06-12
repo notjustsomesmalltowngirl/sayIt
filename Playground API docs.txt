@@ -1,4 +1,177 @@
 Playground API docs
 
-GET request from http://127.0.0.1:5000/api/v1/all_game_types
-request to get all the games available in Playground(changes from time to time so make sure to check before querying for specific games)
+GET request from /api/v1/all_game_types
+request to get all the games available in
+Playground(changes from time to time so make sure to check before querying for specific games)
+
+Description:
+Returns a JSON object containing all currently
+available game types and their corresponding entries. This includes categories
+like Did You Know, Hypotheticals, Hot Takes, etc.
+
+GET /api/v1/get
+Query Parameter:
+
+game_type (string) — required
+
+Description:
+Fetches all entries from a specific game category provided via the game_type query parameter.
+Supported Game Types:
+
+did you know
+
+hypotheticals
+
+hot takes
+
+never have I ever
+
+would you rather
+
+story builder
+
+riddles
+
+two truths and a lie
+
+Behavior:
+
+✅ If a valid game_type is provided
+ (e.g. ?game_type=hot takes), returns a JSON array
+  of that game's entries.
+
+❌ If game_type is missing: returns 400
+Bad Request with a message indicating that the
+parameter is required.
+
+❌ If game_type is invalid: returns 422 Unprocessable Entity with a list of valid game types.
+
+
+. Authentication & Authorization
+API key or token-based access for protected routes.
+
+Role-based access (e.g., admin can add/remove games).
+
+📝 2. CRUD Operations
+POST /game: Add new game entries by type.
+
+PUT /game/<id>: Update existing game entries.
+
+DELETE /game/<id>: Delete a game entry.
+
+GET /game/<id>: Fetch a specific entry by ID.
+
+🔎 3. Search & Filtering
+Filter game entries by keyword, tags, difficulty (e.g., for riddles), or date added.
+
+Optional query params like ?limit=10, ?sort=latest, etc.
+
+📊 4. Analytics or Stats
+Track which game types are most requested.
+
+Count of total entries per game type.
+
+💾 5. Pagination
+Add pagination support: ?page=1&per_page=10
+
+🗃️ 6. Game Type Metadata
+Add a route like /game-types to return all valid types with descriptions and icons (for UI use).
+
+🔁 7. Random Entry
+Route to return one random entry per game type or overall.
+
+❤️ 8. User Reactions
+Allow upvotes/likes, "agree/disagree", or reactions per entry (for things like Hot Takes or Would You Rather).
+
+✍️ 9. User Submissions
+Allow users to submit their own game entries via a form or API endpoint (with moderation or auto-tagging).
+
+🗄️ 10. Soft Deletes & Draft Mode
+Soft delete instead of permanent removal.
+
+Add published or draft status for moderation.
+
+🧪 11. Test Mode or Sandbox
+A route that returns mock/test data (great for frontend devs).
+
+🌐 12. Multilingual Support
+Add language field to support content in multiple languages in future.
+
+This table stores information about people who sign up to suggest new game content.
+
+Each user has:
+
+A unique API key used for authenticating suggestions.
+
+A username or email.
+
+A password (stored securely as a hash).
+
+A role (either user or admin).
+
+📨 Pending Approvals Table
+This table keeps track of all suggested game content.
+
+Each suggestion includes:
+
+The type of game it's meant for (e.g., "hot takes").
+
+The actual content (like a question, statement, or riddle).
+
+Who submitted it (linked to a user).
+
+Its current status: pending, approved, or rejected.
+
+Timestamps for when it was submitted and reviewed.
+
+🔐 API Key Protection
+Suggestion routes (POST /suggest) require a valid API key.
+
+API keys are tied to users and are checked with each request.
+
+This prevents anonymous spamming and allows tracking of who suggested what.
+
+🛠 Planned Routes (Non-final)
+POST /sign-up: Create a new account and receive an API key.
+
+POST /login: Log in and retrieve your API key.
+
+POST /suggest: Submit a new game idea (must include API key in header).
+
+GET /admin/pending: Admin-only — view all pending suggestions.
+
+POST /admin/approve/<id>: Admin-only — approve suggestion.
+
+POST /admin/reject/<id>: Admin-only — reject suggestion.
+
+🖼️ Frontend Design Suggestions
+A suggestion form with login/signup flow and field for API key.
+
+A dashboard for admin use only, to:
+
+Review suggestions
+
+Approve or reject
+
+(Optional) Email or notification to alert admin when a new suggestion is made.
+
+✅ Public Access
+No authentication is required for GET routes like:
+
+GET /api/playground – fetch all games
+
+GET /api/playground/game?game_type=<type> – fetch content by type
+
+These remain public and open for all users.
+
+Role	Description
+admin	Full access: can approve/reject suggestions, manage users, and edit any content.
+moderator	Can approve or reject suggestions, but can't manage users.
+user	Can view content and suggest new entries.
+guest	Read-only access — can view content but not suggest.
+
+Optional: If you want more granularity, you could add roles like:
+
+reviewer (can comment but not approve)
+
+editor (can modify but not publish)

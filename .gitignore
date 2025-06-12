@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .env
+.idea/
 .DS_Store
 flask_session/
 sayIt_usernames.txt

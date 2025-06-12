@@ -1,24 +1,24 @@
 import os
-from datetime import timedelta
+from datetime import timedelta, datetime
 from flask import Flask, render_template, url_for, session, redirect
 from flask_session import Session
 from dotenv import load_dotenv
 from helper_functions import get_username
 from models import db, User
+from sqlalchemy.exc import IntegrityError
 
 load_dotenv()
 app = Flask(__name__)
 # app.secret_key = os.getenv('SECRET_KEY')
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
-# db.init_app(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
+db.init_app(app)
 app.config['SESSION_PERMANENT'] = True
 app.permanent_session_lifetime = timedelta(days=366)
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
-
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+    db.create_all()
 
 
 @app.route('/get-username')
@@ -26,18 +26,26 @@ def assign_username():
     username, username_is_available = get_username()
     if username_is_available:
         session['username'] = username
-        new_user = User(username=username)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('home'))
+        for _ in range(3):
+            try:
+                new_user = User(username=username)
+                db.session.add(new_user)
+                db.session.commit()
+                return redirect(url_for('home'))
+            except IntegrityError:  # incase uuid fails as a primary key and repeats itself
+                db.session.rollback()
+                with open('error_log.txt', 'a') as f:
+                    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    print(f"[{timestamp}] Failed to create user '{username}'", file=f)
+        return render_template('404.html')
     else:
-        return render_template('error_page.html', username=username)
+        return render_template('404.html', username=username)
 
 
 @app.context_processor
 def inject_globals():
     return dict(assign_username=assign_username, categories=['music', 'politics', 'sports', 'arts', 'entertainment',
-                                                             'general', 'business', 'health', 'technology',])
+                                                             'general', 'business', 'health', 'technology', ])
 
 
 @app.route('/')
@@ -49,7 +57,7 @@ def home():
 
 
 @app.route('/discussions')
-def show_discussions_page():
+def goto_discussions():
     return render_template('discussions_with_jinja.html')
 
 
@@ -60,7 +68,7 @@ def goto_chatroom():
 
 @app.route('/playground')
 def goto_playground():
-    return render_template('playground_with_jinja.html')  # TODO: write an api that returns trivia, would you rathers and stuff
+    return render_template('playground_with_jinja.html')
 
 
 @app.route('/<category>')

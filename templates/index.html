@@ -43,7 +43,7 @@
         <div class="particle"></div>
         <div class="particle"></div>
       </div>
-
+      {% if not username %}
       <main class="main">
         <section class="main__anonymous-section">
           <!-- <div class="main__img">🎭</div> -->
@@ -68,7 +68,9 @@
             chat is a fresh start.
           </p>
 
-          <a href="#" class="cta-button btn"> Get My Nickname </a>
+          <a href="{{url_for('assign_username')}}" class="cta-button btn">
+            Get My Nickname
+          </a>
         </section>
         <section class="features">
           <article class="feature">
@@ -112,13 +114,13 @@
 
       <!-- Logged in state (hidden by default) -->
 
-      <div class="page-container visually-hidden">
+      <div class="page-container">
         <section class="welcome-section">
           <div class="hero-image">👋</div>
 
           <h1 class="welcome-section__title title">
             Welcome,
-            <span class="highlight highlight-username">MysticRaven47</span>
+            <span class="highlight highlight-username">{{username}}</span>
           </h1>
 
           <p class="welcome-section__subtitle subtitle">
@@ -126,12 +128,19 @@
           </p>
 
           <nav class="nav-buttons">
-            <a href="#" class="nav-button btn">💭 Join Discussions</a>
-            <a href="#" class="nav-button btn">🎮 Creative Playground</a>
-            <a href="#" class="nav-button btn">🌍 Live Chatroom</a>
+            <a href="{{url_for('goto_discussions')}}" class="nav-button btn"
+              >💭 Join Discussions</a
+            >
+            <a href="{{url_for('goto_playground')}}" class="nav-button btn"
+              >🎮 Creative Playground</a
+            >
+            <a href="{{url_for('goto_chatroom')}}" class="nav-button btn"
+              >🌍 Live Chatroom</a
+            >
           </nav>
         </section>
       </div>
     </div>
+    {%endif%}
   </body>
 </html>
