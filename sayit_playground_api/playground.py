@@ -115,7 +115,7 @@ def get_by_type():
 
 
 @app.route('/api/v1/add', methods=['GET', 'POST'])
-def suggest_game():
+def suggest_new_game():
     ...
 
 
