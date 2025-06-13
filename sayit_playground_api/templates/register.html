@@ -25,7 +25,7 @@
     {% endwith %}
     <div class="auth">
       <form id="register-form" class="auth__form auth__form--register" method="post" action="{{url_for('register')}}">
-        <h2 class="auth__title">Register</h2>
+        <h2 class="auth__title">Sign Up</h2>
 
         <div class="form-group">
           <label for="register-username" class="form-group__label">Username</label>
@@ -47,7 +47,7 @@
         <button type="submit" class="auth__submit-btn">Register</button>
 
         <p class="auth__switch">
-          Already registered? <a href="{{url_for('login')}}" class="auth__link">Log in</a>
+          Already registered? <a href="{{url_for('login')}}" class="auth__link">Sign in</a>
         </p>
       </form>
     </div>

@@ -123,7 +123,7 @@ def suggest_new_game():
     return render_template('pending_suggestions.html')
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/sign-up', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         # 🔹 Check if the email is already registered
@@ -146,7 +146,7 @@ def register():
     return render_template('register.html')
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/sign-in', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         user = User.query.filter_by(email=request.form['email']).first()
