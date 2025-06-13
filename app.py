@@ -1,4 +1,5 @@
 import os
+import random
 from datetime import timedelta, datetime
 from flask import Flask, render_template, url_for, session, redirect
 from flask_session import Session
@@ -51,9 +52,13 @@ def inject_globals():
 @app.route('/')
 def home():
     username = session.get('username', None)
-    # user = db.session.query(User).filter_by(username=username).first()
-    # print(user)
-    return render_template('index.html', username=username)
+    greetings = [
+        'Hi', 'Hello', 'Welcome', 'Hey', 'Hi there', 'Yo!', "So glad you're here", 'What up!',
+        'Step right in', 'You made it!',
+        'Long time no see!', 'There you are!', 'Wassup!', 'Howdy!', 'Sup!',
+        'Glad you showed up!', 'Fancy seeing you here!', 'You’re just in time!', 'Ayyy!'
+    ]
+    return render_template('index.html', greeting=random.choice(greetings), username=username)
 
 
 @app.route('/discussions')

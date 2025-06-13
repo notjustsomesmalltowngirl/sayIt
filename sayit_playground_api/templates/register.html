@@ -14,48 +14,40 @@
     <title>sayIt playground API | Registration Form</title>
   </head>
   <body>
+   {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     <div class="auth">
-      <form id="register-form" class="auth__form auth__form--register">
+      <form id="register-form" class="auth__form auth__form--register" method="post" action="{{url_for('register')}}">
         <h2 class="auth__title">Register</h2>
 
         <div class="form-group">
-          <label for="register-username" class="form-group__label"
-            >Username</label
-          >
-          <input
-            type="text"
-            id="register-username"
-            class="form-group__input"
-            required
-          />
+          <label for="register-username" class="form-group__label">Username</label>
+          <input type="text" name="username" id="register-username" class="form-group__input" required/>
         </div>
 
         <div class="form-group">
           <label for="register-email" class="form-group__label">Email</label>
-          <input
-            type="email"
-            id="register-email"
-            class="form-group__input"
-            required
+          <input type="email" name="email" id="register-email" class="form-group__input" required
+
           />
         </div>
 
         <div class="form-group">
-          <label for="register-password" class="form-group__label"
-            >Password</label
-          >
-          <input
-            type="password"
-            id="register-password"
-            class="form-group__input"
-            required
-          />
+          <label for="register-password" class="form-group__label">Password</label>
+          <input type="password" name="password" pattern=".{8,}" id="register-password" class="form-group__input" required/>
         </div>
 
         <button type="submit" class="auth__submit-btn">Register</button>
 
         <p class="auth__switch">
-          Already registered? <a href="login.html" class="auth__link">Log in</a>
+          Already registered? <a href="{{url_for('login')}}" class="auth__link">Log in</a>
         </p>
       </form>
     </div>
