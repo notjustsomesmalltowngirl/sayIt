@@ -29,7 +29,7 @@ class NewsItem(db.Model):  # topics that would be commented upon
     published_at = mapped_column(String)
     created_at = mapped_column(DateTime, default=datetime.utcnow().date())
 
-    remarks = relationship('Remark', back_populates='news_item')
+    remarks = relationship('Remark', back_populates='news_item',  cascade='all, delete-orphan', passive_deletes=True)
 
     def __repr__(self):
         return f'{self.__class__.__name__}(id= {self.id}, type={self.type})'
@@ -38,11 +38,11 @@ class Remark(db.Model):
     # has one news item is from one user
     id = mapped_column(Integer, primary_key=True)
     content = mapped_column(String, nullable=False)
-    user_id = mapped_column(String, ForeignKey('users.id'), nullable=False)
+    user_id = mapped_column(String, ForeignKey('users.id', ondelete='RESTRICT'), nullable=False)
     user = relationship('User', back_populates='remarks')
     created_at = mapped_column(DateTime, default=datetime.utcnow)
 
-    news_item_id = mapped_column(Integer, ForeignKey('newsitems.id'))
+    news_item_id = mapped_column(Integer, ForeignKey('newsitems.id', ondelete='CASCADE'))
 
     news_item = relationship('NewsItem', back_populates='remarks')
 

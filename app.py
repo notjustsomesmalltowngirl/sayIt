@@ -29,22 +29,6 @@ Session(app)
 
 with app.app_context():  # a global variable
     db.create_all()
-    # current_user = User.query.filter_by(username=session['username']).first()
-    #
-    # all_news_items = NewsItem.query.all()
-    # if all_news_items:
-    #     news_item_by_category = db.session.query(NewsItem).filter_by(type='entertainment').all()
-    #     for n in news_item_by_category:
-    #         today_date = datetime.now().date()
-    #         yesterday = today_date - timedelta(days=1)
-    #         date_published = datetime.strptime(n.published_at, "%Y-%m-%d %H:%M:%S")
-    #         if date_published.date() in [yesterday, today_date]:
-    #             print({
-    #                 'headline': n.headline,
-    #                 'description': n.description,
-    #                 'url': n.url
-    #
-    #             })
 
 
 @app.route('/get-username')
@@ -107,11 +91,12 @@ def fetch_article(category):
         news_item_by_category = db.session.query(NewsItem).filter_by(type=category).all()
         if news_item_by_category:
             for n in news_item_by_category:
-                print(f'fetching {category} from db not API')
                 today_date = datetime.now().date()
                 yesterday = today_date - timedelta(days=1)
                 date_published = datetime.strptime(n.published_at, "%Y-%m-%d %H:%M:%S")
                 if date_published.date() in [today_date, yesterday]:
+                    print(f'fetching {category} from db not API')
+                    print(date_published.date())
                     return {
                         'headline': n.headline,
                         'description': n.description,
@@ -155,12 +140,18 @@ def fetch_article(category):
 @app.route('/discussions/<category>', methods=['GET', 'POST'])
 def goto_category(category):
     article_data = fetch_article(category)
-    # if request.method == 'POST':
-    #     comment = request.form.get('comment')
     news_item = NewsItem.query.filter_by(type=category).order_by(NewsItem.published_at.desc()).first()
-    print(news_item.description)
-    # new_comment = Remark(content=comment, user=current_user, )
-    return render_template('discussions_with_jinja.html', article=article_data, category=category)
+    if request.method == 'POST':
+        comment = request.form.get('comment')
+
+        print(news_item.remarks)
+        current_user = User.query.filter_by(username=session['username']).one()
+        new_comment = Remark(content=comment, user=current_user, news_item=news_item)
+        db.session.add(new_comment)
+        db.session.commit()
+
+    return render_template('discussions_with_jinja.html', article=article_data,
+                           category=category, all_remarks=news_item.remarks)
 
 
 if __name__ == "__main__":
