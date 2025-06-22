@@ -1,9 +1,11 @@
 import os
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for, flash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
+from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
-from models import (db, Playground, DidYouKnow, Hypotheticals, HotTakes, NeverHaveIEver, WouldYouRather,
-                    StoryBuilder, Riddle, TwoTruthsAndALie)
+from models import db, Playground, DidYouKnow, Hypotheticals, HotTakes, NeverHaveIEver
+from models import WouldYouRather, StoryBuilder, Riddle, TwoTruthsAndALie
+from models import User, PendingSuggestions
 from sqlalchemy.sql.expression import func
 from utils.helpers import get_game_by_type, return_error_for_wrong_params, get_game_to_type_mapping
 
@@ -11,7 +13,16 @@ app = Flask(__name__)
 
 load_dotenv()
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+app.secret_key = os.getenv('SECRET_KEY')
 db.init_app(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.session.get(User, user_id)
 
 
 # with app.app_context():
@@ -103,6 +114,60 @@ def get_by_type():
                                                    limit=limit)
             return jsonify(result), status_code
         # default's been handled
+
+
+@app.route('/api/v1/add', methods=['GET', 'POST'])
+def suggest_new_game():
+    if request.method == 'POST':
+        ...
+    return render_template('pending_suggestions.html')
+
+
+@app.route('/sign-up', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        # 🔹 Check if the email is already registered
+        existing_user = User.query.filter_by(email=request.form['email']).first()
+        if existing_user:
+            flash('You are registered login instead')
+            return redirect(url_for('login'))
+        # 🔹 Create new user
+        new_user = User(email=request.form['email'],
+                        password=generate_password_hash(request.form['password']),
+                        username=request.form['username'])
+        # 🔹 Give an admin role to specific emails
+        if new_user.email in ['olukayodehappiness2006@gmail.com', 'olukayodepeace2006@gmail.com',
+                              'peacedara0@gmail.com']:
+            new_user.role = 'admin'
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))
+
+    return render_template('register.html')
+
+
+@app.route('/sign-in', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = User.query.filter_by(email=request.form['email']).first()
+        if user and check_password_hash(user.password, request.form['password']):
+            login_user(user)
+            return redirect(url_for('home'))
+        elif not user:
+            flash('That email is not registered, please try again with a registered email', )
+            return redirect(url_for('login'))
+        elif not check_password_hash(user.password, request.form['password']):
+            flash('Incorrect Password')
+            return redirect(url_for('login'))
+
+    return render_template('login.html')
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 
 if __name__ == "__main__":

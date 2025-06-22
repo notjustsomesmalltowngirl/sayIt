@@ -6,9 +6,37 @@
 </head>
 <body>
 <div class="category">
-    {% for category in categories %}
-    <a href="{{ url_for('goto_category', category=category) }}">{{category}}</a>
+      <div class="category-bar">
+   {% for cat in categories %} <!--  {# looping through each category all of which have been injected globally #}-->
+      <a href="{{ url_for('goto_category', category=cat) }}">{{ cat.capitalize() }}</a>
     {% endfor %}
+  </div>
+
+  <!-- Article Section -->
+  {% if article %}   <!--{# check if article exists #} -->
+  <div class="article">
+    <h2>{{ category.capitalize() }} Headline</h2>
+    <h3>{{ article.headline }}</h3>
+    <p>{{ article.description }}</p>
+    <a href="{{ article.url }}" target="_blank">Read more</a>
+  </div>
+  {% endif %}
 </div>
+<hr>
+{% for _ in range(20) %}
+    <br>
+{% endfor %}
+{% if all_remarks %}
+    {% for remark in all_remarks %}
+        <p>{{remark.user.username}}</p>
+        <p>{{ remark.content }}</p>
+    {% endfor %}
+{%endif%}
+
+<form method="POST" action="{{ url_for('goto_category', category=category) }}">
+    <label>comment</label>
+    <input type="text" name="comment">
+    <input type="submit">
+</form>
 </body>
 </html>
