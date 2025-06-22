@@ -3,16 +3,13 @@ html {
 }
 
 body {
+  // margin-block-start: 110px;
   line-height: 1.6;
   font-family: var(--font-primary);
+  background: var(--dark-bg);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--main-text-color);
-  background: linear-gradient(
-    135deg,
-    var(--gradient-color1),
-    var(--gradient-color2)
-  );
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;

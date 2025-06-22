@@ -8,17 +8,18 @@
   --space-3xl: 4rem;
   --space-4xl: 5rem;
 
-  --font-primary: "Open sans", sans-serif;
-  --font-heading: "poppins", sans-serif;
+  --font-primary: "Inter", sans-serif;
+  --font-headings: "Roboto", sans-serif;
 }
 :root {
-  --gradient-color1: #06b6d4;
-  --gradient-color2: #10b981;
-  --header-color1: #0f766e;
-  --header-color2: #0d9488;
-  --accent-colors: #06b6d4;
-  --main-text-color: #333;
-  --bg1: #f0fdfa;
-  --bg2: #ccfbf1;
-  --bg3: #a7f3d0;
+  --primary-dark: rgb(86, 2, 31);
+  --secondary-dark: rgb(125, 28, 74);
+  --tertiary-rose: #d17d98;
+  --quaternary-light: #f4cce9;
+  --dark-bg: #0d0a0b;
+  --darker-bg: #050203;
+  --text-primary: #ffffff;
+  --text-secondary: #c7a5b0;
+  --accent-gold: #ffb800;
+  --accent-teal: #14b8a6;
 }

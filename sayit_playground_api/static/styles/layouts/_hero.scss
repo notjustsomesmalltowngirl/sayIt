@@ -1,0 +1,46 @@
+@use "../abstract/mixins";
+
+.hero {
+  margin-block-start: 10rem;
+  margin-block-end: 2rem;
+  text-align: center;
+  background-color: rgba(125, 28, 74, 0.1);
+  padding: 4rem 2rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(244, 204, 233, 0.15);
+
+  &__title {
+    font-size: 3rem;
+    margin-block-end: 2rem;
+    color: var(--quaternary-light);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+
+    @media (max-width: 800px) {
+      font-size: 2.3rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 2rem;
+    }
+  }
+  &__subtitle {
+    font-size: 1.4rem;
+    max-width: 600px;
+    margin-inline: auto;
+    margin-block-end: 3rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+
+    @media (max-width: 800px) {
+      font-size: 1.1rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 1rem;
+    }
+  }
+  @media (max-width: 800px) {
+    margin-block-start: 6rem;
+  }
+}

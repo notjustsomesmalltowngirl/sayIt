@@ -11,53 +11,59 @@
     />
     <link rel="stylesheet" href="../static/styles/main.css" />
 
-    <title>sayIt playground API | Registration Form</title>
+    <title>sayIt playground API | Sign Up Form</title>
   </head>
   <body>
-    <div class="auth">
-      <form id="register-form" class="auth__form auth__form--register">
-        <h2 class="auth__title">Register</h2>
+    <div class="form-container">
+      <div class="auth">
+        <form id="register-form" class="auth__form auth__form--register">
+          <h2 class="auth__title">Register</h2>
 
-        <div class="form-group">
-          <label for="register-username" class="form-group__label"
-            >Username</label
-          >
-          <input
-            type="text"
-            id="register-username"
-            class="form-group__input"
-            required
-          />
-        </div>
+          <div class="form-group">
+            <label for="register-username" class="form-group__label"
+              >Username</label
+            >
+            <input
+              type="text"
+              id="register-username"
+              class="form-group__input"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
 
-        <div class="form-group">
-          <label for="register-email" class="form-group__label">Email</label>
-          <input
-            type="email"
-            id="register-email"
-            class="form-group__input"
-            required
-          />
-        </div>
+          <div class="form-group">
+            <label for="register-email" class="form-group__label">Email</label>
+            <input
+              type="email"
+              id="register-email"
+              class="form-group__input"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
 
-        <div class="form-group">
-          <label for="register-password" class="form-group__label"
-            >Password</label
-          >
-          <input
-            type="password"
-            id="register-password"
-            class="form-group__input"
-            required
-          />
-        </div>
+          <div class="form-group">
+            <label for="register-password" class="form-group__label"
+              >Password</label
+            >
+            <input
+              type="password"
+              id="register-password"
+              class="form-group__input"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
 
-        <button type="submit" class="auth__submit-btn">Register</button>
+          <button type="submit" class="auth__submit-btn">Register</button>
 
-        <p class="auth__switch">
-          Already registered? <a href="login.html" class="auth__link">Log in</a>
-        </p>
-      </form>
+          <p class="auth__switch">
+            Already registered?
+            <a href="login.html" class="auth__link">Log in</a>
+          </p>
+        </form>
+      </div>
     </div>
   </body>
 </html>

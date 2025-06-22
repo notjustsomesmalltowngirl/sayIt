@@ -11,38 +11,44 @@
       rel="stylesheet"
     />
 
-    <title>sayIt Playground API | Login Form</title>
+    <title>sayIt Playground API | Sign In Form</title>
   </head>
   <body>
-    <div class="auth">
-      <form
-        id="login-form"
-        class="auth__form auth__form--login visibility-hidden"
-      >
-        <h2 class="auth__title">Login</h2>
+    <div class="form-container">
+      <div class="auth">
+        <form
+          id="login-form"
+          class="auth__form auth__form--login visibility-hidden"
+        >
+          <h2 class="auth__title">Login</h2>
 
-        <div class="form-group">
-          <label for="login-email" class="form-group__label">Email</label>
-          <input
-            type="email"
-            id="login-email"
-            class="form-group__input"
-            required
-          />
-        </div>
+          <div class="form-group">
+            <label for="login-email" class="form-group__label">Email</label>
+            <input
+              type="email"
+              id="login-email"
+              class="form-group__input"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
 
-        <div class="form-group">
-          <label for="login-password" class="form-group__label">Password</label>
-          <input
-            type="password"
-            id="login-password"
-            class="form-group__input"
-            required
-          />
-        </div>
+          <div class="form-group">
+            <label for="login-password" class="form-group__label"
+              >Password</label
+            >
+            <input
+              type="password"
+              id="login-password"
+              class="form-group__input"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
 
-        <button type="submit" class="auth__submit-btn">Login</button>
-      </form>
+          <button type="submit" class="auth__submit-btn">Login</button>
+        </form>
+      </div>
     </div>
   </body>
 </html>
