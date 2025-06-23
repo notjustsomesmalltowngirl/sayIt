@@ -26,19 +26,23 @@
             <li class="nav__item">
               <a href="#" class="nav__link">Getting Started</a>
             </li>
+            {% if not current_user.is_authenticated %}
             <li class="nav__item">
-              <a href="#" class="nav__link">Sign In</a>
+              <a href="{{url_for('login')}}" class="nav__link">Sign In</a>
             </li>
             <li class="nav__item">
-              <a href="#" class="nav__link">Sign Up</a>
+              <a href="{{url_for('register')}}" class="nav__link">Sign Up</a>
+            </li>
+            {% else %}
+            <li class="nav__item">
+              <a href="{{url_for('suggest_new_game')}}" class="nav__link">Suggest</a>
             </li>
             <li class="nav__item">
-              <a href="#" class="nav__link">Suggest</a>
+              <a href="{{url_for('logout')}}" class="nav__link">Log Out</a>
             </li>
-            <li class="nav__item">
-              <a href="#" class="nav__link">Log Out</a>
-            </li>
+            {% endif %}
           </ul>
+
           <button class="nav__toggle" aria-label="Toggle navigation menu">
             <span class="nav__bar"></span>
             <span class="nav__bar"></span>
