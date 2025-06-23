@@ -93,8 +93,9 @@ def fetch_article(category):
             for n in news_item_by_category:
                 today_date = datetime.now().date()
                 yesterday = today_date - timedelta(days=1)
+                day_before_yesterday = today_date - timedelta(days=2)
                 date_published = datetime.strptime(n.published_at, "%Y-%m-%d %H:%M:%S")
-                if date_published.date() in [today_date, yesterday]:
+                if date_published.date() in [today_date, yesterday, day_before_yesterday]:
                     print(f'fetching {category} from db not API')
                     print(date_published.date())
                     return {
