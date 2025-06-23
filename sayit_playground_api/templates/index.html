@@ -26,22 +26,18 @@
             <li class="nav__item">
               <a href="#" class="nav__link">Getting Started</a>
             </li>
-            {% if not current_user.is_authenticated %}
             <li class="nav__item">
-              <a href="{{url_for('login')}}" class="nav__link">Sign In</a>
+              <a href="#" class="nav__link">Sign In</a>
             </li>
             <li class="nav__item">
-              <a href="{{url_for('register')}}" class="nav__link">Sign Up</a>
+              <a href="#" class="nav__link">Sign Up</a>
             </li>
-
-            {% else %}
             <li class="nav__item">
-              <a href="{{url_for('suggest_new_game')}}" class="nav__link">Suggest</a>
+              <a href="#" class="nav__link">Suggest</a>
             </li>
-             <li class="nav__item">
-              <a href="{{url_for('logout')}}" class="nav__link">Log Out</a>
+            <li class="nav__item">
+              <a href="#" class="nav__link">Log Out</a>
             </li>
-            {% endif %}
           </ul>
           <button class="nav__toggle" aria-label="Toggle navigation menu">
             <span class="nav__bar"></span>
@@ -69,38 +65,39 @@
           Transform your chat application with interactive games and engaging
           activities. Our API provides easy access to a growing collection of
           games categorized by type, difficulty, and player count.
+        </p>
 
-      </p>
-
-      <section class="features">
-        <h3 class="features__title">Key Features</h3>
-        <ul class="features__list">
-          <li class="feature">
-            <p class="feature__description">
-              <span class="feature__highlight">🎯 Game Categories — </span>
-              Fetch games by category, difficulty, or player count.
-            </p>
-          </li>
-          <li class="feature">
-            <p class="feature__description">
-              <span class="feature__highlight">🔐 User Authentication — </span>
-              Secure login and registration system.
-            </p>
-          </li>
-          <li class="feature">
-            <p class="feature__description">
-              <span class="feature__highlight">💡 Community Driven — </span>
-              Users can suggest new games and activities.
-            </p>
-          </li>
-          <li class="feature">
-            <p class="feature__description">
-              <span class="feature__highlight">⚡ Fast & Reliable — </span>
-              Built for real-time chat applications.
-            </p>
-          </li>
-        </ul>
-      </section>
+        <section class="features">
+          <h3 class="features__title">Key Features</h3>
+          <ul class="features__list">
+            <li class="feature">
+              <p class="feature__description">
+                <span class="feature__highlight">🎯 Game Categories — </span>
+                Fetch games by category, difficulty, or player count.
+              </p>
+            </li>
+            <li class="feature">
+              <p class="feature__description">
+                <span class="feature__highlight"
+                  >🔐 User Authentication —
+                </span>
+                Secure login and registration system.
+              </p>
+            </li>
+            <li class="feature">
+              <p class="feature__description">
+                <span class="feature__highlight">💡 Community Driven — </span>
+                Users can suggest new games and activities.
+              </p>
+            </li>
+            <li class="feature">
+              <p class="feature__description">
+                <span class="feature__highlight">⚡ Fast & Reliable — </span>
+                Built for real-time chat applications.
+              </p>
+            </li>
+          </ul>
+        </section>
 
         <section class="suggestion-cta">
           <h2 class="suggestion-cta__title">
