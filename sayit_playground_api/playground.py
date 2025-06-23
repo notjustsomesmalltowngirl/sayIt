@@ -117,6 +117,7 @@ def get_by_type():
 
 
 @app.route('/api/v1/add', methods=['GET', 'POST'])
+@login_required
 def suggest_new_game():
     if request.method == 'POST':
         ...
