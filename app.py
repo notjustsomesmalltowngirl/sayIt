@@ -1,6 +1,6 @@
 import os
 import random
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, time
 
 import requests
 from requests.exceptions import ConnectionError, Timeout, RequestException
@@ -88,20 +88,37 @@ def goto_playground():
 def fetch_article(category):
     all_news_items = NewsItem.query.all()
     if all_news_items:
-        news_item_by_category = db.session.query(NewsItem).filter_by(type=category).all()
-        if news_item_by_category:
-            for n in news_item_by_category:
-                today_date = datetime.now().date()
-                yesterday = today_date - timedelta(days=1)
-                day_before_yesterday = today_date - timedelta(days=2)
-                date_published = datetime.strptime(n.published_at, "%Y-%m-%d %H:%M:%S")
-                if date_published.date() in [today_date, yesterday, day_before_yesterday]:
-                    print(f'fetching {category} from db not API')
+        news_item_by_category = db.session.query(NewsItem).filter_by(type=category).all()  # try to get news from db
+
+        if news_item_by_category:  # if there is news in chosen category
+            today_date = datetime.now().date()
+            yesterday = today_date - timedelta(days=1)
+            day_before_yesterday = today_date - timedelta(days=2)
+            now = datetime.now().time()
+            is_night_time = now >= time(23, 0) or now < time(6, 0)
+            recent_dates = [today_date, yesterday] if not is_night_time else \
+                [today_date, yesterday, day_before_yesterday]
+            relevant_news = None
+            for n in news_item_by_category:  # loop through to check which is most current
+                try:
+                    date_published = datetime.strptime(n.published_at, "%Y-%m-%d %H:%M:%S")
                     print(date_published.date())
-                    return {
-                        'headline': n.headline,
-                        'description': n.description,
-                        'url': n.url
+                except (ValueError, TypeError):
+                    continue
+                if date_published.date() in recent_dates:  # check how current news is based on time of day
+                    relevant_news = n
+                    break
+            if relevant_news:
+                for irrelevant_news in news_item_by_category:
+                    if irrelevant_news != relevant_news:
+                        db.session.delete(irrelevant_news)
+                db.session.commit()
+                print(f'fetching {category} from db not API')
+
+                return {  # if current enough, display it to avoid calling the API multiple times
+                        'headline': relevant_news.headline,
+                        'description': relevant_news.description,
+                        'url': relevant_news.url
 
                     }
     print(f'Fetching {category} from API not DB')
@@ -112,6 +129,7 @@ def fetch_article(category):
     }
     try:
         response = requests.get(top_headlines_url, params).json()
+        print(response)
     except (ConnectionError, Timeout):
         return {
             'headline': 'Unable to fetch headline',
@@ -152,7 +170,7 @@ def goto_category(category):
         db.session.commit()
 
     return render_template('discussions_with_jinja.html', article=article_data,
-                           category=category, all_remarks=news_item.remarks)
+                           category=category, all_remarks=news_item.remarks if news_item else None)
 
 
 if __name__ == "__main__":

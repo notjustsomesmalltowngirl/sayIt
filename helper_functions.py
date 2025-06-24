@@ -37,5 +37,7 @@ def call_api_based_on_category(category):
                    }
     }
     print(mapped)
-if __name__ == "__main__":
-    call_api_based_on_category('health')
+# if __name__ == "__main__":
+#     call_api_based_on_category('sports')
+
+
