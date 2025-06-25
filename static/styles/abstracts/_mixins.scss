@@ -10,3 +10,13 @@
     @content;
   }
 }
+%glass-container {
+  background: rgba(42, 31, 75, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  box-shadow: 0 0.5rem 2rem var(--shadow-dark);
+  border: 2px solid var(--glass-border-hover);
+  margin-block-end: var(--space-lg);
+}

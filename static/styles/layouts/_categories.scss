@@ -1,12 +1,11 @@
+@use "../abstracts/mixins";
 .categories {
-  background: rgba(42, 31, 75, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: var(--radius-xl);
+  @extend %glass-container;
   padding: var(--space-md);
-  box-shadow: 0 0.5rem 2rem var(--shadow-dark);
-  border: 1px solid var(--glass-border);
-  margin-block-end: var(--space-md);
+
+  @media (max-width: 600px) {
+    padding: var(--space-sm);
+  }
 
   &__title {
     font-size: 1.3rem;
@@ -20,6 +19,10 @@
     justify-content: center;
     gap: var(--space-sm);
     flex-wrap: wrap;
+
+    @media (max-width: 600px) {
+      gap: var(--space-xs);
+    }
   }
 }
 .category {
@@ -52,5 +55,9 @@
       );
       border-color: var(--glass-border-hover);
     }
+  }
+  @media (max-width: 600px) {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
   }
 }
