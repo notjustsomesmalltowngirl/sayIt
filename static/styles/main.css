@@ -3,7 +3,7 @@
   --deep-black-purple: #0f0a1a;
   --dark-purple: #1a0f2e;
   --medium-dark-purple: #2a1458;
-  --royal-purple: #3d1a78;
+  --royal-purple: rgb(61, 26, 120);
   --bright-purple: #4a1d8a;
   --main-purple: #8b5cf6;
   --deep-violet: #6b46c1;
@@ -130,6 +130,24 @@ select {
   border: none;
   font-family: inherit;
   font-size: inherit;
+}
+
+.whole-container {
+  background: linear-gradient(135deg, var(--deep-black-purple) 0%, var(--dark-purple) 50%, var(--medium-dark-purple) 100%);
+  color: var(--text-white);
+  font-family: "Inter", "Roboto", "Helvetica Neue", sans-serif;
+}
+
+.news-container {
+  max-width: 1250px;
+}
+
+.message__author, .message__time {
+  font-family: "JetBrains Mono", "Courier Prime", monospace;
+}
+
+.news__title {
+  font-family: "Oswald", sans-serif;
 }
 
 @keyframes float {
@@ -504,6 +522,59 @@ select {
 .error-page__description {
   color: var(--darker-gray);
   margin-block-end: var(--space-md);
+}
+
+.categories {
+  background: rgba(42, 31, 75, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-xl);
+  padding: var(--space-md);
+  box-shadow: 0 0.5rem 2rem var(--shadow-dark);
+  border: 1px solid var(--glass-border);
+  margin-block-end: var(--space-md);
+}
+.categories__title {
+  font-size: 1.3rem;
+  color: var(--main-gold);
+  font-weight: 600;
+  margin-block-end: var(--space-sm);
+  text-align: center;
+}
+.categories__grid {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.category {
+  color: var(--text-white);
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.9rem;
+  background: rgba(79, 56, 117, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+.category:hover {
+  background: rgba(124, 58, 237, 0.8);
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 8px 16px var(--shadow-purple);
+  transform: translateY(-3px);
+}
+.category.active {
+  background: linear-gradient(135deg, var(--main-purple), var(--deep-violet));
+  border-color: var(--main-purple);
+  font-weight: 600;
+}
+.category.active:hover {
+  background: linear-gradient(135deg, var(--deep-violet), var(--dark-royal-purple));
+  border-color: var(--glass-border-hover);
 }
 
 .btn {

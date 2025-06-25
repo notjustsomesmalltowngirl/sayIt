@@ -1,0 +1,25 @@
+.whole-container {
+  background: linear-gradient(
+    135deg,
+    var(--deep-black-purple) 0%,
+    var(--dark-purple) 50%,
+    var(--medium-dark-purple) 100%
+  );
+
+  color: var(--text-white);
+  font-family: "Inter", "Roboto", "Helvetica Neue", sans-serif;
+  //   min-height: 100vh;
+  //   line-height: 1.6;
+}
+.news-container {
+  max-width: 1250px;
+}
+.message {
+  &__author,
+  &__time {
+    font-family: "JetBrains Mono", "Courier Prime", monospace;
+  }
+}
+.news__title {
+  font-family: "Oswald", sans-serif;
+}
