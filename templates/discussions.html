@@ -108,13 +108,13 @@
   </body>
   <script>
     const categories = document.querySelectorAll(".category");
-    for (const [i, category] of categories.entries()) {
-      category.addEventListener("click", (e) => {
-        e.preventDefault();
-        // Remove 'active' class from all categories and add it to the clicked one
+    categories[0].classList.add("active");
+
+    categories.forEach((category) => {
+      category.addEventListener("click", function () {
         categories.forEach((cat) => cat.classList.remove("active"));
-        category.classList.add("active");
+        this.classList.add("active");
       });
-    }
+    });
   </script>
 </html>
