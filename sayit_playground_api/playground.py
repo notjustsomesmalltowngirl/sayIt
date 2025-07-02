@@ -137,8 +137,8 @@ def register():
                         password=generate_password_hash(request.form['password']),
                         username=request.form['username'])
         # 🔹 Give an admin role to specific emails
-        if new_user.email in ['olukayodehappiness2006@gmail.com', 'olukayodepeace2006@gmail.com',
-                              'peacedara0@gmail.com']:
+        if new_user.email in [os.getenv('ADMIN_EMAIL_1'), os.getenv('ADMIN_EMAIL_2'),
+                              os.getenv('ADMIN_EMAIL_3'),]:
             flash('Welcome admin')
             new_user.role = 'admin'
         db.session.add(new_user)
