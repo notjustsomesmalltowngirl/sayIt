@@ -139,6 +139,7 @@ def register():
         # 🔹 Give an admin role to specific emails
         if new_user.email in ['olukayodehappiness2006@gmail.com', 'olukayodepeace2006@gmail.com',
                               'peacedara0@gmail.com']:
+            flash('Welcome admin')
             new_user.role = 'admin'
         db.session.add(new_user)
         db.session.commit()
