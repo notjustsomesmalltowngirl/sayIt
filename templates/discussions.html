@@ -6,7 +6,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,
+      opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Oswald
+      :wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
     <link
@@ -23,29 +25,32 @@
         <div class="categories">
           <!-- <h3 class="categories__title">Browse by Category</h3> -->
           <div class="categories__grid">
-            <a href="#" class="category active">General</a>
-            <a href="#" class="category">Technology</a>
-            <a href="#" class="category">Business</a>
-            <a href="#" class="category">Sports</a>
-            <a href="#" class="category">Health</a>
-            <a href="#" class="category">Entertainment</a>
+            {% for cat in categories %}
+            <!--  {# looping through each category all of which have been injected globally #}-->
+            <a
+              href="{{ url_for('goto_category', category=cat) }}"
+              class="category"
+              >{{ cat.capitalize() }}</a
+            >
+            {% endfor %}
           </div>
         </div>
-
+        <!-- Article Section -->
+        {% if article %}
+        <!--{# check if article exists #} -->
         <header class="news">
-          <h1 class="news__title">
-            Thunder vs. Pacers score: NBA Finals Game 7 live updates as OKC,
-            Indy battle for 2025 championship - CBS Sports
-          </h1>
-          <p class="news__content">
-            Can SGA and the Thunder win at home? Or will the Pacers get their
-            first NBA title with another upset?
-          </p>
-          <a href="#" class="cta-button news-cta__btn">Read More</a>
+          <h1 class="news__title">{{ article.headline }}</h1>
+          <p class="news__content">{{ article.description }}</p>
+          <a
+            href="{{ article.url }}"
+            target="_blank"
+            class="cta-button news-cta__btn"
+            >Read More</a
+          >
           <div class="news__meta">
             <div class="news__date">
               <span>📅</span>
-              <span>June 23, 2025 • 2:30 PM</span>
+              <span>{{article['published at'] }}</span>
             </div>
             <div class="news__stats">
               <span>👁️ 12.4K views</span>
@@ -54,40 +59,50 @@
             </div>
           </div>
         </header>
+        {% endif %} {% if article['status'] != 'fail' %}
         <section class="discussions">
           <h2 class="discussions__cta">Join the discussion</h2>
 
-          <form action="#" class="chat-form">
+          <form
+            action="{{ url_for('goto_category', category=category) }}"
+            class="chat-form"
+            method="post"
+          >
             <label for="message" class="input-label"
               >What are your thoughts?</label
             >
             <textarea
               type="text"
               class="chat-input"
-              name="message"
+              name="comment"
               placeholder="Share your thoughts and join the conversation..."
               required
             ></textarea>
+            <input class="submit-btn" type="submit" value="Post Comment" />
           </form>
-          <button type="submit" class="submit-btn">Post Comment</button>
+          {% if all_remarks %}
+
           <div class="chat-messages">
+            {% for remark in all_remarks %}
             <div class="message">
               <div class="message__header">
-                <span class="message__author">TechEnthusiast42</span>
-                <span class="message__time">5m ago</span>
+                <span class="message__author">{{remark.user.username}}</span>
+
+                <span class="message__time"
+                  >{{ remark.created_at | timeago }}</span
+                >
               </div>
-              <div class="message__content">
-                This is fascinating! The implications for healthcare AI could be
-                revolutionary. I wonder how they're addressing the ethical
-                concerns around data privacy.
-              </div>
+              <div class="message__content">{{ remark.content }}</div>
             </div>
+            {% endfor %} {% else %}
 
             <div class="empty-state" hidden>
               Be the first to share your thoughts on this story!
             </div>
           </div>
+          {% endif %}
         </section>
+        {% endif %}
       </div>
     </div>
   </body>

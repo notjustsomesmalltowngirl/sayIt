@@ -1,6 +1,7 @@
 import os
 import random
 from datetime import timedelta, datetime, time
+from filters import timeago
 
 import requests
 from requests.exceptions import ConnectionError, Timeout, RequestException
@@ -15,6 +16,7 @@ from sqlalchemy.exc import IntegrityError
 
 load_dotenv()
 app = Flask(__name__)
+app.add_template_filter(timeago, name='timeago')
 # app.secret_key = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
 db.init_app(app)
@@ -27,7 +29,7 @@ Session(app)
 # app.config['CACHE_DEFAULT_TIMEOUT'] = 300  # 5 minutes
 # cache = Cache(app)
 
-with app.app_context():  # a global variable
+with app.app_context():
     db.create_all()
 
 
@@ -55,7 +57,7 @@ def assign_username():
 @app.context_processor
 def inject_globals():
     return dict(assign_username=assign_username,
-                categories=['business', 'sports', 'entertainment', 'general', 'health', 'technology', ])
+                categories=['general', 'business', 'sports', 'entertainment', 'health', 'technology', ])
 
 
 @app.route('/')
@@ -70,9 +72,9 @@ def home():
     return render_template('index.html', greeting=random.choice(greetings), username=username)
 
 
-@app.route('/discussions')
-def goto_discussions():
-    return render_template('discussions_with_jinja.html')
+# @app.route('/discussions')
+# def goto_discussions():
+#     return render_template('discussions_with_jinja.html')
 
 
 @app.route('/chatroom')
@@ -116,11 +118,13 @@ def fetch_article(category):
                 print(f'fetching {category} from db not API')
 
                 return {  # if current enough, display it to avoid calling the API multiple times
-                        'headline': relevant_news.headline,
-                        'description': relevant_news.description,
-                        'url': relevant_news.url
+                    'headline': relevant_news.headline,
+                    'description': relevant_news.description,
+                    'url': relevant_news.url,
+                    'published at': relevant_news.published_at,
+                    'status': 'ok'
 
-                    }
+                }
     print(f'Fetching {category} from API not DB')
     top_headlines_url = 'https://newsapi.org/v2/top-headlines?'
     params = {
@@ -134,7 +138,8 @@ def fetch_article(category):
         return {
             'headline': 'Unable to fetch headline',
             'description': 'Please check your internet connection.',
-            'url': '#'
+            'url': '#',
+            'status': 'fail'
         }
     articles = response.get('articles', [])
     article = articles[0] if articles else {'title': 'No headline available', 'description': '', 'url': '#'}
@@ -152,7 +157,9 @@ def fetch_article(category):
     return {
         'headline': headline,
         'description': description,
-        'url': url
+        'url': url,
+        'published at': published_at,
+        'status': 'ok',
     }
 
 
@@ -160,16 +167,24 @@ def fetch_article(category):
 def goto_category(category):
     article_data = fetch_article(category)
     news_item = NewsItem.query.filter_by(type=category).order_by(NewsItem.published_at.desc()).first()
+    for remark in news_item.remarks:
+        diff = int(((datetime.now() - remark.created_at).total_seconds()))
+        if diff < 1:
+            print('now')
+        elif 1 < diff < 60:
+            print(f'{diff}m')
+        else:
+            print(f'{diff//3600}h')
     if request.method == 'POST':
         comment = request.form.get('comment')
 
-        print(news_item.remarks)
         current_user = User.query.filter_by(username=session['username']).one()
+
         new_comment = Remark(content=comment, user=current_user, news_item=news_item)
         db.session.add(new_comment)
         db.session.commit()
 
-    return render_template('discussions_with_jinja.html', article=article_data,
+    return render_template('discussions.html', article=article_data,
                            category=category, all_remarks=news_item.remarks if news_item else None)
 
 

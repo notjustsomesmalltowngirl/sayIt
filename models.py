@@ -1,8 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy.orm import mapped_column, relationship
 from sqlalchemy import Integer, String, Boolean, ForeignKey, DateTime
 import uuid
+
 db = SQLAlchemy()
 
 
@@ -29,25 +30,29 @@ class NewsItem(db.Model):  # topics that would be commented upon
     published_at = mapped_column(String)
     created_at = mapped_column(DateTime, default=datetime.utcnow().date())
 
-    remarks = relationship('Remark', back_populates='news_item',  cascade='all, delete-orphan', passive_deletes=True)
+    remarks = relationship('Remark', back_populates='news_item', cascade='all, delete-orphan', passive_deletes=True)
 
     def __repr__(self):
         return f'{self.__class__.__name__}(id= {self.id}, type={self.type})'
+
+
 class Remark(db.Model):
     __tablename__ = 'remarks'
+
     # has one news item is from one user
+    # @staticmethod
+    # def utcnow():
+    #     return datetime.now(timezone.utc)
+
     id = mapped_column(Integer, primary_key=True)
     content = mapped_column(String, nullable=False)
     user_id = mapped_column(String, ForeignKey('users.id', ondelete='RESTRICT'), nullable=False)
     user = relationship('User', back_populates='remarks')
-    created_at = mapped_column(DateTime, default=datetime.utcnow)
-
+    created_at = mapped_column(DateTime, default=datetime.now)
     news_item_id = mapped_column(Integer, ForeignKey('newsitems.id', ondelete='CASCADE'))
 
     news_item = relationship('NewsItem', back_populates='remarks')
 
     def __repr__(self):
         return f'{self.__class__.__name__}(id= {self.id},)'
-
-
 
