@@ -27,8 +27,8 @@ class NewsItem(db.Model):  # topics that would be commented upon
     headline = mapped_column(String, nullable=False)
     description = mapped_column(String, nullable=False)
     url = mapped_column(String, nullable=False)
-    published_at = mapped_column(String)
-    created_at = mapped_column(DateTime, default=datetime.utcnow().date())
+    published_at = mapped_column(DateTime)
+    created_at = mapped_column(DateTime, default=datetime.utcnow)
 
     remarks = relationship('Remark', back_populates='news_item', cascade='all, delete-orphan', passive_deletes=True)
 

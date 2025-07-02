@@ -34,12 +34,15 @@
           <p class="news__content">
            {{ article.description }}
           </p>
+          {% endif %}
+          {% if article['status'] != 'fail' %}
           <a href="{{ article.url }}" target="_blank" class="cta-button news-cta__btn">Read More</a>
           <div class="news__meta">
             <div class="news__date">
               <span>📅</span>
               <span>{{article['published at'] }}</span>
             </div>
+
             <div class="news__stats">
               <span>👁️ 12.4K views</span>
               <span>💬 248 comments</span>
@@ -47,8 +50,6 @@
             </div>
           </div>
         </header>
-        {% endif %}
-        {% if article['status'] != 'fail' %}
         <section class="discussions">
           <h2 class="discussions__cta">Join the discussion</h2>
 

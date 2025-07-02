@@ -96,18 +96,16 @@ def fetch_article(category):
             today_date = datetime.now().date()
             yesterday = today_date - timedelta(days=1)
             day_before_yesterday = today_date - timedelta(days=2)
+
             now = datetime.now().time()
             is_night_time = now >= time(23, 0) or now < time(6, 0)
             recent_dates = [today_date, yesterday] if not is_night_time else \
                 [today_date, yesterday, day_before_yesterday]
             relevant_news = None
             for n in news_item_by_category:  # loop through to check which is most current
-                try:
-                    date_published = datetime.strptime(n.published_at, "%Y-%m-%d %H:%M:%S")
-                    print(date_published.date())
-                except (ValueError, TypeError):
-                    continue
-                if date_published.date() in recent_dates:  # check how current news is based on time of day
+                if n.published_at.date() in recent_dates:  # check how current news is based on time of day
+                    # n.published_at is 2025-06-28 00:00:00
+                    # print(n.published_at.date())  # looks like 2025-06-28
                     relevant_news = n
                     break
             if relevant_news:
@@ -121,7 +119,7 @@ def fetch_article(category):
                     'headline': relevant_news.headline,
                     'description': relevant_news.description,
                     'url': relevant_news.url,
-                    'published at': relevant_news.published_at,
+                    'published at': relevant_news.published_at.strftime('%B %d %Y'),
                     'status': 'ok'
 
                 }
@@ -133,7 +131,7 @@ def fetch_article(category):
     }
     try:
         response = requests.get(top_headlines_url, params).json()
-        print(response)
+        # print(response)
     except (ConnectionError, Timeout):
         return {
             'headline': 'Unable to fetch headline',
@@ -146,19 +144,19 @@ def fetch_article(category):
     headline = article['title']
     description = article['description'] if article['description'] else 'No description available'
     url = article['url'] if article['url'] else '#'
-    published_at = article['publishedAt'].split('T')[0]
+    published_at = datetime.strptime(article['publishedAt'].split('T')[0], '%Y-%m-%d')
 
     new_news_item = NewsItem(type=category, headline=headline, description=description,
-                             url=url, published_at=datetime.strptime(published_at, "%Y-%m-%d"))
+                             url=url, published_at=published_at)
 
     db.session.add(new_news_item)
     db.session.commit()
-    print(new_news_item.published_at, new_news_item.created_at)
+    print('Published at:', new_news_item.published_at, 'Created at:', new_news_item.created_at)
     return {
         'headline': headline,
         'description': description,
         'url': url,
-        'published at': published_at,
+        'published at': published_at.strftime('%B %d %Y'),
         'status': 'ok',
     }
 
@@ -167,14 +165,6 @@ def fetch_article(category):
 def goto_category(category):
     article_data = fetch_article(category)
     news_item = NewsItem.query.filter_by(type=category).order_by(NewsItem.published_at.desc()).first()
-    for remark in news_item.remarks:
-        diff = int(((datetime.now() - remark.created_at).total_seconds()))
-        if diff < 1:
-            print('now')
-        elif 1 < diff < 60:
-            print(f'{diff}m')
-        else:
-            print(f'{diff//3600}h')
     if request.method == 'POST':
         comment = request.form.get('comment')
 
@@ -183,7 +173,6 @@ def goto_category(category):
         new_comment = Remark(content=comment, user=current_user, news_item=news_item)
         db.session.add(new_comment)
         db.session.commit()
-
     return render_template('discussions.html', article=article_data,
                            category=category, all_remarks=news_item.remarks if news_item else None)
 
