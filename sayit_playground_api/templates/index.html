@@ -10,6 +10,11 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../static/styles/main.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../static/sayIt-logos/logo-mono.png"
+    />
     <title>sayIt Playground API</title>
   </head>
   <body>
@@ -35,7 +40,9 @@
             </li>
             {% else %}
             <li class="nav__item">
-              <a href="{{url_for('suggest_new_game')}}" class="nav__link">Suggest</a>
+              <a href="{{url_for('suggest_new_game')}}" class="nav__link"
+                >Suggest</a
+              >
             </li>
             <li class="nav__item">
               <a href="{{url_for('logout')}}" class="nav__link">Log Out</a>

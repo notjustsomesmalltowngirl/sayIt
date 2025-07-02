@@ -9,6 +9,11 @@
       href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../static/sayIt-logos/logo-mono.png"
+    />
     <link rel="stylesheet" href="../static/styles/main.css" />
     <title>sayIt | Discussions</title>
   </head>
@@ -18,12 +23,12 @@
         <div class="categories">
           <!-- <h3 class="categories__title">Browse by Category</h3> -->
           <div class="categories__grid">
-            <a href="/category/all" class="category active">General</a>
-            <a href="/category/technology" class="category">Technology</a>
-            <a href="/category/business" class="category">Business</a>
-            <a href="/category/sports" class="category">Sports</a>
-            <a href="/category/health" class="category">Health</a>
-            <a href="/category/entertainment" class="category">Entertainment</a>
+            <a href="#" class="category active">General</a>
+            <a href="#" class="category">Technology</a>
+            <a href="#" class="category">Business</a>
+            <a href="#" class="category">Sports</a>
+            <a href="#" class="category">Health</a>
+            <a href="#" class="category">Entertainment</a>
           </div>
         </div>
 
@@ -56,13 +61,13 @@
             <label for="message" class="input-label"
               >What are your thoughts?</label
             >
-            <input
+            <textarea
               type="text"
               class="chat-input"
               name="message"
               placeholder="Share your thoughts and join the conversation..."
               required
-            />
+            ></textarea>
           </form>
           <button type="submit" class="submit-btn">Post Comment</button>
           <div class="chat-messages">
@@ -86,4 +91,15 @@
       </div>
     </div>
   </body>
+  <script>
+    const categories = document.querySelectorAll(".category");
+    for (const [i, category] of categories.entries()) {
+      category.addEventListener("click", (e) => {
+        e.preventDefault();
+        // Remove 'active' class from all categories and add it to the clicked one
+        categories.forEach((cat) => cat.classList.remove("active"));
+        category.classList.add("active");
+      });
+    }
+  </script>
 </html>
