@@ -107,13 +107,16 @@
     </div>
   </body>
   <script>
+    document.addEventListener("DOMContentLoaded", function () {
     const categories = document.querySelectorAll(".category");
 
     categories.forEach((category) => {
       category.addEventListener("click", function () {
+          console.log("Category clicked:", this); // Debug log
         categories.forEach((cat) => cat.classList.remove("active"));
         this.classList.add("active");
       });
+    });
     });
   </script>
 </html>
