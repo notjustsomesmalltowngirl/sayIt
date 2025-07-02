@@ -10,7 +10,36 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../static/styles/main.css" />
-    <title>Document</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="../static/sayIt-logos/logo-mono.png"
+    />
+    <title>sayIt API | Suggestion form</title>
   </head>
-  <body></body>
+  <body>
+    <div class="form-container">
+      <div class="auth">
+        <form id="register-form" class="auth__form auth__form--register">
+          <h3 class="auth__title">Make a Suggestion</h3>
+          <h5 class="auth__subtitle">
+            Help us improve the platform by sharing your ideas, feedback, or
+            reporting issues. Your suggestions help make our community better
+            for everyone.
+          </h5>
+
+          <div class="form-group">
+            <label for="register-title" class="form-group__label">Title</label>
+            <input
+              type="text"
+              id="register-title"
+              class="form-group__input"
+              placeholder="Brief description of your suggestion"
+              required
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>

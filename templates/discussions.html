@@ -11,6 +11,11 @@
       :wght@200..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../static/sayIt-logos/logo-mono.png"
+    />
     <link rel="stylesheet" href="../static/styles/main.css" />
     <title>sayIt | Discussions</title>
   </head>
@@ -20,29 +25,33 @@
         <div class="categories">
           <!-- <h3 class="categories__title">Browse by Category</h3> -->
           <div class="categories__grid">
-             {% for cat in categories %} <!--  {# looping through each category all of which have been injected globally #}-->
-      <a href="{{ url_for('goto_category', category=cat) }}" class="category">{{ cat.capitalize() }}</a>
+            {% for cat in categories %}
+            <!--  {# looping through each category all of which have been injected globally #}-->
+            <a
+              href="{{ url_for('goto_category', category=cat) }}"
+              class="category"
+              >{{ cat.capitalize() }}</a
+            >
             {% endfor %}
           </div>
         </div>
-  <!-- Article Section -->
-  {% if article %}   <!--{# check if article exists #} -->
+        <!-- Article Section -->
+        {% if article %}
+        <!--{# check if article exists #} -->
         <header class="news">
-          <h1 class="news__title">
-            {{ article.headline }}
-          </h1>
-          <p class="news__content">
-           {{ article.description }}
-          </p>
-          {% endif %}
-          {% if article['status'] != 'fail' %}
-          <a href="{{ article.url }}" target="_blank" class="cta-button news-cta__btn">Read More</a>
+          <h1 class="news__title">{{ article.headline }}</h1>
+          <p class="news__content">{{ article.description }}</p>
+          <a
+            href="{{ article.url }}"
+            target="_blank"
+            class="cta-button news-cta__btn"
+            >Read More</a
+          >
           <div class="news__meta">
             <div class="news__date">
               <span>📅</span>
               <span>{{article['published at'] }}</span>
             </div>
-
             <div class="news__stats">
               <span>👁️ 12.4K views</span>
               <span>💬 248 comments</span>
@@ -50,13 +59,26 @@
             </div>
           </div>
         </header>
+        {% endif %} {% if article['status'] != 'fail' %}
         <section class="discussions">
           <h2 class="discussions__cta">Join the discussion</h2>
 
-          <form action="{{ url_for('goto_category', category=category) }}" class="chat-form" method="post">
-            <label for="message" class="input-label">What are your thoughts?</label>
-            <textarea type="text" class="chat-input" name="comment" placeholder="Share your thoughts and join the conversation..." required></textarea>
-            <input class="submit-btn" type="submit" value="Post Comment">
+          <form
+            action="{{ url_for('goto_category', category=category) }}"
+            class="chat-form"
+            method="post"
+          >
+            <label for="message" class="input-label"
+              >What are your thoughts?</label
+            >
+            <textarea
+              type="text"
+              class="chat-input"
+              name="comment"
+              placeholder="Share your thoughts and join the conversation..."
+              required
+            ></textarea>
+            <input class="submit-btn" type="submit" value="Post Comment" />
           </form>
           {% if all_remarks %}
 
@@ -66,23 +88,33 @@
               <div class="message__header">
                 <span class="message__author">{{remark.user.username}}</span>
 
-                <span class="message__time">{{ remark.created_at | timeago }}</span>
+                <span class="message__time"
+                  >{{ remark.created_at | timeago }}</span
+                >
               </div>
-              <div class="message__content">
-                {{ remark.content }}
-              </div>
+              <div class="message__content">{{ remark.content }}</div>
             </div>
-            {% endfor %}
-            {% else %}
+            {% endfor %} {% else %}
 
             <div class="empty-state" hidden>
               Be the first to share your thoughts on this story!
             </div>
           </div>
-           {% endif %}
+          {% endif %}
         </section>
         {% endif %}
       </div>
     </div>
   </body>
+  <script>
+    const categories = document.querySelectorAll(".category");
+    for (const [i, category] of categories.entries()) {
+      category.addEventListener("click", (e) => {
+        e.preventDefault();
+        // Remove 'active' class from all categories and add it to the clicked one
+        categories.forEach((cat) => cat.classList.remove("active"));
+        category.classList.add("active");
+      });
+    }
+  </script>
 </html>
