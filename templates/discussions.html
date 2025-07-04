@@ -108,6 +108,7 @@
   </body>
   <script>
     const categories = document.querySelectorAll(".category");
+<<<<<<< HEAD
     for (const [i, category] of categories.entries()) {
       category[i].classList.add("active");
     }
@@ -120,5 +121,16 @@
     //     category.classList.add("active");
     //   });
     // }
+=======
+
+    categories.forEach((category) => {
+      category.addEventListener("click", function () {
+          console.log("Category clicked:", this); // Debug log
+        categories.forEach((cat) => cat.classList.remove("active"));
+        this.classList.add("active");
+      });
+    });
+    });
+>>>>>>> 3e0329a13556040f6522eb4cf2d857c2b3f4a316
   </script>
 </html>

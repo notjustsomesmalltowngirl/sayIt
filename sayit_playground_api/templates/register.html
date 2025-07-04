@@ -18,18 +18,18 @@
 
     <title>sayIt playground API | Sign Up Form</title>
   </head>
+
   <body>
     <div class="form-container">
       <div class="auth">
-        <form id="register-form" class="auth__form auth__form--register">
+        <form id="register-form" class="auth__form auth__form--register" action="{{url_for('register')}}" method="post">
           <h2 class="auth__title">Register</h2>
 
           <div class="form-group">
-            <label for="register-username" class="form-group__label"
-              >Username</label
-            >
+            <label for="register-username" class="form-group__label">Username</label>
             <input
               type="text"
+              name="username"
               id="register-username"
               class="form-group__input"
               placeholder="Enter your username"
@@ -41,6 +41,7 @@
             <label for="register-email" class="form-group__label">Email</label>
             <input
               type="email"
+              name="email"
               id="register-email"
               class="form-group__input"
               placeholder="Enter your email"
@@ -54,13 +55,22 @@
             >
             <input
               type="password"
+              name="password"
               id="register-password"
               class="form-group__input"
               placeholder="Enter your password"
               required
             />
           </div>
-
+         {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <ul>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
           <button type="submit" class="auth__submit-btn">Register</button>
 
           <p class="auth__switch">
