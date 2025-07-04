@@ -202,3 +202,197 @@
     color: var(--accent-teal);
   }
 }
+.suggestion-wrapper {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+  background: linear-gradient(
+    135deg,
+    var(--darker-bg) 0%,
+    var(--dark-bg) 50%,
+    var(--primary-dark) 100%
+  );
+  width: 100%;
+  min-height: 100vh;
+  @include mixins.flexLayout(center);
+  padding: var(--space-lg);
+
+  @media (max-width: 550px) {
+    padding: var(--space-md);
+  }
+}
+.suggestion-card {
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+  background-color: var(--glass-medium);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.5rem;
+  padding: var(--space-2xl);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  overflow: hidden;
+
+  &::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--accent-rose),
+      transparent
+    );
+  }
+  @media (max-width: 550px) {
+    padding: var(--space-lg);
+  }
+}
+.suggestion-heading {
+  background: linear-gradient(
+    135deg,
+    var(--accent-rose) 0%,
+    var(--quaternary-light) 100%
+  );
+  color: var(--text-primary);
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-block-end: var(--space-xs);
+
+  @media (max-width: 550px) {
+    font-size: 1.7rem;
+  }
+}
+.suggestion-description {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  text-align: center;
+  margin-block-end: var(--space-md);
+  font-weight: 400;
+  line-height: 1.5;
+
+  @media (max-width: 550px) {
+    font-size: 0.9rem;
+  }
+}
+.input-section {
+  margin-block-end: var(--space-md);
+  position: relative;
+}
+.field-label {
+  display: block;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-block-end: var(--space-xs);
+  color: var(--text-primary);
+
+  @media (max-width: 550px) {
+    font-size: 0.8rem;
+  }
+}
+.text-field,
+.textarea-field,
+.dropdown-field {
+  width: 100%;
+  background-color: var(--rose-glass);
+  border: 1px solid var(--rose-glass-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-family: inherit;
+  padding: var(--space-xs) var(--space-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  resize: vertical;
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent-rose);
+    background-color: var(--rose-glass-hover);
+    box-shadow: 0 0 0 3px var(--accent-rose-glow),
+      0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 550px) {
+    // font-size: 0.9rem;
+    padding: var(--space-xs) var(--space-sm);
+  }
+}
+
+.text-field,
+.textarea-field {
+  &::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+}
+.dropdown-field {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d17d98' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 20px;
+  padding-right: 50px;
+  option {
+    color: var(--text-primary);
+    background-color: var(--dark-bg);
+  }
+}
+.textarea-field {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-rose) var(--rose-glass);
+}
+.textarea-field {
+  min-height: 120px;
+  line-height: 1.5;
+  font-family: inherit;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: var(--rose-glass);
+    border-radius: 6px;
+    border: 1px solid var(--rose-glass-border);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      135deg,
+      var(--accent-rose) 0%,
+      var(--secondary-dark) 100%
+    );
+    border-radius: 6px;
+    border: 1px solid var(--rose-glass-border);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(
+        135deg,
+        var(--secondary-dark) 0%,
+        var(--accent-rose) 100%
+      );
+      box-shadow: 0 0 8px var(--accent-rose-glow);
+    }
+    &:active {
+      background: var(--accent-rose);
+    }
+  }
+  &::-webkit-scrollbar-corner {
+    outline: none;
+    border: none;
+    background: var(--rose-glass);
+  }
+}

@@ -107,17 +107,18 @@
     </div>
   </body>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
     const categories = document.querySelectorAll(".category");
-    categories[0].classList.add("active");
-
-    categories.forEach((category) => {
-      category.addEventListener("click", function () {
-          console.log("Category clicked:", this); // Debug log
-        categories.forEach((cat) => cat.classList.remove("active"));
-        this.classList.add("active");
-      });
-    });
-    });
+    for (const [i, category] of categories.entries()) {
+      category[i].classList.add("active");
+    }
+    // const categories = document.querySelectorAll(".category");
+    // for (const [i, category] of categories.entries()) {
+    //   category.addEventListener("click", (e) => {
+    //     e.preventDefault();
+    //     // Remove 'active' class from all categories and add it to the clicked one
+    //     categories.forEach((cat) => cat.classList.remove("active"));
+    //     category.classList.add("active");
+    //   });
+    // }
   </script>
 </html>
