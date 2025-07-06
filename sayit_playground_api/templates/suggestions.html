@@ -17,7 +17,7 @@
   <body>
     <div class="suggestion-wrapper">
       <div class="suggestion-card">
-        <form id="feature-form" class="suggestion-form">
+        <form id="feature-form" class="suggestion-form" method="post" action="{{url_for('suggest_new_game')}}">
           <h3 class="suggestion-heading">API Feature Suggestions</h3>
           <h5 class="suggestion-description">
             Help us improve our API by sharing your ideas and feature requests

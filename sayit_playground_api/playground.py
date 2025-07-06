@@ -132,14 +132,22 @@ def suggest_new_game():
         suggestion_description = request.form.get('description')
         suggestion_type = request.form.get("feature-category")
         suggestion_use_case_example = request.form.get('use_case_example')
+        use_case_text = (
+            f"{suggestion_use_case_example}"
+            if suggestion_use_case_example
+            else "No use case example provided."
+        )
         msg = EmailMessage()
         msg['Subject'] = 'Suggestion For Playground API'
         msg['From'] = sender_email
         msg['To'] = ', '.join(admin_emails)  # multiple recipients
-        msg.set_content(f'Suggestion title: {suggestion_title}'
-                        f'\nDescription: {suggestion_description}' 
-                        f'\nType: {suggestion_type}' +
-                        'Use case example:' + suggestion_use_case_example if suggestion_use_case_example else 'No use case example')
+        msg.set_content(
+            f"""Suggestion title: {suggestion_title}
+            Description: {suggestion_description}
+            Type: {suggestion_type}
+            Use case example: {use_case_text}
+            """
+        )
         smtp_server = 'smtp.gmail.com'
         smtp_port = 587
         try:
@@ -148,9 +156,13 @@ def suggest_new_game():
                 server.login(sender_email, sender_password)
                 server.send_message(msg)
                 flash("✅ Suggestion sent successfully!", "success")
+
         except smtplib.SMTPException as e:
             logging.exception(f"Failed to send suggestion email, {e}")
+            print(f"Failed to send suggestion email, {e}")
             flash("❌ Failed to send suggestion. Please try again later.", "danger")
+        else:
+            return redirect(url_for('home'))
     return render_template('suggestions.html')
 
 
