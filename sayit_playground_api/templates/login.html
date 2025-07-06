@@ -15,7 +15,7 @@
     <link
       rel="icon"
       type="image/png"
-      href="../static/sayIt-logos/logo-mono.png"
+      href="../../static/sayIt-logos/logo-mono.png"
     />
     <title>sayIt Playground API | Sign In Form</title>
   </head>
@@ -24,7 +24,9 @@
     <div class="form-container">
       <div class="auth">
         <form
-          id="login-form" action="{{url_for('login')}}" method="post"
+          id="login-form"
+          action="{{url_for('login')}}"
+          method="post"
           class="auth__form auth__form--login visibility-hidden"
         >
           <h2 class="auth__title">Login</h2>
@@ -54,15 +56,13 @@
               required
             />
           </div>
-           {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <ul>
-              {% for message in messages %}
-                <li style="color: #ffb800; font-size: 0.8rem;">{{ message }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
+          {% with messages = get_flashed_messages() %} {% if messages %}
+          <ul>
+            {% for message in messages %}
+            <li style="color: #ffb800; font-size: 0.8rem">{{ message }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %} {% endwith %}
           <button type="submit" class="auth__submit-btn">Login</button>
         </form>
       </div>
