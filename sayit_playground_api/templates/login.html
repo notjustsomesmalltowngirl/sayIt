@@ -57,11 +57,11 @@
             />
           </div>
           {% with messages = get_flashed_messages() %} {% if messages %}
-            <ul>
-              {% for message in messages %}
+          <ul>
+            {% for message in messages %}
             <li style="color: #ffb800; font-size: 0.8rem">{{ message }}</li>
-              {% endfor %}
-            </ul>
+            {% endfor %}
+          </ul>
           {% endif %} {% endwith %}
           <button type="submit" class="auth__submit-btn">Login</button>
         </form>
