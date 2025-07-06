@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 from models import db, Playground, DidYouKnow, Hypotheticals, HotTakes, NeverHaveIEver
 from models import WouldYouRather, StoryBuilder, Riddle, TwoTruthsAndALie
 from models import User, PendingSuggestions
+import smtplib
+import logging
+from email.message import EmailMessage
 from sqlalchemy.sql.expression import func
 from utils.helpers import get_game_by_type, return_error_for_wrong_params, get_game_to_type_mapping
 
@@ -116,12 +119,39 @@ def get_by_type():
         # default's been handled
 
 
-@app.route('/api/v1/add', methods=['GET', 'POST'])
+@app.route('/api/v1/suggest', methods=['GET', 'POST'])
 @login_required
 def suggest_new_game():
+    admin_users = User.query.filter_by(role='admin').all()
+    admin_emails = [admin.email for admin in admin_users]
+    sender_email = os.getenv('ADMIN_EMAIL_1')
+    sender_password = os.getenv('SENDER_APP_PASSWORD')
+
     if request.method == 'POST':
-        ...
-    return render_template('pending_suggestions.html')
+        suggestion_title = request.form.get('title')
+        suggestion_description = request.form.get('description')
+        suggestion_type = request.form.get("feature-category")
+        suggestion_use_case_example = request.form.get('use_case_example')
+        msg = EmailMessage()
+        msg['Subject'] = 'Suggestion For Playground API'
+        msg['From'] = sender_email
+        msg['To'] = ', '.join(admin_emails)  # multiple recipients
+        msg.set_content(f'Suggestion title: {suggestion_title}'
+                        f'\nDescription: {suggestion_description}' 
+                        f'\nType: {suggestion_type}' +
+                        'Use case example:' + suggestion_use_case_example if suggestion_use_case_example else 'No use case example')
+        smtp_server = 'smtp.gmail.com'
+        smtp_port = 587
+        try:
+            with smtplib.SMTP(smtp_server, smtp_port) as server:
+                server.starttls()
+                server.login(sender_email, sender_password)
+                server.send_message(msg)
+                flash("✅ Suggestion sent successfully!", "success")
+        except smtplib.SMTPException as e:
+            logging.exception(f"Failed to send suggestion email, {e}")
+            flash("❌ Failed to send suggestion. Please try again later.", "danger")
+    return render_template('suggestions.html')
 
 
 @app.route('/sign-up', methods=['GET', 'POST'])
@@ -138,7 +168,7 @@ def register():
                         username=request.form['username'])
         # 🔹 Give an admin role to specific emails
         if new_user.email in [os.getenv('ADMIN_EMAIL_1'), os.getenv('ADMIN_EMAIL_2'),
-                              os.getenv('ADMIN_EMAIL_3'),]:
+                              os.getenv('ADMIN_EMAIL_3'), ]:
             flash('Welcome admin')
             new_user.role = 'admin'
         db.session.add(new_user)

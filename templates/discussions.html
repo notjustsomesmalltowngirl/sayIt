@@ -29,7 +29,7 @@
             <!--  {# looping through each category all of which have been injected globally #}-->
             <a
               href="{{ url_for('goto_category', category=cat) }}"
-              class="category"
+               class="category {% if cat == active_category %}active{% endif %}"
               >{{ cat.capitalize() }}</a
             >
             {% endfor %}
@@ -64,7 +64,7 @@
           <h2 class="discussions__cta">Join the discussion</h2>
 
           <form
-            action="{{ url_for('goto_category', category=category) }}"
+            action="{{ url_for('goto_category', category=active_category) }}"
             class="chat-form"
             method="post"
           >
@@ -106,31 +106,5 @@
       </div>
     </div>
   </body>
-  <script>
-    const categories = document.querySelectorAll(".category");
-<<<<<<< HEAD
-    for (const [i, category] of categories.entries()) {
-      category[i].classList.add("active");
-    }
-    // const categories = document.querySelectorAll(".category");
-    // for (const [i, category] of categories.entries()) {
-    //   category.addEventListener("click", (e) => {
-    //     e.preventDefault();
-    //     // Remove 'active' class from all categories and add it to the clicked one
-    //     categories.forEach((cat) => cat.classList.remove("active"));
-    //     category.classList.add("active");
-    //   });
-    // }
-=======
 
-    categories.forEach((category) => {
-      category.addEventListener("click", function () {
-          console.log("Category clicked:", this); // Debug log
-        categories.forEach((cat) => cat.classList.remove("active"));
-        this.classList.add("active");
-      });
-    });
-    });
->>>>>>> 3e0329a13556040f6522eb4cf2d857c2b3f4a316
-  </script>
 </html>

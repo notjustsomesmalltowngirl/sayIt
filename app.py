@@ -67,7 +67,7 @@ def home():
         'Hi', 'Hello', 'Welcome', 'Hey', 'Hi there', 'Yo!', "So glad you're here", 'What up!',
         'Step right in', 'You made it!',
         'Long time no see!', 'There you are!', 'Wassup!', 'Howdy!', 'Sup!',
-        'Glad you showed up!', 'Fancy seeing you here!', 'You’re just in time!', 'Ayyy!'
+        'Glad you showed up!', 'Fancy seeing you here!', 'You’re just in time!', 'Ayyy!', 'We missed you'
     ]
     return render_template('index.html', greeting=random.choice(greetings), username=username)
 
@@ -174,7 +174,7 @@ def goto_category(category):
         db.session.add(new_comment)
         db.session.commit()
     return render_template('discussions.html', article=article_data,
-                           category=category, all_remarks=news_item.remarks if news_item else None)
+                           active_category=category, all_remarks=news_item.remarks if news_item else None)
 
 
 if __name__ == "__main__":
