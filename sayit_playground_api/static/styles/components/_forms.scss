@@ -4,7 +4,6 @@
   min-height: 100vh;
   @include mixins.flexLayout(center);
   overflow: hidden;
-  // font-family: "Open sans", sans-serif;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 .auth {
@@ -203,7 +202,8 @@
   }
 }
 .suggestion-wrapper {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  // font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Open sans", sans-serif;
 
   background: linear-gradient(
     135deg,
@@ -396,3 +396,4 @@
     background: var(--rose-glass);
   }
 }
+

@@ -56,6 +56,18 @@
     color: var(--quaternary-light);
   }
 }
+.active {
+  border-radius: 23px;
+  background: rgba(244, 204, 233, 0.1);
+  border-color: var(--quaternary-light);
+  color: var(--quaternary-light);
+
+  &:hover {
+    background: rgba(244, 204, 233, 0.2);
+    color: var(--quaternary-light);
+    border-color: var(--quaternary-light);
+  }
+}
 
 .nav__toggle {
   display: none;
