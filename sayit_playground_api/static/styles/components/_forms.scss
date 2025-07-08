@@ -272,7 +272,7 @@
   }
 }
 .suggestion-description {
-  color: var(--text-secondary);
+  color: var(--text-secondary-suggest);
   font-size: 1rem;
   text-align: center;
   margin-block-end: var(--space-md);
@@ -396,4 +396,25 @@
     background: var(--rose-glass);
   }
 }
-
+.auth.profile {
+  max-width: 500px;
+}
+.visually-hidden {
+  display: none;
+}
+.profile__cta.auth__switch {
+  margin-block-start: var(--space-sm);
+}
+.profile__cta-link.auth__link {
+  color: var(--tertiary-rose);
+  &::before {
+    background-color: var(--tertiary-rose);
+  }
+  &:hover {
+    color: var(--accent-rose);
+    &::before {
+      width: 100%;
+      background-color: var(--accent-rose);
+    }
+  }
+}

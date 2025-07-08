@@ -18,6 +18,7 @@
       type="image/png"
       href="{{ url_for('static', filename='sayIt-logos/logo-mono.png') }}"
     />
+    <link rel="stylesheet" href="../static/styles/main.css" />
 
     <title>sayIt API | Suggestion form</title>
   </head>
@@ -94,9 +95,17 @@
           </div>
 
           <button type="submit" class="submit-button">Submit Suggestion</button>
+          <p class="profile__cta auth__switch">
+            Are you a developer with ideas to enhance our platform?
+            <a
+              href="https://github.com/notjustsomesmalltowngirl/sayIt.git"
+              class="profile__cta-link auth__link"
+              >Contribute to our codebase
+            </a>
+            and help us build something amazing together.
+          </p>
         </form>
       </div>
     </div>
-     
   </body>
 </html>
