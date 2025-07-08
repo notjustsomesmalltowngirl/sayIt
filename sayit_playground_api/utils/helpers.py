@@ -45,21 +45,21 @@ def return_error_for_wrong_params(game_type):
         tuple[dict, int] | None: A tuple containing the error message dictionary and status code (400 or 422),
                                  or None if the game_type is valid."""
     if not game_type:
-        return {
-            'error': {
-                'Bad Request': "Missing 'game_type' in query parameters."
-            }
-        }, 400
+        return {'status': 'error',
+                'message': {
+                    'Bad Request': "Required parameter 'game_type' are missing. Please set it and try again."
+                }
+                }, 400
     valid_types = ['did you know', 'hypotheticals', 'hot takes', 'never have i ever', 'would you rather',
                    'story builder', 'riddles', 'two truths and a lie']
     if game_type.lower() not in valid_types:
-        return {
-            'error': {
-                'Unprocessable Entity': f"{game_type} is not a valid game type . Valid options are: "
-                                        f"{', '.join([t.title() for t in valid_types])}"
+        return {'status': 'error',
+                'message': {
+                    'Unprocessable Entity': f"{game_type} is not a valid game type . Valid options are: "
+                                            f"{', '.join([t.title() for t in valid_types])}"
 
-            }
-        }, 422
+                }
+                }, 422
 
 
 def get_game_by_type(game, game_type, model_class, category=None, limit=None):
@@ -105,10 +105,17 @@ def require_api_key(f):
     def decorated(*args, **kwargs):
         api_key = request.args.get('api_key')
         if not api_key:
-            return jsonify({'error': 'Missing API key'}), 401
+            return jsonify({'status': 'error',
+                            'code': 'api_key_missing',
+                            'message': 'Your API key is missing. Append this to the URL with the api_key param.'}
+                           ), 401
         user = User.query.filter_by(api_key=api_key).first()
         if not user:
-            return jsonify({'error': 'Invalid API key'}), 403
+            return jsonify({'status': 'error',
+                            'code': 'api_key_invalid',
+                            'message': 'Your API key is invalid or incorrect. Check your key, '
+                                       'or go to {put url here} to create a free API key.'}
+                           ), 403
         return f(*args, **kwargs)
 
     return decorated

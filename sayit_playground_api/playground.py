@@ -165,12 +165,12 @@ def suggest():
                 server.starttls()
                 server.login(sender_email, sender_password)
                 server.send_message(msg)
-                flash("✅ Suggestion sent successfully!", "success")
+                flash("✅ Suggestion sent successfully!", )
 
         except smtplib.SMTPException as e:
             logging.exception(f"Failed to send suggestion email, {e}")
             print(f"Failed to send suggestion email, {e}")
-            flash("❌ Failed to send suggestion. Please try again later.", "danger")
+            flash("❌ Failed to send suggestion. Please try again later.", )
         else:
             return redirect(url_for('home'))
     return render_template('suggestions.html')
@@ -223,6 +223,7 @@ def profile():
                 current_user.api_key = get_api_key()
                 db.session.commit()
                 break
+            # except get_api_key() returns one it has returned before, since that is marked as unique
             except IntegrityError:
                 db.session.rollback()
                 with open('error_log.txt', 'a') as f:
