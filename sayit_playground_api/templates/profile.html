@@ -21,7 +21,7 @@
   <body>
     <div class="form-container">
       <main class="profile auth">
-        <form class="profile__form auth__form">
+        <form class="profile__form auth__form" action="{{url_for('update_profile')}}" method="post">
           <h2 class="profile__title auth__title">Profile</h2>
           <div class="profile__form-group form-group">
             <label for="email" class="profile__form-label form-group__label"
@@ -30,11 +30,12 @@
             <input
               type="email"
               id="email"
+              name="new_email"
               class="profile__form-input form-group__input"
               placeholder="Enter your email"
-              value="olukayodehappiness2006@gmail.com"
+              value="{{current_user.email}}"
             />
-            <button type="submit" class="profile__form-button auth__submit-btn">
+            <button type="submit" class="profile__form-button auth__submit-btn" name="update_email">
               Update Email Address
             </button>
           </div>
@@ -44,27 +45,36 @@
             >
             <input
               type="password"
+              name="new_password"
               id="password"
               class="profile__form-input form-group__input visually-hidden"
               placeholder="Input new password.."
             />
             <button
               type="submit"
+              name="update_password"
               id="changePasswordBtn"
               class="profile__form-button auth__submit-btn"
             >
               Change Password
             </button>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div style="color: #ffb800; font-size: 0.8rem">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
           </div>
           <div class="profile__form-group input-section field-label">
-            <label for="API Key" class="profile__form-label form-group__label"
+            <label for="apiKey" class="profile__form-label form-group__label"
               >API Key</label
             >
             <input
               type="text"
               id="apiKey"
               class="profile__form-input form-group__input"
-              value="sk-1234567890abcdefg"
+              value="{{current_user.api_key}}"
               readonly
             />
           </div>
