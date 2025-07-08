@@ -10,7 +10,6 @@
   border-radius: 36px;
   font-weight: 700;
   font-size: 0.8rem;
-  transition: all 0.4s ease;
   box-shadow: 0 8px 25px rgba(209, 125, 152, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -110,4 +109,9 @@
 }
 #email + .profile__form-button {
   margin-block-start: var(--space-sm);
+}
+.hero__btn.get-button {
+  border-radius: 6px;
+  font-size: 1rem;
+  padding-inline: 1.8rem;
 }

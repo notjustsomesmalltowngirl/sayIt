@@ -44,3 +44,44 @@
     margin-block-start: 6rem;
   }
 }
+
+/* Documentation 'hero' styles */
+.documentation-header__content {
+  padding: var(--space-lg) var(--space-sm);
+
+  @media (max-width: 750px) {
+    padding: var(--space-md) var(--space-xs);
+  }
+}
+
+.documentation__title {
+  font-size: 2.9rem;
+  // margin-block: var(--space-lg) var(--space-sm);
+  margin-block-end: var(--space-sm);
+  line-height: 1.2;
+  text-align: center;
+  background: linear-gradient(
+    45deg,
+    var(--quaternary-light),
+    var(--tertiary-rose)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+
+  @media (max-width: 750px) {
+    font-size: 2.2rem;
+  }
+}
+.documentation__subtitle {
+  font-size: 1.2rem;
+  text-align: center;
+  // margin-block-end: var(--space-md);
+  color: var(--text-secondary);
+  color: #c7a5b0;
+  @media (max-width: 750px) {
+    font-size: 1rem;
+  }
+}

@@ -19,51 +19,86 @@
     <title>sayIt API | Profile</title>
   </head>
   <body>
-    <div class="suggestion-wrapper">
-      <main class="profile suggestion-card">
-        <h1 class="profile__title suggestion-heading">Profile</h1>
-        <div class="profile__content">
-          <form class="profile__form">
-            <div class="profile__form-group input-section">
-              <label for="email" class="profile__form-label field-label"
-                >Email</label
-              >
-              <input
-                type="email"
-                id="email"
-                class="profile__form-input text-field"
-                placeholder="Enter your email"
-                value="olukayodehappiness2006@gmail.com"
-              />
-              <button type="submit" class="profile__form-button submit-button">
-                Update Email Address
-              </button>
-            </div>
-            <div class="profile__form-group input-section">
-              <label for="Password" class="profile__form-label field-label"
-                >Password</label
-              >
-
-              <button type="submit" class="profile__form-button submit-button">
-                Change Password
-              </button>
-            </div>
-            <div class="profile__form-group input-section field-label">
-              <label for="API Key" class="profile__form-label field-label"
-                >API Key</label
-              >
-
-              <input
-                type="text"
-                id="apiKey"
-                class="profile__form-input text-field"
-                value="sk-1234567890abcdefg"
-                readonly
-              />
-            </div>
-          </form>
-        </div>
+    <div class="form-container">
+      <main class="profile auth">
+        <form class="profile__form auth__form">
+          <h2 class="profile__title auth__title">Profile</h2>
+          <div class="profile__form-group form-group">
+            <label for="email" class="profile__form-label form-group__label"
+              >Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              class="profile__form-input form-group__input"
+              placeholder="Enter your email"
+              value="olukayodehappiness2006@gmail.com"
+            />
+            <button type="submit" class="profile__form-button auth__submit-btn">
+              Update Email Address
+            </button>
+          </div>
+          <div class="profile__form-group form-group">
+            <label for="Password" class="profile__form-label form-group__label"
+              >Password</label
+            >
+            <input
+              type="password"
+              id="password"
+              class="profile__form-input form-group__input visually-hidden"
+              placeholder="Input new password.."
+            />
+            <button
+              type="submit"
+              id="changePasswordBtn"
+              class="profile__form-button auth__submit-btn"
+            >
+              Change Password
+            </button>
+          </div>
+          <div class="profile__form-group input-section field-label">
+            <label for="API Key" class="profile__form-label form-group__label"
+              >API Key</label
+            >
+            <input
+              type="text"
+              id="apiKey"
+              class="profile__form-input form-group__input"
+              value="sk-1234567890abcdefg"
+              readonly
+            />
+          </div>
+        </form>
       </main>
     </div>
+    <script>
+      const changePasswordBtn = document.getElementById("changePasswordBtn");
+      const passwordInput = document.getElementById("password");
+      const form = document.querySelector(".profile__form");
+
+      let passwordRevealed = false;
+
+      // Track which button was clicked
+      let clickedButton = null;
+
+      form.addEventListener("submit", function (event) {
+        if (clickedButton === changePasswordBtn && !passwordRevealed) {
+          event.preventDefault(); // 🛑 prevent full form submission
+
+          passwordInput.classList.remove("visually-hidden");
+          passwordInput.focus();
+          changePasswordBtn.textContent = "Submit New Password";
+          passwordRevealed = true;
+        }
+        // else: allow form to submit normally (email or second password click)
+      });
+
+      // Listen to which button was clicked
+      form.addEventListener("click", function (e) {
+        if (e.target.tagName === "BUTTON") {
+          clickedButton = e.target;
+        }
+      });
+    </script>
   </body>
 </html>
