@@ -1,16 +1,19 @@
 import os
+from datetime import datetime
 from flask import Flask, render_template, jsonify, request, redirect, url_for, flash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
-from models import db, Playground, DidYouKnow, Hypotheticals, HotTakes, NeverHaveIEver
-from models import WouldYouRather, StoryBuilder, Riddle, TwoTruthsAndALie
-from models import User, PendingSuggestions
+from sayit_playground_api.models import db, Playground, DidYouKnow, Hypotheticals, HotTakes, NeverHaveIEver
+from sayit_playground_api.models import WouldYouRather, StoryBuilder, Riddle, TwoTruthsAndALie
+from sayit_playground_api.models import User
 import smtplib
 import logging
 from email.message import EmailMessage
 from sqlalchemy.sql.expression import func
-from utils.helpers import get_game_by_type, return_error_for_wrong_params, get_game_to_type_mapping
+from utils.helpers import (get_game_by_type, return_error_for_wrong_params,
+                           get_game_to_type_mapping, get_api_key, require_api_key)
+from sqlalchemy.exc import IntegrityError
 
 app = Flask(__name__)
 
@@ -29,10 +32,14 @@ def load_user(user_id):
 
 
 # with app.app_context():
-#     game_type = 'did_you_knows'
+#     db.create_all()
 #     game = Playground.query.filter_by(type='did you know').scalar()
 #     query = getattr(game, game_type)
 #     print(query.order_by(func.random()).limit(1).one().to_dict())
+
+@app.context_processor
+def inject_user():
+    return dict(user=current_user)
 
 
 @app.route('/')
@@ -40,7 +47,8 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/api/v1/all_game_types', methods=['GET'])
+@app.route('/api/v1/all-game-types', methods=['GET'])
+@require_api_key
 def get_all_game_types():
     all_games = Playground.query.all()
     return jsonify(
@@ -50,7 +58,8 @@ def get_all_game_types():
     ), 200
 
 
-@app.route('/api/v1/get_random', methods=['GET'])
+@app.route('/api/v1/get-random', methods=['GET'])
+@require_api_key
 def get_random_game():
     game_type = request.args.get('game_type')
     error_response = return_error_for_wrong_params(game_type)
@@ -59,7 +68,7 @@ def get_random_game():
         return jsonify(error), status_code
     type_ = get_game_to_type_mapping(game_type)
     game = Playground.query.filter_by(type=game_type.lower()).scalar()
-    query = getattr(game, type_)
+    query = getattr(game, type_)  # get query based on game type
     return jsonify(
         {
             game_type: query.order_by(func.random()).limit(1).one().to_dict()
@@ -67,7 +76,8 @@ def get_random_game():
     )
 
 
-@app.route('/api/v1/get', methods=['GET'])
+@app.route('/api/v1/get-by-type', methods=['GET'])
+@require_api_key
 def get_by_type():
     game_type = request.args.get('game_type')
     limit = request.args.get('limit')
@@ -119,9 +129,9 @@ def get_by_type():
         # default's been handled
 
 
-@app.route('/api/v1/suggest', methods=['GET', 'POST'])
+@app.route('/suggest', methods=['GET', 'POST'])
 @login_required
-def suggest_new_game():
+def suggest():
     admin_users = User.query.filter_by(role='admin').all()
     admin_emails = [admin.email for admin in admin_users]
     sender_email = os.getenv('ADMIN_EMAIL_1')
@@ -181,8 +191,8 @@ def register():
         # 🔹 Give an admin role to specific emails
         if new_user.email in [os.getenv('ADMIN_EMAIL_1'), os.getenv('ADMIN_EMAIL_2'),
                               os.getenv('ADMIN_EMAIL_3'), ]:
-            flash('Welcome admin')
             new_user.role = 'admin'
+            flash('Welcome admin')
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('login'))
@@ -199,17 +209,48 @@ def login():
             return redirect(url_for('home'))
         elif not user:
             flash('That email is not registered, please try again with a registered email', )
-            return redirect(url_for('login'))
         elif not check_password_hash(user.password, request.form['password']):
             flash('Incorrect Password')
-            return redirect(url_for('login'))
-
     return render_template('login.html')
 
 
+@login_required
 @app.route('/profile')
 def profile():
+    if not current_user.api_key:
+        for _ in range(3):
+            try:
+                current_user.api_key = get_api_key()
+                db.session.commit()
+                break
+            except IntegrityError:
+                db.session.rollback()
+                with open('error_log.txt', 'a') as f:
+                    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    print(f"[{timestamp}] Failed to create user {current_user.id}'s api key "
+                          f"'cause of Integrity errors", file=f)
+        else:
+            print('Integrity error')
     return render_template('profile.html')
+
+
+@app.route('/update_email', methods=['POST'])
+@login_required
+def update_email():
+    new_email = request.form.get('new_email')  # retrieve the email the user entered
+    if new_email:  # check that new_email is not None
+        # check to see if the email user is trying to change to is already registered
+        existing_user = User.query.filter_by(email=new_email).first()
+        if existing_user:  # if that email already registered
+            if new_email == current_user.email:  # check if it's for the current user
+                flash('Same as current email')
+            else:
+                flash('That email address is already in use.')
+        else:  # if the new email doesn't already exist, change the email
+            current_user.email = new_email
+            db.session.commit()
+            flash('Email updated successfully!')
+    return redirect(url_for('profile'))
 
 
 @app.route('/logout', methods=['GET', 'POST'])

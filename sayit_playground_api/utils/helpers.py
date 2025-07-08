@@ -1,4 +1,8 @@
 from sqlalchemy.sql import func
+import secrets
+from functools import wraps
+from flask import request, jsonify
+from sayit_playground_api.models import User
 
 
 def get_game_to_type_mapping(game_type):
@@ -75,16 +79,36 @@ def get_game_by_type(game, game_type, model_class, category=None, limit=None):
     Returns:
         tuple[dict, int]: A tuple containing the queried game data and HTTP status code 200."""
     query = getattr(game, game_type)
-    if not category and not limit:
-        result = query.all()
-    elif category:
-        result = query.filter(model_class.category == category).all() if not limit \
-            else (query.filter(model_class.category == category).
-                  order_by(func.random()).limit(limit).all())
+    if not category and not limit:  # if user doesn't specify category or limit,
+        result = query.order_by(func.random()).all()  # return all games of that type
+    elif category:  # if they specify category
+        query = query.filter(model_class.category == category)
+        result = query.order_by(func.random()).all() if not limit else query.order_by(func.random()).limit(limit).all()
+        # check if they specify limit as well
     else:
-        result = query.order_by(func.random()).limit(limit).all()
+        result = query.order_by(func.random()).limit(limit).all()  # if no category just limits,
+        # pick at random from any category
     return {
         game_type: [
             q.to_dict() for q in result
         ]
     }, 200
+
+
+def get_api_key():
+    api_key = secrets.token_urlsafe(20)
+    return api_key
+
+
+def require_api_key(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        api_key = request.args.get('api_key')
+        if not api_key:
+            return jsonify({'error': 'Missing API key'}), 401
+        user = User.query.filter_by(api_key=api_key).first()
+        if not user:
+            return jsonify({'error': 'Invalid API key'}), 403
+        return f(*args, **kwargs)
+
+    return decorated

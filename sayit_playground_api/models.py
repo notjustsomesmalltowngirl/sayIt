@@ -97,10 +97,10 @@ class TwoTruthsAndALie(MasterClass):
 
 # class for users to suggest stuff like new games and riddles categories and stuff
 
-class PendingSuggestions(MasterClass):
-    category = None
-    suggestor_id = mapped_column(db.ForeignKey('users.id'))
-    suggestor = db.relationship('User', back_populates='suggestions')
+# class PendingSuggestions(MasterClass):
+#     category = None
+#     suggestor_id = mapped_column(db.ForeignKey('users.id'))
+#     suggestor = db.relationship('User', back_populates='suggestions')
 
 
 class User(UserMixin, db.Model):
@@ -110,4 +110,5 @@ class User(UserMixin, db.Model):
     password = mapped_column(String, nullable=False)
     username = mapped_column(String, nullable=False)
     role = mapped_column(String, default='user', nullable=False)
-    suggestions = db.relationship('PendingSuggestions', back_populates='suggestor')
+    api_key = mapped_column(String, unique=True, nullable=True)
+    # suggestions = db.relationship('PendingSuggestions', back_populates='suggestor')
