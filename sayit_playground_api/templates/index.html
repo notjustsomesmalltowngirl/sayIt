@@ -40,7 +40,7 @@
             </li>
             {% else %}
             <li class="nav__item">
-              <a href="{{url_for('suggest_new_game')}}" class="nav__link"
+              <a href="{{url_for('suggest')}}" class="nav__link"
                 >Suggest</a
               >
             </li>
@@ -48,7 +48,7 @@
               <a href="{{url_for('logout')}}" class="nav__link">Log Out</a>
             </li>
             <li class="nav__item">
-              <a href="{{url_for('profile')}}" class="nav__link active">OH</a>
+              <a href="{{url_for('profile')}}" class="nav__link active">{{current_user.email}}</a>
             </li>
             {% endif %}
           </ul>
@@ -121,7 +121,7 @@
             Join thousands of developers already using SayIt API to power their
             applications
           </p>
-          <a href="{{url_for('suggest_new_game')}}" class="suggestion-cta__btn">Suggest</a>
+          <a href="{{url_for('suggest')}}" class="suggestion-cta__btn">Suggest</a>
         </section>
       </main>
     </div>

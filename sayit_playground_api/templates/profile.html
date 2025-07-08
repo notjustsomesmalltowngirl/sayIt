@@ -23,7 +23,7 @@
       <main class="profile suggestion-card">
         <h1 class="profile__title suggestion-heading">Profile</h1>
         <div class="profile__content">
-          <form class="profile__form">
+          <form class="profile__form" method="post" action="{{url_for('update_email')}}">
             <div class="profile__form-group input-section">
               <label for="email" class="profile__form-label field-label"
                 >Email</label
@@ -31,33 +31,38 @@
               <input
                 type="email"
                 id="email"
+                name="new_email"
                 class="profile__form-input text-field"
                 placeholder="Enter your email"
-                value="olukayodehappiness2006@gmail.com"
+                value="{{current_user.email}}"
               />
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div style="color: #ffb800; font-size: 0.8rem" >{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
               <button type="submit" class="profile__form-button submit-button">
                 Update Email Address
               </button>
             </div>
             <div class="profile__form-group input-section">
-              <label for="Password" class="profile__form-label field-label"
-                >Password</label
-              >
+              <label for="Password" class="profile__form-label field-label">Password</label>
 
               <button type="submit" class="profile__form-button submit-button">
                 Change Password
               </button>
             </div>
             <div class="profile__form-group input-section field-label">
-              <label for="API Key" class="profile__form-label field-label"
-                >API Key</label
-              >
+              <label for="apiKey" class="profile__form-label field-label">API Key</label>
 
               <input
                 type="text"
                 id="apiKey"
                 class="profile__form-input text-field"
-                value="sk-1234567890abcdefg"
+                value="{{current_user.api_key}}"
                 readonly
               />
             </div>
