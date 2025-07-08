@@ -31,15 +31,16 @@ def load_user(user_id):
     return db.session.get(User, user_id)
 
 
+@app.context_processor
+def inject_globals():
+    return dict(current_year=datetime.now().year)
+
+
 # with app.app_context():
 #     db.create_all()
 #     game = Playground.query.filter_by(type='did you know').scalar()
 #     query = getattr(game, game_type)
 #     print(query.order_by(func.random()).limit(1).one().to_dict())
-
-@app.context_processor
-def inject_user():
-    return dict(user=current_user)
 
 
 @app.route('/')
@@ -82,7 +83,7 @@ def get_by_type():
     game_type = request.args.get('game_type')
     limit = request.args.get('limit')
     category = request.args.get('category')
-    error_response = return_error_for_wrong_params(game_type)
+    error_response = return_error_for_wrong_params(game_type, limit)
     if error_response:
         error, status_code = error_response
         return jsonify(error), status_code
@@ -165,12 +166,12 @@ def suggest():
                 server.starttls()
                 server.login(sender_email, sender_password)
                 server.send_message(msg)
-                flash("✅ Suggestion sent successfully!", "success")
+                flash("✅ Suggestion sent successfully!", )
 
         except smtplib.SMTPException as e:
             logging.exception(f"Failed to send suggestion email, {e}")
             print(f"Failed to send suggestion email, {e}")
-            flash("❌ Failed to send suggestion. Please try again later.", "danger")
+            flash("❌ Failed to send suggestion. Please try again later.", )
         else:
             return redirect(url_for('home'))
     return render_template('suggestions.html')
@@ -214,8 +215,8 @@ def login():
     return render_template('login.html')
 
 
-@login_required
 @app.route('/profile')
+@login_required
 def profile():
     if not current_user.api_key:
         for _ in range(3):
@@ -223,6 +224,7 @@ def profile():
                 current_user.api_key = get_api_key()
                 db.session.commit()
                 break
+            # except get_api_key() returns one it has returned before, since that is marked as unique
             except IntegrityError:
                 db.session.rollback()
                 with open('error_log.txt', 'a') as f:
@@ -236,21 +238,42 @@ def profile():
 
 @app.route('/update_email', methods=['POST'])
 @login_required
-def update_email():
+def update_profile():
     new_email = request.form.get('new_email')  # retrieve the email the user entered
-    if new_email:  # check that new_email is not None
-        # check to see if the email user is trying to change to is already registered
-        existing_user = User.query.filter_by(email=new_email).first()
-        if existing_user:  # if that email already registered
-            if new_email == current_user.email:  # check if it's for the current user
-                flash('Same as current email')
-            else:
-                flash('That email address is already in use.')
-        else:  # if the new email doesn't already exist, change the email
-            current_user.email = new_email
+    new_password = request.form.get('new_password')
+    if 'update_email' in request.form:
+        if new_email:  # check that new_email is not None
+            # check to see if the email user is trying to change to is already registered
+            existing_user = User.query.filter_by(email=new_email).first()
+            if existing_user:  # if that email already registered
+                if new_email == current_user.email:  # check if it's for the current user
+                    flash('Same as current email')
+                else:
+                    flash('That email address is already in use.')
+            else:  # if the new email doesn't already exist, change the email
+                current_user.email = new_email
+                db.session.commit()
+                flash('Email updated successfully!')
+    elif 'update_password' in request.form:
+        if not check_password_hash(current_user.password, new_password):
+            current_user.password = generate_password_hash(new_password)
             db.session.commit()
-            flash('Email updated successfully!')
+            flash('password changed successfully')
+        else:
+            flash('Same as previous password.')
     return redirect(url_for('profile'))
+
+
+@app.route('/docs')
+def docs_page():
+    if current_user.is_authenticated and current_user.api_key:
+        api_key = current_user.api_key
+    else:
+        api_key = 'API_KEY'
+    return render_template('documentation.html', api_key=api_key,
+                           valid_types=['did you know, ', 'hypotheticals, ', 'hot takes, ', 'never have i ever, ',
+                                        'would you rather, ',
+                                        'story builder, ', 'riddles, ', 'two truths and a lie'])
 
 
 @app.route('/logout', methods=['GET', 'POST'])
