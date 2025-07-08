@@ -59,7 +59,7 @@
   // margin-block: var(--space-lg) var(--space-sm);
   margin-block-end: var(--space-sm);
   line-height: 1.2;
-  text-align: center;
+  text-align: left;
   background: linear-gradient(
     45deg,
     var(--quaternary-light),
@@ -77,7 +77,7 @@
 }
 .documentation__subtitle {
   font-size: 1.2rem;
-  text-align: center;
+  text-align: left;
   // margin-block-end: var(--space-md);
   color: var(--text-secondary);
   color: #c7a5b0;

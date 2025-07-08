@@ -10,10 +10,10 @@
       rel="stylesheet"
     />
     <link
-    rel="icon"
-    type="image/png"
-    href="../../static/sayIt-logos/logo-mono.png"
-  />
+      rel="icon"
+      type="image/png"
+      href="../../static/sayIt-logos/logo-mono.png"
+    />
     <link rel="stylesheet" href="../static/styles/main.css" />
 
     <title>sayIt playground API | Sign Up Form</title>
@@ -22,11 +22,18 @@
   <body>
     <div class="form-container">
       <div class="auth">
-        <form id="register-form" class="auth__form auth__form--register" action="{{url_for('register')}}" method="post">
+        <form
+          id="register-form"
+          class="auth__form auth__form--register"
+          action="{{url_for('register')}}"
+          method="post"
+        >
           <h2 class="auth__title">Register</h2>
 
           <div class="form-group">
-            <label for="register-username" class="form-group__label">Username</label>
+            <label for="register-username" class="form-group__label"
+              >Username</label
+            >
             <input
               type="text"
               name="username"
@@ -62,15 +69,13 @@
               required
             />
           </div>
-         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-              <ul>
-                {% for message in messages %}
-                  <li>{{ message }}</li>
-                {% endfor %}
-              </ul>
-            {% endif %}
-          {% endwith %}
+          {% with messages = get_flashed_messages() %} {% if messages %}
+          <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %} {% endwith %}
           <button type="submit" class="auth__submit-btn">Register</button>
 
           <p class="auth__switch">

@@ -23,48 +23,54 @@
     <title>sayIt API | Suggestion form</title>
   </head>
   <body>
-    <div class="suggestion-wrapper">
-      <div class="suggestion-card">
+    <div class="suggestion-wrapper form-container">
+      <div class="suggestion-card auth">
         <form
           id="feature-form"
-          class="suggestion-form"
+          class="suggestion-form auth__form"
           method="post"
           action="{{url_for('suggest_new_game')}}"
         >
-          <h3 class="suggestion-heading">API Feature Suggestions</h3>
+          <h3 class="suggestion-heading auth__title">
+            API Feature Suggestions
+          </h3>
           <h5 class="suggestion-description">
             Help us improve our API by sharing your ideas and feature requests
           </h5>
 
-          <div class="input-section">
-            <label for="feature-title" class="field-label"
+          <div class="input-section form-group">
+            <label for="feature-title" class="field-label form-group__label"
               >Feature Title *</label
             >
             <input
               type="text"
               name="title"
               id="feature-title"
-              class="text-field"
+              class="text-field form-group__input"
               placeholder="Brief description of your suggestion"
               required
             />
           </div>
 
-          <div class="input-section">
-            <label for="feature-description" class="field-label"
+          <div class="input-section form-group">
+            <label
+              for="feature-description"
+              class="field-label form-group__label"
               >Detailed Description *</label
             >
             <textarea
               id="feature-description"
-              class="textarea-field"
+              class="textarea-field form-group__input"
               name="description"
               placeholder="Describe the feature in detail. What problem would it solve? How would it work? Include any specific use cases..."
               required
             ></textarea>
           </div>
 
-          <div class="input-section">
-            <label for="feature-category" class="field-label">Category</label>
+          <div class="input-section form-group">
+            <label for="feature-category" class="field-label form-group__label"
+              >Category</label
+            >
             <select
               id="feature-category"
               name="feature-category"
@@ -82,24 +88,27 @@
             </select>
           </div>
 
-          <div class="input-section">
-            <label for="use-case-example" class="field-label"
+          <div class="input-section form-group">
+            <label for="use-case-example" class="field-label form-group__label"
               >Use Case Example</label
             >
             <textarea
               id="use-case-example"
-              class="textarea-field"
+              class="textarea-field form-group__input"
               name="use_case_example"
               placeholder="Optional: Provide a specific example of how you would use this feature"
             ></textarea>
           </div>
 
-          <button type="submit" class="submit-button">Submit Suggestion</button>
-          <p class="profile__cta auth__switch">
+          <button type="submit" class="auth__submit-btn">
+            Submit Suggestion
+          </button>
+          <p class="auth__switch">
             Are you a developer with ideas to enhance our platform?
             <a
               href="https://github.com/notjustsomesmalltowngirl/sayIt.git"
-              class="profile__cta-link auth__link"
+              class="auth__link"
+              target="_blank"
               >Contribute to our codebase
             </a>
             and help us build something amazing together.
