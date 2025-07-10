@@ -111,6 +111,21 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
+  background-attachment: fixed;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(2px 2px at 20px 30px, white, transparent), radial-gradient(2px 2px at 40px 70px, white, transparent), radial-gradient(1px 1px at 90px 40px, white, transparent), radial-gradient(1px 1px at 130px 80px, white, transparent), radial-gradient(2px 2px at 160px 30px, white, transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+  opacity: 0.3;
+  z-index: -1;
+  animation: twinkle 8s ease-in-out infinite;
 }
 
 img {
@@ -212,6 +227,24 @@ select {
     opacity: 0;
   }
 }
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
 @keyframes wave {
   0%, 100% {
     transform: rotate(0deg);
@@ -267,18 +300,10 @@ select {
   z-index: 10;
   max-width: 1200px;
   margin-inline: auto;
-  background: var(--glass-ultra-light);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border-radius: var(--radius-3xl);
-  padding: var(--space-2xl);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px var(--shadow-dark), inset 0 1px 0 rgba(255, 255, 255, 0.03);
   animation: slideUp 1s ease-in-out;
 }
 @media (max-width: 480px) {
   .main {
-    padding: var(--space-sm);
     background: none;
     box-shadow: none;
     border: none;
@@ -290,7 +315,19 @@ select {
   text-align: center;
   margin-block-end: var(--space-3xl);
   padding-block-end: var(--space-2xl);
-  border-block-end: 1px solid var(--glass-border);
+}
+.main__anonymous-section::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, var(--darker-gold) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: pulse 4s ease-in-out infinite;
 }
 @media (max-width: 480px) {
   .main__anonymous-section {
@@ -427,6 +464,13 @@ select {
   .features {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
+}
+.features__container {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
 }
 
 .feature {
@@ -763,7 +807,7 @@ select {
 
 .btn {
   position: relative;
-  padding: var(--space-sm) var(--space-lg);
+  padding: var(--space-xs) var(--space-lg);
   font-size: 1.1rem;
   font-weight: 700;
   overflow: hidden;

@@ -6,18 +6,18 @@
   z-index: 10;
   max-width: 1200px;
   margin-inline: auto;
-  background: var(--glass-ultra-light);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border-radius: var(--radius-3xl);
-  padding: var(--space-2xl);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px var(--shadow-dark),
-    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  // background: var(--glass-ultra-light);
+  // backdrop-filter: blur(25px);
+  // -webkit-backdrop-filter: blur(25px);
+  // border-radius: var(--radius-3xl);
+  // padding: var(--space-2xl);
+  // border: 1px solid var(--glass-border);
+  // box-shadow: 0 8px 32px var(--shadow-dark),
+  // inset 0 1px 0 rgba(255, 255, 255, 0.03);
   animation: slideUp 1s ease-in-out;
 
   @include mixins.mobile {
-    padding: var(--space-sm);
+    // padding: var(--space-sm);
     background: none;
     box-shadow: none;
     border: none;
@@ -29,7 +29,26 @@
     text-align: center;
     margin-block-end: var(--space-3xl);
     padding-block-end: var(--space-2xl);
-    border-block-end: 1px solid var(--glass-border);
+    // border-block-end: 1px solid var(--glass-border);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 200px;
+      background: radial-gradient(
+        ellipse at center,
+        var(--darker-gold) 0%,
+        transparent 70%
+      );
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
     @include mixins.mobile {
       margin-block-end: var(--space-2xl);
       padding-block-end: var(--space-lg);
