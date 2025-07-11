@@ -14,12 +14,16 @@ class User(db.Model):
     is_admin = mapped_column(Boolean, default=False)
     remarks = relationship('Remark', back_populates='user')
 
-    # TODO: will add an is_admin attr here for happi and me
     def __repr__(self):
         return f'{self.__class__.__name__}(id= {self.id}, username={self.username})'
 
 
-#
+class Post(db.Model):
+    __tablename__ = 'posts'
+    id = mapped_column(Integer, primary_key=True)
+    text = mapped_column(String, nullable=False)
+
+
 class NewsItem(db.Model):  # topics that would be commented upon
     __tablename__ = 'newsitems'
     id = mapped_column(Integer, primary_key=True)
@@ -55,4 +59,3 @@ class Remark(db.Model):
 
     def __repr__(self):
         return f'{self.__class__.__name__}(id= {self.id},)'
-
