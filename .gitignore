@@ -11,6 +11,4 @@ instance/
 *.sqlite3
 do_stuff.py
 .vscode/
-sayit_playground_api/.env
-sayit_playground_api/instance
-sayit_playground_api/games
+venv/

@@ -8,7 +8,6 @@ from requests.exceptions import ConnectionError, Timeout, RequestException
 
 from flask import Flask, render_template, url_for, session, redirect, request
 from flask_session import Session
-from flask_caching import Cache
 from dotenv import load_dotenv
 from helper_functions import get_username
 from models import db, User, NewsItem, Remark
@@ -79,7 +78,7 @@ def home():
 
 @app.route('/chatroom')
 def goto_chatroom():
-    return render_template('chatroom_with_jinja.html')
+    return render_template('chatroom.html')
 
 
 @app.route('/playground')
@@ -164,17 +163,20 @@ def fetch_article(category):
 @app.route('/discussions/<category>', methods=['GET', 'POST'])
 def goto_category(category):
     article_data = fetch_article(category)
+    # getting the latest news item in my db so i can check for comments based on category
+
     news_item = NewsItem.query.filter_by(type=category).order_by(NewsItem.published_at.desc()).first()
+    # get all the user's remarks in descending order of who commented
+    all_remarks = Remark.query.filter_by(news_item_id=news_item.id).order_by(Remark.id.desc()).all()
     if request.method == 'POST':
         comment = request.form.get('comment')
-
         current_user = User.query.filter_by(username=session['username']).one()
-
         new_comment = Remark(content=comment, user=current_user, news_item=news_item)
         db.session.add(new_comment)
         db.session.commit()
+        return redirect(url_for('goto_category', category=category))  # to fix the re-commenting issue on reload
     return render_template('discussions.html', article=article_data,
-                           active_category=category, all_remarks=news_item.remarks if news_item else None)
+                           active_category=category, all_remarks=all_remarks)
 
 
 if __name__ == "__main__":
