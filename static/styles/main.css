@@ -161,6 +161,119 @@ select {
   font-family: "Oswald", sans-serif;
 }
 
+:root {
+  /* Ice cream colors - adjusted for dark theme */
+  --strawberry: #ff8a95;
+  --vanilla: #ffd1a3;
+  --lemon: #fff59d;
+  --mint: #a8e6cf;
+  --blueberry: #87ceeb;
+  --lavender: #dda0dd;
+  --bubblegum: #ffb3e6;
+  /* Dark theme colors */
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-tertiary: #0f3460;
+  --text-primary: #e8e8e8;
+  --text-secondary: #b8b8b8;
+  --text-muted: #888888;
+  /* Glass effects for dark theme */
+  --glass-dark: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: rgba(0, 0, 0, 0.3);
+}
+
+.floating-circles {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  pointer-events: none;
+}
+
+.circle {
+  opacity: 0.2;
+  position: absolute;
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+.circle:first-child {
+  width: 130px;
+  height: 130px;
+  background: radial-gradient(ellipse at center, var(--strawberry), transparent, var(--strawberry));
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+.circle:nth-child(2) {
+  right: 70%;
+  bottom: 15%;
+  background: radial-gradient(ellipse at center, var(--mint), transparent, var(--mint));
+  width: 100px;
+  height: 100px;
+  animation-delay: 1s;
+}
+.circle:nth-child(3) {
+  right: 20%;
+  bottom: 70%;
+  background: radial-gradient(ellipse at center, var(--lavender), transparent, var(--lavender));
+  width: 80px;
+  height: 80px;
+  animation-delay: 3s;
+}
+.circle:nth-child(4) {
+  top: 40%;
+  right: 30%;
+  background: radial-gradient(ellipse at center, var(--lemon), transparent, var(--lemon));
+  width: 120px;
+  height: 120px;
+  animation-delay: 2s;
+}
+.circle:nth-child(5) {
+  top: 80%;
+  right: 20%;
+  background: radial-gradient(ellipse at center, var(--bubblegum), transparent, var(--bubblegum));
+  width: 120px;
+  height: 120px;
+  animation-delay: 3s;
+}
+
+.chat__container--playful {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+  color: var(--text-primary);
+  overflow: hidden;
+  font-family: "Fredoka", cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: var(--space-md);
+  margin-inline: auto;
+  z-index: -1;
+}
+.chat__container--playful .join-chat--playful {
+  font-family: "Comfortaa", cursive;
+}
+
+.chat--playful {
+  flex: 1;
+  background: var(--glass-dark);
+  -webkit-backdrop-filter: blur(20px);
+          backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 25px;
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
 @keyframes float {
   0%, 100% {
     transform: translateY(0px) translateX(0px) rotate(0deg);
@@ -886,28 +999,6 @@ select {
   .mood__option-buttons {
     grid-template-columns: 1fr;
   }
-}
-
-:root {
-  /* Ice cream colors - adjusted for dark theme */
-  --strawberry: #ff8a95;
-  --vanilla: #ffd1a3;
-  --lemon: #fff59d;
-  --mint: #a8e6cf;
-  --blueberry: #87ceeb;
-  --lavender: #dda0dd;
-  --bubblegum: #ffb3e6;
-  /* Dark theme colors */
-  --bg-primary: #1a1a2e;
-  --bg-secondary: #16213e;
-  --bg-tertiary: #0f3460;
-  --text-primary: #e8e8e8;
-  --text-secondary: #b8b8b8;
-  --text-muted: #888888;
-  /* Glass effects for dark theme */
-  --glass-dark: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-shadow: rgba(0, 0, 0, 0.3);
 }
 
 .btn {
