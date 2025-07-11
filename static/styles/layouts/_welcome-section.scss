@@ -15,6 +15,21 @@
   animation: slideUp 0.8s ease-out;
   transition: all 0.3s ease;
 
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--main-gold),
+      transparent
+    );
+  }
+
   &:hover {
     transform: translateY(-5px);
     border-color: var(--glass-border-hover);
@@ -62,9 +77,9 @@
   @include mixins.tablet {
     padding: var(--space-sm);
   }
-  @include mixins.mobile {
-    padding: var(--space-xs);
-  }
+  // @include mixins.mobile {
+  //   padding: var(--space-xs);
+  // }
 }
 .hero-image {
   font-size: 4rem;

@@ -4,6 +4,7 @@
   min-height: 100vh;
   padding: var(--space-lg);
   margin-inline: auto;
+  // background-attachment: fixed;
 
   @include mixins.tablet {
     padding: var(--space-md);
