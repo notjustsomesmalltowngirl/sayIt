@@ -6,6 +6,7 @@
   z-index: 10;
   max-width: 1200px;
   margin-inline: auto;
+  text-align: left;
   // background: var(--glass-ultra-light);
   // backdrop-filter: blur(25px);
   // -webkit-backdrop-filter: blur(25px);
@@ -26,6 +27,8 @@
   }
 
   &__anonymous-section {
+    display: flex;
+    flex-direction: column;
     text-align: center;
     margin-block-end: var(--space-3xl);
     padding-block-end: var(--space-2xl);
@@ -61,6 +64,7 @@
   }
   &__title {
     font-size: 3rem;
+    text-align: left;
     color: var(--text-white);
     font-weight: 800;
     line-height: 1.6;
@@ -78,6 +82,8 @@
     }
   }
   &__subtitle {
+    text-align: left;
+
     color: var(--medium-gray);
     line-height: 1.6;
     font-size: 1.2rem;
@@ -90,11 +96,13 @@
     }
   }
   &__description {
+    text-align: left;
+
     font-size: 1.1rem;
     color: var(--darker-gray);
     margin-block-end: var(--space-lg);
     max-width: 700px;
-    margin-inline: auto;
+    // margin-inline: auto;
     line-height: 1.7;
 
     @include mixins.tablet {

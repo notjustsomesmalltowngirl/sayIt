@@ -12,6 +12,13 @@
       rel="stylesheet"
     />
     <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
       rel="icon"
       type="image/png"
       href="../static/sayIt-logos/logo-mono.png"
@@ -29,7 +36,7 @@
             <!--  {# looping through each category all of which have been injected globally #}-->
             <a
               href="{{ url_for('goto_category', category=cat) }}"
-               class="category {% if cat == active_category %}active{% endif %}"
+              class="category {% if cat == active_category %}active{% endif %}"
               >{{ cat.capitalize() }}</a
             >
             {% endfor %}
@@ -93,12 +100,15 @@
                 >
               </div>
               <div class="message__content">{{ remark.content }}</div>
+              <form action="">
+                <button type="submit"><i class="fa-solid fa-trash"></i></button>
+              </form>
             </div>
             {% endfor %} {% else %}
 
-            <div class="empty-state" hidden>
+            <!-- <div class="empty-state" hidden>
               Be the first to share your thoughts on this story!
-            </div>
+            </div> -->
           </div>
           {% endif %}
         </section>
@@ -106,5 +116,4 @@
       </div>
     </div>
   </body>
-
 </html>

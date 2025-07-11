@@ -33,7 +33,10 @@
   }
 }
 .btn.cta-button {
-  display: inline-block;
+  // display: inline-block;
+  // flex-grow: 0;
+  // flex-basis: auto;
+  align-self: flex-start;
   border-radius: var(--radius-full);
   background: linear-gradient(135deg, var(--main-gold), var(--main-purple));
   color: var(--deep-black-purple);

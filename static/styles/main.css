@@ -299,6 +299,7 @@ select {
   z-index: 10;
   max-width: 1200px;
   margin-inline: auto;
+  text-align: left;
   animation: slideUp 1s ease-in-out;
 }
 @media (max-width: 480px) {
@@ -311,6 +312,8 @@ select {
   }
 }
 .main__anonymous-section {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   margin-block-end: var(--space-3xl);
   padding-block-end: var(--space-2xl);
@@ -341,6 +344,7 @@ select {
 }
 .main__title {
   font-size: 3rem;
+  text-align: left;
   color: var(--text-white);
   font-weight: 800;
   line-height: 1.6;
@@ -359,6 +363,7 @@ select {
   }
 }
 .main__subtitle {
+  text-align: left;
   color: var(--medium-gray);
   line-height: 1.6;
   font-size: 1.2rem;
@@ -375,11 +380,11 @@ select {
   }
 }
 .main__description {
+  text-align: left;
   font-size: 1.1rem;
   color: var(--darker-gray);
   margin-block-end: var(--space-lg);
   max-width: 700px;
-  margin-inline: auto;
   line-height: 1.7;
 }
 @media (max-width: 780px) {
@@ -768,6 +773,7 @@ select {
 }
 
 .message {
+  position: relative;
   cursor: pointer;
   background: rgba(61, 44, 99, 0.5);
   margin-block-end: var(--space-md);
@@ -799,6 +805,18 @@ select {
 }
 .message__content {
   font-size: 0.9rem;
+}
+.message form button i {
+  position: absolute;
+  right: 3%;
+  bottom: 15%;
+  color: var(--darker-gray);
+  transition: all 300ms ease;
+}
+.message form button i:hover {
+  color: var(--main-gold);
+  transform: translateY(-3px);
+  transform: rotate(360deg);
 }
 
 .empty-state {
@@ -897,7 +915,7 @@ select {
 }
 
 .btn.cta-button {
-  display: inline-block;
+  align-self: flex-start;
   border-radius: var(--radius-full);
   background: linear-gradient(135deg, var(--main-gold), var(--main-purple));
   color: var(--deep-black-purple);
