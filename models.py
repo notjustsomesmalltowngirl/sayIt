@@ -42,12 +42,6 @@ class NewsItem(db.Model):  # topics that would be commented upon
 
 class Remark(db.Model):
     __tablename__ = 'remarks'
-
-    # has one news item is from one user
-    # @staticmethod
-    # def utcnow():
-    #     return datetime.now(timezone.utc)
-
     id = mapped_column(Integer, primary_key=True)
     content = mapped_column(String, nullable=False)
     user_id = mapped_column(String, ForeignKey('users.id', ondelete='RESTRICT'), nullable=False)

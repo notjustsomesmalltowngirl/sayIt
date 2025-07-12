@@ -78,7 +78,9 @@ def home():
 
 @app.route('/chatroom')
 def goto_chatroom():
-    return render_template('chatroom-moods.html')
+    return render_template('chatroom-moods.html', moods={'goofy': '😜',
+                                                         'chill': '🌊', 'meh': '😐',
+                                                         'nosy': '🧐', 'bored': '🥱', })
 
 
 @app.route('/playground')
@@ -183,7 +185,6 @@ def goto_category(category):
 def delete_comment(remark_id):
     comment = Remark.query.filter_by(id=remark_id).one()
     news_category = comment.news_item.type
-    print(news_category)
     db.session.delete(comment)
     db.session.commit()
     return redirect(url_for('goto_category', category=news_category))

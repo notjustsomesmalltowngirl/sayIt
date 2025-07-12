@@ -39,21 +39,11 @@
         </p>
         <section class="mood__options">
           <ul class="mood__option-buttons">
+            {% for mood, emoji in moods.items() %}
             <li>
-              <a href="#" class="mood__btn" data-mood="energetic">😜 Goofy</a>
+              <a href="#" class="mood__btn">{{ emoji }} {{mood}}</a>
             </li>
-            <li>
-              <a href="#" class="mood__btn" data-mood="chill">🌊 Chill</a>
-            </li>
-            <li>
-              <a href="#" class="mood__btn" data-mood="creative">😐 Meh</a>
-            </li>
-            <li>
-              <a href="#" class="mood__btn" data-mood="curious">🧐 Nosy</a>
-            </li>
-            <li>
-              <a href="#" class="mood__btn" data-mood="focused">🥱 Bored</a>
-            </li>
+            {% endfor %}
           </ul>
         </section>
         <a href="#" class="continue-btn btn">Continue to Chat</a>
