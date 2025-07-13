@@ -4,7 +4,7 @@ from datetime import datetime
 def timeago(dt):
     seconds = int((datetime.now() - dt).total_seconds())
     if seconds < 1:
-        return "Just now"
+        return "Now"
     elif seconds < 60:
         return f"{seconds}s"
     elif seconds < 3600:

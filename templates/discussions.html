@@ -71,9 +71,8 @@
           <h2 class="discussions__cta">Join the discussion</h2>
 
           <form
-            action="{{ url_for('goto_category', category=active_category) }}"
             class="chat-form"
-            method="post"
+            id="chat-form"
           >
             <label for="message" class="input-label"
               >What are your thoughts?</label
@@ -81,6 +80,7 @@
             <textarea
               type="text"
               class="chat-input"
+              id="chat-content"
               name="comment"
               placeholder="Share your thoughts and join the conversation..."
               required
@@ -89,9 +89,9 @@
           </form>
           {% if all_remarks %}
 
-          <div class="chat-messages">
+          <div class="chat-messages" id="messages-container">
             {% for remark in all_remarks %}
-            <div class="message">
+            <div class="message" data-id="{{remark.id}}">
               <div class="message__header">
                 <span class="message__author">{{remark.user.username}}</span>
 
@@ -100,9 +100,11 @@
                 >
               </div>
               <div class="message__content">{{ remark.content }}</div>
-              <form action="{{url_for('delete_comment', remark_id=remark.id)}}" method="post">
-                <button type="submit" name="delete"><i class="fa-solid fa-trash"></i></button>
-              </form>
+           {% if remark.user == current_user %}
+            <button class="delete-button" data-id="{{remark.id}}" data-category="{{active_category}}">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            {% endif %}
             </div>
             {% endfor %} {% else %}
 
@@ -115,5 +117,99 @@
         {% endif %}
       </div>
     </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+
+<script type="text/javascript" charset="utf-8">
+  // Connect to Socket.IO server
+var socket = io();
+
+// Get references to DOM elements we’ll work with
+const form = document.getElementById('chat-form');               // The chat form
+const input = document.getElementById('chat-content');           // The chat input field
+const messages_container = document.getElementById('messages-container'); // Where messages appear
+const category = "{{ active_category }}";                        // Current news category (injected by Jinja)
+
+// Listen for new comments broadcast from the server
+socket.on('new news comment', function (data) {
+    // Only show comments if they belong to the current category
+    if (data.category !== category) return;
+
+    // Create a new message div
+    const message_div = document.createElement('div');
+    message_div.classList.add('message');
+    message_div.setAttribute('data-id', data.remark_id); // store remark id as data attribute
+
+    // Build HTML for the message
+    let html = `
+        <div class="message__header">
+            <span class="message__author">${data.username}</span>
+            <span class="message__time">${data.timeago}</span>
+        </div>
+        <div class="message__content">${data.content}</div>
+    `;
+
+    // Add delete button if the current user is the author of the comment
+    const current_user_username = "{{ current_user.username }}";
+    if (data.username === current_user_username) {
+        html += `
+        <button class="delete-button" data-id="${data.remark_id}" data-category="${data.category}">
+            <i class="fa-solid fa-trash"></i>
+        </button>
+        `;
+    }
+
+    // Insert the message HTML into the div
+    message_div.innerHTML = html;
+
+    // Add the new message at the top of the container
+    messages_container.prepend(message_div);
+});
+
+
+// Listen for form submission: user sends a new comment
+form.addEventListener('submit', function (e) {
+    e.preventDefault(); // Prevent normal form submission
+
+    const content = input.value.trim(); // Get text
+    if (!content) return; // Do nothing if empty
+
+    // Send the new comment to the server
+    socket.emit('new news comment', {
+        content: content,
+        category: category
+    });
+
+    input.value = ''; // Clear input
+});
+
+
+// Listen for click events on delete buttons (event delegation)
+document.addEventListener('click', function (e) {
+    if (e.target.closest('.delete-button')) {
+        const button = e.target.closest('.delete-button');
+        const remarkId = button.dataset.id;
+        const category = button.dataset.category;
+
+        // Tell server to delete the comment
+        socket.emit('delete news comment', {
+            remark_id: remarkId,
+        });
+    }
+});
+
+
+// Listen for deletion events broadcast from server
+socket.on('news comment deleted', function (data) {
+    // Only delete if the comment is in the current category
+    if (data.category !== category) return;
+
+    // Find and remove the message element
+    const messageEl = document.querySelector(`[data-id="${data.remark_id}"]`);
+    if (messageEl) {
+        messageEl.remove();
+    }
+});
+
+</script>
   </body>
 </html>

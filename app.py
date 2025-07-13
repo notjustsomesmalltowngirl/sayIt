@@ -5,8 +5,8 @@ from filters import timeago
 
 import requests
 from requests.exceptions import ConnectionError, Timeout, RequestException
-
 from flask import Flask, render_template, url_for, session, redirect, request
+from flask_socketio import SocketIO
 from flask_session import Session
 from dotenv import load_dotenv
 from helper_functions import get_username
@@ -16,17 +16,14 @@ from sqlalchemy.exc import IntegrityError
 load_dotenv()
 app = Flask(__name__)
 app.add_template_filter(timeago, name='timeago')
-# app.secret_key = os.getenv('SECRET_KEY')
+app.secret_key = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
 db.init_app(app)
 app.config['SESSION_PERMANENT'] = True
 app.permanent_session_lifetime = timedelta(days=366)
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
-
-# app.config['CACHE_TYPE'] = 'SimpleCache'
-# app.config['CACHE_DEFAULT_TIMEOUT'] = 300  # 5 minutes
-# cache = Cache(app)
+socketio_ = SocketIO(app)
 
 with app.app_context():
     db.create_all()
@@ -55,12 +52,18 @@ def assign_username():
 
 @app.context_processor
 def inject_globals():
+    username = session.get('username')
+    current_user = None
+    if username:
+        current_user = User.query.filter_by(username=username).one_or_none()
     return dict(assign_username=assign_username,
-                categories=['general', 'business', 'sports', 'entertainment', 'health', 'technology', ])
+                categories=['general', 'business', 'sports', 'entertainment', 'health', 'technology', ],
+                current_user=current_user)
 
 
 @app.route('/')
 def home():
+    print(session)
     username = session.get('username', None)
     greetings = [
         'Hi', 'Hello', 'Welcome', 'Hey', 'Hi there', 'Yo!', "So glad you're here", 'What up!',
@@ -170,25 +173,47 @@ def goto_category(category):
     news_item = NewsItem.query.filter_by(type=category).order_by(NewsItem.published_at.desc()).first()
     # get all the user's remarks in descending order of who commented
     all_remarks = Remark.query.filter_by(news_item_id=news_item.id).order_by(Remark.id.desc()).all()
-    if request.method == 'POST':
-        comment = request.form.get('comment')
-        current_user = User.query.filter_by(username=session['username']).one()
-        new_comment = Remark(content=comment, user=current_user, news_item=news_item)
-        db.session.add(new_comment)
-        db.session.commit()
-        return redirect(url_for('goto_category', category=category))  # to fix the re-commenting issue on reload
     return render_template('discussions.html', article=article_data,
                            active_category=category, all_remarks=all_remarks)
 
 
-@app.route('/delete/<int:remark_id>', methods=['POST'])
-def delete_comment(remark_id):
-    comment = Remark.query.filter_by(id=remark_id).one()
+@socketio_.on('new news comment')
+def handle_news_comment(data):
+    comment = data['content']
+    category = data['category']
+    news_item = NewsItem.query.filter_by(type=category).order_by(NewsItem.published_at.desc()).first()
+    current_user = User.query.filter_by(username=session['username']).one()
+    new_comment = Remark(content=comment, user=current_user, news_item=news_item)
+    db.session.add(new_comment)
+    db.session.commit()
+
+    socketio_.emit('new news comment', {
+        'username': current_user.username,
+        'content': new_comment.content,
+        'timeago': timeago(new_comment.created_at),
+        'category': category,
+        'remark_id': new_comment.id,
+    })
+
+
+
+@socketio_.on('delete news comment')
+def handle_delete_comment(data):
+    remark_id = data['remark_id']
+    comment = Remark.query.filter_by(id=remark_id).one_or_none()
+    if not comment:
+        return
+
     news_category = comment.news_item.type
     db.session.delete(comment)
     db.session.commit()
-    return redirect(url_for('goto_category', category=news_category))
+    socketio_.emit('news comment deleted', {
+        'remark_id': remark_id,
+        'category': news_category,
+
+    })
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio_.run(app, debug=True,
+                  use_reloader=True, log_output=True, allow_unsafe_werkzeug=True)
