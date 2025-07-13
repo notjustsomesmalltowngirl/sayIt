@@ -162,3 +162,25 @@
     transform: scale(1);
   }
 }
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(45deg);
+  }
+  25% {
+    transform: rotate(55deg);
+  }
+  75% {
+    transform: rotate(35deg);
+  }
+}

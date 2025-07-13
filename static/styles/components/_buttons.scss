@@ -190,3 +190,19 @@
   padding-block: var(--space-xs);
   border-radius: 12px;
 }
+.send-btn--playful {
+  background: linear-gradient(45deg, var(--strawberry), var(--bubblegum));
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  color: var(--bg-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 300ms ease-in;
+  box-shadow: 0 5px 20px rgba(255, 138, 149, 0.4);
+
+  &:hover {
+    box-shadow: 0 8px 30px rgba(255, 138, 149, 0.6);
+    transform: scale(1.1) rotate(5deg);
+  }
+}

@@ -5,6 +5,7 @@
 @use "../styles/base/base";
 @use "../styles/base/discussions-base";
 
+@use "../styles/layouts/chatroom-main";
 @use "../styles/layouts/hero";
 @use "../styles/layouts/features";
 @use "../styles/layouts/welcome-section";
@@ -12,7 +13,6 @@
 @use "../styles/layouts/categories";
 @use "../styles/layouts/comments-section";
 @use "../styles/layouts/chatroom-moods";
-@use "../styles/layouts/chatroom-main";
 
 @use "../styles/components/buttons";
 @use "../styles/components/forms";
