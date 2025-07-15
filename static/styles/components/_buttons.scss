@@ -206,3 +206,17 @@
     transform: scale(1.1) rotate(5deg);
   }
 }
+.delete-button {
+  i {
+    position: absolute;
+    right: 3%;
+    bottom: 15%;
+    color: var(--darker-gray);
+    transition: all 300ms ease;
+    &:hover {
+      color: var(--main-gold);
+      transform: translateY(-3px);
+      transform: rotate(360deg);
+    }
+  }
+}

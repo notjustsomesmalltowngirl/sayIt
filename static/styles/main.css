@@ -366,23 +366,36 @@ select {
   transform: rotate(-1deg);
   background: linear-gradient(135deg, var(--strawberry), rgba(255, 138, 149, 0.8));
 }
+.chat__message--playful:nth-child(odd) .chat__message-bubble--playful .chat__username--playful,
 .chat__message--playful:nth-child(odd) .chat__message-bubble--playful .timestamp--playful {
-  color: var(--bg-primary);
+  color: var(--text-primary);
 }
 .chat__message--playful:nth-child(even) .chat__message-bubble--playful {
   border-radius: 20px 40px 50px 15px;
   transform: rotate(1deg);
   background: linear-gradient(135deg, var(--mint), rgba(168, 230, 207, 0.8));
 }
+.chat__message--playful:nth-child(even) .chat__message-bubble--playful .chat__username--playful,
+.chat__message--playful:nth-child(even) .chat__message-bubble--playful .timestamp--playful {
+  color: var(--text-muted--playful);
+}
 .chat__message--playful:nth-child(3n+1) .chat__message-bubble--playful {
   border-radius: 60px 20px 40px 30px;
   transform: rotate(-2deg);
   background: linear-gradient(135deg, var(--lavender), rgba(221, 160, 221, 0.8));
 }
+.chat__message--playful:nth-child(3n+1) .chat__message-bubble--playful .chat__username--playful,
+.chat__message--playful:nth-child(3n+1) .chat__message-bubble--playful .timestamp--playful {
+  color: var(--text-primary);
+}
 .chat__message--playful:nth-child(4n-2) .chat__message-bubble--playful {
   border-radius: 15px 45px 25px 55px;
   transform: rotate(1.5deg);
   background: linear-gradient(135deg, var(--lemon), rgba(255, 245, 157, 0.8));
+}
+.chat__message--playful:nth-child(4n-2) .chat__message-bubble--playful .chat__username--playful,
+.chat__message--playful:nth-child(4n-2) .chat__message-bubble--playful .timestamp--playful {
+  color: var(--bg-tertiary);
 }
 .chat__message--playful:nth-child(5n+3) .chat__message-bubble--playful {
   border-radius: 40px 15px 50px 20px;
@@ -396,6 +409,8 @@ select {
   color: var(--bg-primary);
 }
 .chat__message-bubble--playful {
+  min-width: 25%;
+  text-align: center;
   max-width: 70%;
   position: relative;
   font-size: 1.1rem;
@@ -457,10 +472,18 @@ select {
   border: 2px solid var(--strawberry) !important;
   background: var(--glass-dark) !important;
 }
+.chat__message.own--playful:nth-child(even) .chat__message-bubble--playful .chat__username--playful,
+.chat__message.own--playful:nth-child(even) .chat__message-bubble--playful .timestamp--playful {
+  color: var(--strawberry);
+}
 
 .chat__message.own--playful:nth-child(odd) .chat__message-bubble--playful {
   border: 2px solid var(--blueberry) !important;
   background: var(--glass-dark) !important;
+}
+.chat__message.own--playful:nth-child(odd) .chat__message-bubble--playful .chat__username--playful,
+.chat__message.own--playful:nth-child(odd) .chat__message-bubble--playful .timestamp--playful {
+  color: var(--blueberry);
 }
 
 @media (max-width: 600px) {
@@ -468,6 +491,11 @@ select {
     color: var(--text-primary);
   }
 }
+.chat__username--playful {
+  font-size: 0.7rem;
+  text-align: center;
+}
+
 @keyframes float {
   0%, 100% {
     transform: translateY(0px) translateX(0px) rotate(0deg);
@@ -1084,6 +1112,7 @@ select {
 }
 
 .chat-messages {
+  position: relative;
   max-height: 500px;
   overflow-y: auto;
   padding-inline-end: var(--space-xs);
@@ -1133,18 +1162,6 @@ select {
 }
 .message__content {
   font-size: 0.9rem;
-}
-.message form button i {
-  position: absolute;
-  right: 3%;
-  bottom: 15%;
-  color: var(--darker-gray);
-  transition: all 300ms ease;
-}
-.message form button i:hover {
-  color: var(--main-gold);
-  transform: translateY(-3px);
-  transform: rotate(360deg);
 }
 
 .empty-state {
@@ -1417,6 +1434,19 @@ select {
 .send-btn--playful:hover {
   box-shadow: 0 8px 30px rgba(255, 138, 149, 0.6);
   transform: scale(1.1) rotate(5deg);
+}
+
+.delete-button i {
+  position: absolute;
+  right: 3%;
+  bottom: 15%;
+  color: var(--darker-gray);
+  transition: all 300ms ease;
+}
+.delete-button i:hover {
+  color: var(--main-gold);
+  transform: translateY(-3px);
+  transform: rotate(360deg);
 }
 
 .container {
