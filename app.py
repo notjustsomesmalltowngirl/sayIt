@@ -79,11 +79,16 @@ def home():
 #     return render_template('discussions_with_jinja.html')
 
 
-@app.route('/chatroom')
-def goto_chatroom():
-    return render_template('chatroom-moods.html', moods={'goofy': '😜',
-                                                         'chill': '🌊', 'meh': '😐',
-                                                         'nosy': '🧐', 'bored': '🥱', })
+@app.route('/chatroom-moods')
+def goto_chatroom_moods():
+    return render_template('chatroom-moods.html', moods={'playful': '😜',
+                                                                    'chill': '🌊', 'meh': '😐',
+                                                                    'nosy': '🧐', 'bored': '🥱', })
+
+
+@app.route('/chatroom/<mood>', methods=['GET', 'POST'])
+def goto_chatroom(mood):
+    return render_template('chatroom-main-with-jinja.html', current_mood=mood)
 
 
 @app.route('/playground')
@@ -165,14 +170,16 @@ def fetch_article(category):
     }
 
 
-@app.route('/discussions/<category>', methods=['GET', 'POST'])
+@app.route('/discussions/<category>')
 def goto_category(category):
     article_data = fetch_article(category)
     # getting the latest news item in my db so i can check for comments based on category
 
     news_item = NewsItem.query.filter_by(type=category).order_by(NewsItem.published_at.desc()).first()
     # get all the user's remarks in descending order of who commented
-    all_remarks = Remark.query.filter_by(news_item_id=news_item.id).order_by(Remark.id.desc()).all()
+    all_remarks = None
+    if news_item:
+        all_remarks = Remark.query.filter_by(news_item_id=news_item.id).order_by(Remark.id.desc()).all()
     return render_template('discussions.html', article=article_data,
                            active_category=category, all_remarks=all_remarks)
 
@@ -196,7 +203,6 @@ def handle_news_comment(data):
     })
 
 
-
 @socketio_.on('delete news comment')
 def handle_delete_comment(data):
     remark_id = data['remark_id']
@@ -212,6 +218,11 @@ def handle_delete_comment(data):
         'category': news_category,
 
     })
+
+
+@socketio_.on('new chat')
+def handle_new_chat():
+    ...
 
 
 if __name__ == "__main__":

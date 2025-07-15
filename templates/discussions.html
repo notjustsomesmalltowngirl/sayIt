@@ -128,6 +128,7 @@ const form = document.getElementById('chat-form');               // The chat for
 const input = document.getElementById('chat-content');           // The chat input field
 const messages_container = document.getElementById('messages-container'); // Where messages appear
 const category = "{{ active_category }}";                        // Current news category (injected by Jinja)
+const current_user_username = "{{ current_user.username }}";
 
 // Listen for new comments broadcast from the server
 socket.on('new news comment', function (data) {
@@ -149,7 +150,6 @@ socket.on('new news comment', function (data) {
     `;
 
     // Add delete button if the current user is the author of the comment
-    const current_user_username = "{{ current_user.username }}";
     if (data.username === current_user_username) {
         html += `
         <button class="delete-button" data-id="${data.remark_id}" data-category="${data.category}">

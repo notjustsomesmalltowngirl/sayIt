@@ -41,7 +41,7 @@
           <ul class="mood__option-buttons">
             {% for mood, emoji in moods.items() %}
             <li>
-              <a href="#" class="mood__btn">{{ emoji }} {{mood}}</a>
+              <a href="{{url_for('goto_chatroom', mood=mood)}}" class="mood__btn">{{ emoji }} {{mood}}</a>
             </li>
             {% endfor %}
           </ul>
