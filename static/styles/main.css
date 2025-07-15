@@ -411,7 +411,7 @@ select {
 .chat__message-bubble--playful {
   min-width: 25%;
   text-align: center;
-  max-width: 70%;
+  max-width: 60%;
   position: relative;
   font-size: 1.1rem;
   line-height: 1.4;
@@ -435,7 +435,7 @@ select {
 }
 @media (max-width: 600px) {
   .chat__message-bubble--playful {
-    max-width: 90%;
+    max-width: 82%;
     font-size: 0.9rem;
   }
 }
