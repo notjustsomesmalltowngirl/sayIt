@@ -119,8 +119,16 @@
   font-family: "Fredoka", cursive;
 }
 .chatroom-main--chill-container {
-  background: url(/static/images/masaaki-mood3.jpg) no-repeat center center;
+  background: url(/static/images/maria-ivanova-bsGNNCsedN8-unsplash.jpg)
+    no-repeat center center;
   // chill blue img get that BUG
+  // font-family: "Fraunces", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
+}
+.chatroom-main--meh-container {
+  background: url(/static/images/chris-barbalis-9S4zd-2OKRQ-unsplash.jpg)
+    no-repeat center center;
+  font-family: "DM Sans", sans-serif;
 }
 // playful styles
 .chatroom-main-container {
@@ -381,6 +389,7 @@
       }
     }
   }
+
   &-author {
     display: flex;
     gap: 9px;
@@ -392,7 +401,7 @@
     font-size: 0.7rem;
 
     &--chill {
-      // add color
+      color: var(--text-muted--playful);
     }
   }
   &-bubble {
@@ -503,6 +512,23 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     border: 2px solid var(--strawberry);
   }
+}
+.chat__message-bubble--chill {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: hsla(0, 0%, 53%, 0.3);
+  }
+}
+.chat__message-bubble--meh {
+  border-radius: 20px;
 }
 // general styles
 .own {
