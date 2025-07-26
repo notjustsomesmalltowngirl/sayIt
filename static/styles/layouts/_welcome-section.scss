@@ -77,9 +77,9 @@
   @include mixins.tablet {
     padding: var(--space-sm);
   }
-  // @include mixins.mobile {
-  //   padding: var(--space-xs);
-  // }
+  @include mixins.mobile {
+    padding: var(--space-xs);
+  }
 }
 .hero-image {
   font-size: 4rem;
