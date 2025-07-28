@@ -6,11 +6,11 @@ from filters import timeago
 import requests
 from requests.exceptions import ConnectionError, Timeout, RequestException
 from flask import Flask, render_template, url_for, session, redirect, request
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, join_room, leave_room, send
 from flask_session import Session
 from dotenv import load_dotenv
 from helper_functions import get_username
-from models import db, User, NewsItem, Remark
+from models import db, User, NewsItem, Remark, Chat
 from sqlalchemy.exc import IntegrityError
 
 load_dotenv()
@@ -82,13 +82,68 @@ def home():
 @app.route('/chatroom-moods')
 def goto_chatroom_moods():
     return render_template('chatroom-moods.html', moods={'playful': '😜',
-                                                                    'chill': '🌊', 'meh': '😐',
-                                                                    'nosy': '🧐', 'bored': '🥱', })
+                                                         'chill': '🌊', 'simple': '😐',
+                                                         'hopeful': '🌥️', 'bored': '🥱', })
 
 
-@app.route('/chatroom/<mood>', methods=['GET', 'POST'])
+@app.route('/chatroom/<mood>')
 def goto_chatroom(mood):
-    return render_template('chatroom-main-with-jinja.html', current_mood=mood)
+    all_chats = Chat.query.all()
+    mood_greetings = {'playful': 'lets playyy', 'chill': 'Chill greeting',
+                      'simple': 'simple greeting', 'hopeful': 'nosy greeting', 'bored': 'bored greeting'
+                      }
+    return render_template('chatroom-main-with-jinja.html',
+                           current_mood=mood, all_chats=all_chats, greeting=mood_greetings[mood])
+
+
+@socketio_.on('join_room_event')
+def handle_join(data):
+    username = session['username']
+    room = data['room']
+    join_room(room)
+    send(f"{username} has joined {room} chat!", to=room)
+
+
+@socketio_.on('send_chat')
+def handle_send_chat(data):
+    room = data['room']
+    msg_text = data['text']
+    username = session['username']
+    current_user = User.query.filter_by(username=username).one()
+    new_chat = Chat(text=msg_text, sender=current_user, room=room)
+    db.session.add(new_chat)
+    db.session.commit()
+
+    # Broadcast to everyone in the same mood/room
+    socketio_.emit('new_message', {
+        'username': username,
+        'text': msg_text,
+        'time': datetime.now().strftime("%H:%M"),
+        'id': new_chat.id
+    }, to=room)
+
+
+@socketio_.on('delete_chat')
+def delete_chat(data):
+    chat_id = data['id']
+    room = data['room']
+
+    to_be_deleted = Chat.query.filter_by(id=chat_id).one()
+    db.session.delete(to_be_deleted)
+    db.session.commit()
+
+    # Notify only the room about the deletion
+    socketio_.emit('deleted', {'id': chat_id}, to=room)
+
+
+# @app.route('/chat/<mood>', methods=['POST'])
+# def send_a_chat(mood):
+#     chat_text = request.form.get('chat')
+#     current_user = User.query.filter_by(username=session['username']).one()
+#     new_chat = Chat(text=chat_text, sender=current_user, room=mood)
+#     db.session.add(new_chat)
+#     db.session.commit()
+#     return redirect(url_for('goto_chatroom', mood=mood))
 
 
 @app.route('/playground')

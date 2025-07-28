@@ -2,7 +2,12 @@ import random
 import os
 import requests
 from dotenv import load_dotenv
+from num2words import num2words
+
 load_dotenv()
+for i in range(5):
+    print(num2words(i))
+
 
 def get_username():
     with open('sayIt_usernames.txt', mode='r+', encoding='utf-8') as usernames_file:
@@ -34,10 +39,8 @@ def call_api_based_on_category(category):
             'headline': article['title'],
             'description': article['description'],
             'url': article['url']
-                   }
+        }
     }
     print(mapped)
 # if __name__ == "__main__":
 #     call_api_based_on_category('sports')
-
-

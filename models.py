@@ -22,6 +22,7 @@ class User(db.Model):
 class Chat(db.Model):
     __tablename__ = 'chats'
     id = mapped_column(Integer, primary_key=True)
+    room = mapped_column(String, nullable=False)
     text = mapped_column(String, nullable=False)
     sent_at = mapped_column(DateTime, default=datetime.utcnow)
     sender = relationship('User', back_populates='chats')
