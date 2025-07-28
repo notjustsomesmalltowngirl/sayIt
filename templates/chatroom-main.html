@@ -20,12 +20,19 @@
       type="image/png"
       href="../static/sayIt-logos/logo-mono.png"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+      integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="../static/styles/main.css" />
 
     <title>sayIt | Chatroom Main</title>
   </head>
   <body>
-    <div class="chatroom-main-container chatroom-main--meh-container">
+    <div class="chatroom-main-container chatroom-main--hopeful-container">
       <!-- <div class="floating-cicles">
         <div class="circle"></div>
         <div class="circle"></div>
@@ -33,126 +40,186 @@
         <div class="circle"></div>
         <div class="circle"></div> -->
       <!-- </div> -->
-      <div class="chat__container chat__container--meh">
-        <section class="chat chat--meh">
-          <h1 class="join-chat join-chat--meh">
+      <div class="chat__container chat__container--hopeful">
+        <section class="chat chat--hopeful">
+          <h1 class="join-chat join-chat--hopeful">
             <!-- use flask to change as needed -->
             🎈 A wild chatter appeared! Welcome to the goofy zone! 🎈
           </h1>
 
-          <article class="chat__message chat__message--meh">
-            <p class="chat__message-bubble chat__message-bubble--meh">
+          <article class="chat__message chat__message--hopeful">
+            <p class="chat__message-bubble chat__message-bubble--hopeful">
               Hey there! Ready for some absolutely ridiculous conversations? 😂
-              <span class="chat__message-author chat__message-author--meh">
-                <span class="chat__username chat__username--meh">TinyTim</span>
-                <time class="timestamp timestamp--meh">2:35 PM</time>
+              <span class="chat__message-author chat__message-author--hopeful">
+                <span class="chat__username chat__username--hopeful"
+                  >TinyTim</span
+                >
+                <time class="timestamp timestamp--hopeful">2:35 PM</time>
+              </span>
+              <span class="chat__message-icon chat__message-icon--hopeful">
+                <button
+                  class="chat__message-delete chat__message-delete--hopeful"
+                  type="submit"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+                <button
+                  class="chat__message-edit chat__message-edit--hopeful"
+                  type="submit"
+                >
+                  <i class="fa-solid fa-pen"></i>
+                </button>
               </span>
             </p>
           </article>
 
-          <article class="chat__message chat__message--meh">
-            <p class="chat__message-bubble chat__message-bubble--meh">
+          <article class="chat__message chat__message--hopeful">
+            <p class="chat__message-bubble chat__message-bubble--hopeful">
               I brought my collection of dad jokes! Want to hear one? 🤪
-              <span class="chat__message-author chat__message-author--meh">
-                <span class="chat__username chat__username--meh">TinyTim</span>
-                <time class="timestamp timestamp--meh">2:35 PM</time>
+              <span class="chat__message-author chat__message-author--hopeful">
+                <span class="chat__username chat__username--hopeful"
+                  >TinyTim</span
+                >
+                <time class="timestamp timestamp--hopeful">2:35 PM</time>
               </span>
             </p>
           </article>
-          <article class="chat__message own own--meh chat__message--meh">
-            <p class="chat__message-bubble chat__message-bubble--meh">
+          <article
+            class="chat__message own own--hopeful chat__message--hopeful"
+          >
+            <p
+              class="chat__message-bubble chat__message-bubble--hopeful own--bubble"
+            >
               This is so colorful and fun! I love it! 🌈
-              <span class="chat__message-author chat__message-author--meh">
-                <span class="chat__username chat__username--meh">TinyTim</span>
-                <time class="timestamp timestamp--meh">2:35 PM</time>
+              <span class="chat__message-author chat__message-author--hopeful">
+                <span class="chat__username chat__username--hopeful"
+                  >TinyTim</span
+                >
+                <time class="timestamp timestamp--hopeful">2:35 PM</time>
+              </span>
+              <span class="chat__message-icon chat__message-icon--hopeful">
+                <button
+                  class="chat__message-delete chat__message-delete--hopeful"
+                  type="submit"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+                <button
+                  class="chat__message-edit chat__message-edit--hopeful"
+                  type="submit"
+                >
+                  <i class="fa-solid fa-pen"></i>
+                </button>
               </span>
             </p>
           </article>
-          <article class="chat__message chat__message--meh">
-            <p class="chat__message-bubble chat__message-bubble--meh">
+          <article class="chat__message chat__message--hopeful">
+            <p class="chat__message-bubble chat__message-bubble--hopeful">
               Why don't scientists trust atoms? Because they make up everything!
-              <span class="chat__message-author chat__message-author--meh">
-                <span class="chat__username chat__username--meh">TinyTim</span>
-                <time class="timestamp timestamp--meh">2:35 PM</time>
+              <span class="chat__message-author chat__message-author--hopeful">
+                <span class="chat__username chat__username--hopeful"
+                  >TinyTim</span
+                >
+                <time class="timestamp timestamp--hopeful">2:35 PM</time>
               </span>
             </p>
           </article>
-          <article class="chat__message chat__message--meh">
-            <p class="chat__message-bubble chat__message-bubble--meh">
+          <article class="chat__message chat__message--hopeful">
+            <p class="chat__message-bubble chat__message-bubble--hopeful">
               The color scheme is giving me major ice cream vibes! 🍦🍨
-              <span class="chat__message-author chat__message-author--meh">
-                <span class="chat__username chat__username--meh">TinyTim</span>
-                <time class="timestamp timestamp--meh">2:35 PM</time>
+              <span class="chat__message-author chat__message-author--hopeful">
+                <span class="chat__username chat__username--hopeful"
+                  >TinyTim</span
+                >
+                <time class="timestamp timestamp--hopeful">2:35 PM</time>
               </span>
             </p>
           </article>
-          <article class="chat__message own own--meh chat__message--meh">
-            <p class="chat__message-bubble chat__message-bubble--meh">
+          <article
+            class="chat__message own own--hopeful chat__message--hopeful"
+          >
+            <p
+              class="chat__message-bubble chat__message-bubble--hopeful own--bubble"
+            >
               LOL these bubble shapes are so weird and I love them! 🤣
-              <span class="chat__message-author chat__message-author--meh">
-                <span class="chat__username chat__username--meh">TinyTim</span>
-                <time class="timestamp timestamp--meh">2:35 PM</time>
+              <span class="chat__message-author chat__message-author--hopeful">
+                <span class="chat__username chat__username--hopeful"
+                  >TinyTim</span
+                >
+                <time class="timestamp timestamp--hopeful">2:35 PM</time>
               </span>
             </p>
           </article>
-          <article class="chat__message own own--meh chat__message--meh">
-            <p class="chat__message-bubble chat__message-bubble--meh">
+          <article
+            class="chat__message own own--hopeful chat__message--hopeful"
+          >
+            <p class="chat__message-bubble chat__message-bubble--hopeful">
               Anonymous chatting is the best! We can all be our weirdest selves!
-              <span class="chat__message-author chat__message-author--meh">
-                <span class="chat__username chat__username--meh">TinyTim</span>
-                <time class="timestamp timestamp--meh">2:35 PM</time>
+              <span class="chat__message-author chat__message-author--hopeful">
+                <span class="chat__username chat__username--hopeful"
+                  >TinyTim</span
+                >
+                <time class="timestamp timestamp--hopeful">2:35 PM</time>
               </span>
             </p>
           </article>
-          <article class="chat__message chat__message--meh">
-            <p class="chat__message-bubble chat__message-bubble--meh">
+          <article class="chat__message chat__message--hopeful">
+            <p class="chat__message-bubble chat__message-bubble--hopeful">
               Anonymous chatting is the best! We can all be our weirdest selves!
-              <span class="chat__message-author chat__message-author--meh">
-                <span class="chat__username chat__username--meh">TinyTim</span>
-                <time class="timestamp timestamp--meh">2:35 PM</time>
+              <span class="chat__message-author chat__message-author--hopeful">
+                <span class="chat__username chat__username--hopeful"
+                  >TinyTim</span
+                >
+                <time class="timestamp timestamp--hopeful">2:35 PM</time>
               </span>
             </p>
           </article>
-          <article class="chat__message chat__message--meh">
-            <p class="chat__message-bubble chat__message-bubble--meh">
+          <article class="chat__message chat__message--hopeful">
+            <p class="chat__message-bubble chat__message-bubble--hopeful">
               Anonymous chatting is the best! We can all be our weirdest selves!
               👻
-              <span class="chat__message-author chat__message-author--meh">
-                <span class="chat__username chat__username--meh">TinyTim</span>
-                <time class="timestamp timestamp--meh">2:35 PM</time>
+              <span class="chat__message-author chat__message-author--hopeful">
+                <span class="chat__username chat__username--hopeful"
+                  >TinyTim</span
+                >
+                <time class="timestamp timestamp--hopeful">2:35 PM</time>
               </span>
             </p>
           </article>
-          <article class="chat__message chat__message--meh">
-            <p class="chat__message-bubble chat__message-bubble--meh">
-              <span class="chat__message-author chat__message-author--meh">
-                <span class="chat__username chat__username--meh">TinyTim</span>
-                <time class="timestamp timestamp--meh">2:35 PM</time>
+          <article class="chat__message chat__message--hopeful">
+            <p class="chat__message-bubble chat__message-bubble--hopeful">
+              <span class="chat__message-author chat__message-author--hopeful">
+                <span class="chat__username chat__username--hopeful"
+                  >TinyTim</span
+                >
+                <time class="timestamp timestamp--hopeful">2:35 PM</time>
               </span>
               Anonymous chatting is the best! We can all be our weirdest selves!
             </p>
           </article>
-          <article class="chat__message chat__message--meh">
-            <p class="chat__message-bubble chat__message-bubble--meh">
+          <article class="chat__message chat__message--hopeful">
+            <p class="chat__message-bubble chat__message-bubble--hopeful">
               be an anomalous person caiuse God loves you either way dont ever
               leave hum he wont leave or forsake you. WHen we stand before him
               he loves us and doesnt ever ever leave us. He's a lover and he
               eants to brand us with his name marked forever. He wants to own
               not just gaurd us. He wants to own us
-              <span class="chat__message-author chat__message-author--meh">
-                <span class="chat__username chat__username--meh">TinyTim</span>
-                <time class="timestamp timestamp--meh">2:35 PM</time>
+              <span class="chat__message-author chat__message-author--hopeful">
+                <span class="chat__username chat__username--hopeful"
+                  >TinyTim</span
+                >
+                <time class="timestamp timestamp--hopeful">2:35 PM</time>
               </span>
             </p>
           </article>
         </section>
-        <form class="chat__message-input chat__message-input--meh">
+        <form class="chat__message-input chat__message-input--hopeful">
           <textarea
             type="text"
-            class="chat__message-input-field chat__message-input-field--meh"
+            class="chat__message-input-field chat__message-input-field--hopeful"
             placeholder="Type your goofiest message here... 🤪"
           ></textarea>
-          <button class="send-btn send-btn--meh">🚀</button>
+          <button class="send-btn send-btn--hopeful">🚀</button>
         </form>
       </div>
     </div>
