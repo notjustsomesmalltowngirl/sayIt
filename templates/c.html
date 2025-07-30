@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Fredoka:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../static/sayIt-logos/logo-mono.png"
+    />
+    <link rel="stylesheet" href="../static/styles/main.css" />
+
+    <title>sayIt | Chatroom Main</title>
+  </head>
+  <body>
+    <div class="chatroom-main-container chatroom-main--{{current_mood}}-container">
+
+      <div class="floating-cicles">
+        {% for _ in range(5) %}
+        <div class="circle"></div>
+        {% endfor %}
+      </div>
+      <div class="chat__container chat__container--{{current_mood}}">
+        <section class="chat chat--{{current_mood}}">
+          <h1 class="join-chat join-chat--{{current_mood}}">
+            <!-- use flask to change as needed -->
+            🎈 {{ greeting }} 🎈
+          </h1>
+          {% if all_chats %}
+          {% for chat in all_chats %}
+          {% if current_mood == chat.room %}
+          {% if chat.sender != current_user %}
+          <article data-id="{{chat.id}}" class="chat__message chat__message--{{current_mood}}">
+            <p class="chat__message-bubble chat__message-bubble--{{current_mood}}" id="chat-input">
+              <span class="chat__username chat__username--playful">{{ chat.sender.username }}</span>
+              {{ chat.text }}
+              <time class="timestamp timestamp--{{current_mood}}">{{ chat.sent_at.strftime("%H:%M") }}</time>
+            </p>
+          </article>
+            {% else %}
+          <article data-id="{{chat.id}}"
+            class="chat__message own own--{{current_mood}} chat__message--{{current_mood}}"
+          >
+            <p class="chat__message-bubble chat__message-bubble--{{current_mood}}">
+               <span class="chat__username chat__username--playful">{{ chat.sender.username }}</span>
+              {{ chat.text }}
+
+              <time class="timestamp timestamp--{{current_mood}}">{{ chat.sent_at.strftime("%H:%M") }}</time>
+            </p>
+            <button class="delete-button">🗑️</button>
+          </article>
+          {% endif %}
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+        </section>
+<!--        <p>Current mood: "{{ current_mood }}"</p>-->
+        <form class="chat__message-input chat__message-input--{{current_mood}}"
+              id="chat-form">
+          <input
+            type="text"
+            id="chat-field"
+            name="chat"
+            class="chat__message-input-field chat__message-input-field--{{current_mood}}"
+            placeholder="Type your goofiest message here... 🤪"
+          required/>
+          <button class="send-btn send-btn--{{current_mood}}">🚀</button>
+        </form>
+      </div>
+    </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+          integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+          crossorigin="anonymous"></script>
+
+<script>
+const socket = io();
+  const room = "{{ current_mood }}";
+  const currentUser = "{{ current_user.username }}"; // pass current user from Flask
+
+  // Join the chatroom when the page loads
+  socket.emit('join_room_event', { room: room });
+
+  // Send message via Socket.IO instead of POST
+  document.getElementById('chat-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const msg = document.querySelector('[name="chat"]').value.trim();
+  if (!msg) return;
+  socket.emit('send_chat', { room: room, text: msg });
+  document.querySelector('[name="chat"]').value = '';
+});
+
+// Handle receiving new messages
+socket.on('new_message', (data) => {
+  const chatBox = document.querySelector('.chat.chat--{{current_mood}}');
+
+  let html;
+  if (data.username === currentUser) {
+    // Your "own" message with delete button
+    html = `
+      <article data-id="${data.id}" class="chat__message own own--${room} chat__message--${room}">
+        <p class="chat__message-bubble chat__message-bubble--${room}">
+          <span class="chat__username chat__username--playful">${data.username}</span>
+          ${data.text}
+          <time class="timestamp timestamp--${room}">${data.time || ''}</time>
+        </p>
+        <button class="delete-button">🗑️</button>
+      </article>
+    `;
+  } else {
+    // Message from other users
+    html = `
+      <article data-id="${data.id}" class="chat__message chat__message--${room}">
+        <p class="chat__message-bubble chat__message-bubble--${room}">
+          <span class="chat__username chat__username--playful">${data.username}</span>
+          ${data.text}
+          <time class="timestamp timestamp--${room}">${data.time || ''}</time>
+        </p>
+      </article>
+    `;
+  }
+
+  chatBox.insertAdjacentHTML('beforeend', html);
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+
+// Event delegation: listen on the parent chat section
+const chatBox = document.querySelector('.chat.chat--{{current_mood}}');
+
+chatBox.addEventListener('click', function(e) {
+  if (e.target.classList.contains('delete-button')) {
+    e.preventDefault();
+    const chatEl = e.target.closest('article');
+    const chatId = chatEl.getAttribute('data-id');
+
+    socket.emit('delete_chat', { id: chatId, room: room });
+  }
+});
+
+// Listen for deletion events from the server
+socket.on('deleted', (data) => {
+  const chatToRemove = document.querySelector(`article[data-id="${data.id}"]`);
+  if (chatToRemove) chatToRemove.remove();
+});
+
+</script>
+  </body>
+</html>
