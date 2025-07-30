@@ -272,7 +272,7 @@ select {
 
 .chatroom-main--hopeful-container {
   background: url(/static/images/maksym-mazur-IQwFRLTQPLY-unsplash.jpg) no-repeat center center;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
 }
 .chatroom-main--hopeful-container::after {
   background: rgba(0, 0, 0, 0.3);
@@ -426,6 +426,10 @@ select {
 .chat__message-author--meh {
   color: #059212;
 }
+.chat__message-author--hopeful {
+  color: var(--text-primary);
+  font-weight: 500;
+}
 .chat__message-bubble {
   display: inline-block;
   width: -moz-fit-content;
@@ -449,6 +453,7 @@ select {
   position: relative;
   border-radius: 13px;
   border: none;
+  color: var(--bg-primary);
 }
 .chat__message-bubble--hopeful:not(.own--bubble)::after {
   content: "";
@@ -456,9 +461,8 @@ select {
   height: 0px;
   position: absolute;
   border-left: 15px solid transparent;
-  border-right: 15px solid hsla(354, 100%, 77%, 0.3);
-  border-top: 15px solid hsla(354, 100%, 77%, 0.3);
-  opacity: 0.6;
+  border-right: 15px solid #ff8a95;
+  border-top: 15px solid #ff8a95;
   border-bottom: 15px solid transparent;
   left: -16px;
   top: 0px;
@@ -468,8 +472,7 @@ select {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: hsla(354, 100%, 77%, 0.3);
-  opacity: 0.6;
+  background: linear-gradient(45deg, #ff8a95, hsla(354, 100%, 77%, 0.3));
   top: 0;
   left: 0;
   border-radius: 13px;
@@ -546,7 +549,6 @@ select {
 }
 .own--hopeful .own--bubble {
   position: relative;
-  background-color: blue;
   border-radius: 13px;
   border: none;
 }
@@ -559,12 +561,23 @@ select {
   border-right: none;
   border-top: none;
   border-bottom: none;
-  border-left: 15px solid blue;
+  border-left: 15px solid #af90a8;
   border-right: 15px solid transparent;
-  border-top: 15px solid blue;
+  border-top: 15px solid #af90a8;
   border-bottom: 15px solid transparent;
   right: -16px;
   top: 0px;
+  z-index: -1;
+}
+.own--hopeful .own--bubble::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(-45deg, hsl(314, 16%, 63%), hsla(314, 16%, 63%, 0.3));
+  top: 0;
+  left: 0;
+  border-radius: 13px;
   z-index: -1;
 }
 
@@ -630,6 +643,14 @@ select {
 .chat__message-icon .chat__message-edit:hover {
   opacity: 1;
   color: var(--text-primary);
+}
+.chat__message-icon .chat__message-delete--hopeful,
+.chat__message-icon .chat__message-edit--hopeful {
+  color: var(--text-primary);
+}
+
+.own-author--hopeful {
+  color: var(--bg-secondary);
 }
 
 @keyframes float {

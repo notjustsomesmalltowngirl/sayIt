@@ -158,7 +158,7 @@
 .chatroom-main--hopeful-container {
   background: url(/static/images/maksym-mazur-IQwFRLTQPLY-unsplash.jpg)
     no-repeat center center;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
 
   &::after {
     background: rgba(0, 0, 0, 0.3);
@@ -441,6 +441,10 @@
     &--meh {
       color: #059212;
     }
+    &--hopeful {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
   }
   &-bubble {
     display: inline-block;
@@ -501,6 +505,7 @@
       // background-color: #ff8a95;
       // opacity: 0.6;
       // overflow: hidden;
+      color: var(--bg-primary);
       &::after {
         content: "";
         width: 0px;
@@ -508,9 +513,9 @@
         position: absolute;
         border-left: 15px solid transparent;
         // FIXME: BUG
-        border-right: 15px solid hsla(354, 100%, 77%, 0.3);
-        border-top: 15px solid hsla(354, 100%, 77%, 0.3);
-        opacity: 0.6;
+        border-right: 15px solid #ff8a95;
+        border-top: 15px solid #ff8a95;
+        // opacity: 0.6;
         // backdrop-filter: blur(10px);
         border-bottom: 15px solid transparent;
         // overflow: hidden;
@@ -525,8 +530,8 @@
         height: 100%;
         width: 100%;
         // FIXME: BUG
-        background-color: hsla(354, 100%, 77%, 0.3);
-        opacity: 0.6;
+        background: linear-gradient(45deg, #ff8a95, hsla(354, 100%, 77%, 0.3));
+        // opacity: 0.6;
         top: 0;
         left: 0;
         border-radius: 13px;
@@ -653,7 +658,7 @@
   &--hopeful .own--bubble {
     position: relative;
     // FIXME: BUG
-    background-color: blue;
+    // background-color: blue;
     border-radius: 13px;
     border: none;
     &::after {
@@ -666,14 +671,32 @@
       border-top: none;
       border-bottom: none;
       // FIXME: BUG
-      border-left: 15px solid blue;
+      border-left: 15px solid #af90a8;
       border-right: 15px solid transparent;
-      border-top: 15px solid blue;
+      border-top: 15px solid #af90a8;
       // backdrop-filter: blur(10px);
       border-bottom: 15px solid transparent;
       // outline: 1px solid var(--glass-border);
       right: -16px;
       top: 0px;
+      z-index: -1;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      // FIXME: BUG
+      background: linear-gradient(
+        -45deg,
+        hsl(314, 16%, 63%),
+        hsla(314, 16%, 63%, 0.3)
+      );
+      // opacity: 0.6;
+      top: 0;
+      left: 0;
+      border-radius: 13px;
       z-index: -1;
     }
   }
@@ -743,5 +766,11 @@
       opacity: 1;
       color: var(--text-primary);
     }
+    &--hopeful {
+      color: var(--text-primary);
+    }
   }
+}
+.own-author--hopeful {
+  color: var(--bg-secondary);
 }
