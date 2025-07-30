@@ -40,6 +40,7 @@ def assign_username():
                 db.session.add(new_user)
                 db.session.commit()
                 return redirect(url_for('home'))
+            # TODO: use python's logging module here eventually
             except IntegrityError:  # incase uuid fails as a primary key and repeats itself
                 db.session.rollback()
                 with open('error_log.txt', 'a') as f:
