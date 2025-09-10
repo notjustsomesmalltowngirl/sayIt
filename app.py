@@ -82,7 +82,7 @@ def home():
 def goto_chatroom_moods():
     return render_template('chatroom-moods.html', moods={'playful': '😜',
                                                          'chill': '🌊', 'meh': '😐',
-                                                         'hopeful': '🌥️', 'bored': '🥱', })
+                                                         'hopeful': '🌥️' })
 
 
 @app.route('/chatroom/<mood>')
