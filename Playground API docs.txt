@@ -164,14 +164,5 @@ GET /api/playground/game?game_type=<type> – fetch content by type
 
 These remain public and open for all users.
 
-Role	Description
-admin	Full access: can approve/reject suggestions, manage users, and edit any content.
-moderator	Can approve or reject suggestions, but can't manage users.
-user	Can view content and suggest new entries.
-guest	Read-only access — can view content but not suggest.
 
-Optional: If you want more granularity, you could add roles like:
-
-reviewer (can comment but not approve)
-
-editor (can modify but not publish)
+URL: https://sayit-playground-api.onrender.com/
