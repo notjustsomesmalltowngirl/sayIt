@@ -107,7 +107,6 @@ const chatBox = document.querySelector(`.chat.chat--${room}`);
 // Send message
 document.getElementById('chat-form').addEventListener('submit', function(e) {
   e.preventDefault();
-    console.log('Form submitted in Edge');
   const msg = document.querySelector('[name="chat"]').value.trim();
   if (!msg) return;
   console.log('Message value:', msg);
@@ -116,9 +115,18 @@ document.getElementById('chat-form').addEventListener('submit', function(e) {
   document.querySelector('[name="chat"]').value = '';
 });
 
+const chatField = document.getElementById('chat-field');
+
+chatField.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault(); // Prevent newline
+    document.getElementById('chat-form')
+      .dispatchEvent(new Event('submit', { cancelable: true }));
+  }
+});
+
 // Receive new messages
 socket.on('new_message', (data) => {
- console.log('Received message in Edge:', data);
   let html;
   if (data.username === currentUser) {
     html = `

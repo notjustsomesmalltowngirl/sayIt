@@ -51,11 +51,10 @@
         <section class="error-page welcome-section">
           <h1 class="error-page__title welcome-section__title">404</h1>
           <p class="error-page__subtitle welcome-section__subtitle">
-            Oops! {{username}} No More Mystery Names Left!
+            Oops!
           </p>
           <p class="error-page__description">
-            We've run out of cool aliases for anonymous users. Hang tight—we're
-            cooking up more secret identities! Try again in a bit.
+            {{ text }}
           </p>
           <nav class="error-page__btns nav-buttons">
             <a href="{{url_for('home')}}" class="nav-button btn"

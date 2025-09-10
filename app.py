@@ -31,24 +31,22 @@ with app.app_context():
 
 @app.route('/get-username')
 def assign_username():
-    username, username_is_available = get_username()
-    if username_is_available:
-        session['username'] = username
-        for _ in range(3):
-            try:
-                new_user = User(username=username)
-                db.session.add(new_user)
-                db.session.commit()
-                return redirect(url_for('home'))
-            # TODO: use python's logging module here eventually
-            except IntegrityError:  # incase uuid fails as a primary key and repeats itself
-                db.session.rollback()
-                with open('error_log.txt', 'a') as f:
-                    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    print(f"[{timestamp}] Failed to create user '{username}'", file=f)
-        return render_template('404.html')
-    else:
-        return render_template('404.html', username=username)  #
+    username = get_username()
+    session['username'] = username
+    for _ in range(3):
+        try:
+            new_user = User(username=username)
+            db.session.add(new_user)
+            db.session.commit()
+            print('done')
+            return redirect(url_for('home'))
+        # TODO: use python's logging module here eventually
+        except IntegrityError:  # incase uuid fails as a primary key and repeats itself
+            db.session.rollback()
+            with open('error_log.txt', 'a') as f:
+                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                print(f"[{timestamp}] Failed to create user '{username}'", file=f)
+        return render_template('404.html', text='Error Creating User')
 
 
 @app.context_processor
@@ -83,16 +81,17 @@ def home():
 @app.route('/chatroom-moods')
 def goto_chatroom_moods():
     return render_template('chatroom-moods.html', moods={'playful': '😜',
-                                                         'chill': '🌊', 'simple': '😐',
+                                                         'chill': '🌊', 'meh': '😐',
                                                          'hopeful': '🌥️', 'bored': '🥱', })
 
 
 @app.route('/chatroom/<mood>')
 def goto_chatroom(mood):
     all_chats = Chat.query.all()
-    mood_greetings = {'playful': 'lets playyy', 'chill': 'Chill greeting',
-                      'simple': 'simple greeting', 'hopeful': 'nosy greeting', 'bored': 'bored greeting'
-                      }
+    mood_greetings = {
+        'playful': 'lets playyy', 'chill': 'Chill greeting',
+        'meh': 'meh greeting', 'hopeful': 'nosy greeting', 'bored': 'bored greeting'
+    }
     return render_template('chatroom-main-with-jinja.html',
                            current_mood=mood, all_chats=all_chats, greeting=mood_greetings[mood])
 
@@ -274,11 +273,6 @@ def handle_delete_comment(data):
         'category': news_category,
 
     })
-
-
-@socketio_.on('new chat')
-def handle_new_chat():
-    ...
 
 
 if __name__ == "__main__":
